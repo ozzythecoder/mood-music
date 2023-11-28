@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import Song from "../components/Song";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -34,12 +35,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     padding: 3,
   },
-});
 
-type SongProps = {
-  artist: string;
-  song: string;
-};
+});
 
 const SONGS = [
   { artist: "Perfume Genius", song: "Whole Life" },
@@ -52,14 +49,7 @@ const SONGS = [
   { artist: "Lucinda Williams", song: "Blue" },
 ];
 
-const Song = (props: SongProps) => {
-  return (
-    <View style={styles.song}>
-      <Text style={styles.text}>{props.song}</Text>
-      <Text style={styles.subtext}>{props.artist}</Text>
-    </View>
-  );
-};
+
 
 export default function Songs({ navigation }) {
   return (
@@ -69,9 +59,7 @@ export default function Songs({ navigation }) {
         data={SONGS}
         keyExtractor={(item) => item.song}
         renderItem={(data) => (
-          <TouchableOpacity onPress={() => { navigation.navigate('SongMoodModal')}}>
-            <Song song={data.item.song} artist={data.item.artist} />
-          </TouchableOpacity>
+            <Song song={data.item.song} artist={data.item.artist} navigation={navigation}/>
         )}
         ListEmptyComponent={<Text>No Current Songs</Text>}
 
