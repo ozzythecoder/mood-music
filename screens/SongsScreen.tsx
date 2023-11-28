@@ -1,7 +1,12 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View, FlatList, SectionList } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import React from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -9,53 +14,70 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#ccc",
+    alignItems: "center",
+    justifyContent: "center",
   },
   header: {
-    backgroundColor: 'pink',
+    backgroundColor: "pink",
     height: 40,
     paddingHorizontal: 5,
   },
   text: {
-    color: 'white',
-    fontWeight: 'bold'
+    color: "black",
+    fontWeight: "bold",
+  },
+  subtext: {
+    color: "black",
   },
   song: {
-    justifyContent: 'center',
-    padding: 10,
-    backgroundColor: 'grey',
-    marginBottom: 10,
-    height: 50
+    marginBottom: 5,
+    padding: 3,
   },
 });
 
+type SongProps = {
+  artist: string;
+  song: string;
+};
+
 const SONGS = [
-  { artist: 'Perfume Genius', data: ['Whole Life', 'Describe', 'Without You', 'Jason']},
-  { artist: 'Lucinda Williams', data: ['Lonely Girls', 'Steal Your Love', 'I Envy the Wind', 'Blue']},
+  { artist: "Perfume Genius", song: "Whole Life" },
+  { artist: "Perfume Genius", song: "Describe" },
+  { artist: "Perfume Genius", song: "Without You" },
+  { artist: "Perfume Genius", song: "Jason" },
+  { artist: "Lucinda Williams", song: "Lonely Girls" },
+  { artist: "Lucinda Williams", song: "Steal Your Love" },
+  { artist: "Lucinda Williams", song: "I Envy the Wind" },
+  { artist: "Lucinda Williams", song: "Blue" },
 ];
 
-const Song = props => {
+const Song = (props: SongProps) => {
   return (
     <View style={styles.song}>
-      <Text style={styles.text}>{props.name}</Text>
+      <Text style={styles.text}>{props.song}</Text>
+      <Text style={styles.subtext}>{props.artist}</Text>
     </View>
   );
-}
+};
 
-export default function Songs() {
-    return (
-        <SafeAreaView style={styles.safeArea}>
-          <SectionList
-          sections = {SONGS}
-          keyExtractor={item => item}
-          renderItem={data => <Song name={data.item} />}
-          renderSectionHeader={({ section }) => (
-            <Text style={styles.header}>{section.artist}</Text>
-          )}
-          />
-        </SafeAreaView >
-    );
-  }
-  
+export default function Songs({ navigation }) {
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <Text>Your Songs</Text>
+      <FlatList
+        data={SONGS}
+        keyExtractor={(item) => item.song}
+        renderItem={(data) => (
+          <TouchableOpacity onPress={() => { navigation.navigate('SongMoodModal')}}>
+            <Song song={data.item.song} artist={data.item.artist} />
+          </TouchableOpacity>
+        )}
+        ListEmptyComponent={<Text>No Current Songs</Text>}
+
+        // refreshing={true}
+        // onRefresh={() => {}}
+      />
+    </SafeAreaView>
+  );
+}
