@@ -3,13 +3,19 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import SongsScreen from "./screens/SongsScreen";
-import SongMoodModal from "./screens/SongMoodModal";
+import { Provider } from "react-redux";
+import SongsScreen from "./src/screens/SongsScreen";
+import SongMoodModal from "./src/screens/SongMoodModal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 const SongStack = createStackNavigator();
+
+type RootStackParamList = {
+  Main: undefined;
+  SongMoodModal: undefined;
+};
 
 function SongStackScreen() {
   return (
@@ -45,18 +51,17 @@ function TabNavigator() {
 
 export default function App() {
   return (
-  <NavigationContainer>
-    <RootStack.Navigator>
-      <RootStack.Screen 
-      name="Main" 
-      component={TabNavigator} 
-      options={{ headerShown: false }}
-      />
-      <RootStack.Screen 
-      name="SongMoodModal" 
-      component={SongMoodModal} 
-      />
-    </RootStack.Navigator>
-  </NavigationContainer>
-  )
+    <Provider>
+      <NavigationContainer>
+        <RootStack.Navigator>
+          <RootStack.Screen
+            name="Main"
+            component={TabNavigator}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen name="SongMoodModal" component={SongMoodModal} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
 }
