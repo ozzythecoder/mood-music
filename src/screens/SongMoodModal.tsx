@@ -14,15 +14,15 @@ const styles = StyleSheet.create({
 });
 
 const MOODS = [
-  { mood: "Happy", color: "yellow" },
-  { mood: "Sad", color: "blue" },
-  { mood: "Melancholic", color: "purple" },
-  { mood: "Excited", color: "green" },
-  { mood: "Adventurous", color: "orange" },
-  { mood: "Angry", color: "red" },
-  { mood: "Relaxed", color: "indigo" },
-  { mood: "Romantic", color: "pink" },
-  { mood: "Nostalgic", color: "tan" },
+  { moodName: "Happy", color: "yellow" },
+  { moodName: "Sad", color: "blue" },
+  { moodName: "Melancholic", color: "purple" },
+  { moodName: "Excited", color: "green" },
+  { moodName: "Adventurous", color: "orange" },
+  { moodName: "Angry", color: "red" },
+  { moodName: "Relaxed", color: "indigo" },
+  { moodName: "Romantic", color: "pink" },
+  { moodName: "Nostalgic", color: "tan" },
 ];
 const SongMoodModal = ({ song, title, artist }) => {
   const [selectedMoods, setSelectedMoods] = useState([]);
@@ -32,7 +32,7 @@ const SongMoodModal = ({ song, title, artist }) => {
       setSelectedMoods((moods) => [...moods, mood]);
     } else {
       setSelectedMoods((moods) =>
-        moods.filter((selectedMood) => mood.mood !== selectedMood.mood)
+        moods.filter((selectedMood) => mood.moodName !== selectedMood.moodName)
       );
     }
   };
@@ -41,13 +41,13 @@ const SongMoodModal = ({ song, title, artist }) => {
     <View>
       <FlatList
         data={MOODS}
-        keyExtractor={(item) => item.mood}
+        keyExtractor={(item) => item.moodName}
         renderItem={({ item }) => {
           return (
             <View style={styles.mood}>
-              <Text>{item.mood}</Text>
+              <Text>{item.moodName}</Text>
               <Switch
-                value={selectedMoods.find(song)}
+                value={!!selectedMoods.find(mood => mood.moodName === item.moodName)}
                 onValueChange={selected => {handleValueChange(selected, item )}}
               />
             </View>
