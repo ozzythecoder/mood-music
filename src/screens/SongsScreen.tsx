@@ -39,14 +39,14 @@ const styles = StyleSheet.create({
 });
 
 const SONGS = [
-  { artist: "Perfume Genius", song: "Whole Life" },
-  { artist: "Perfume Genius", song: "Describe" },
-  { artist: "Perfume Genius", song: "Without You" },
-  { artist: "Perfume Genius", song: "Jason" },
-  { artist: "Lucinda Williams", song: "Lonely Girls" },
-  { artist: "Lucinda Williams", song: "Steal Your Love" },
-  { artist: "Lucinda Williams", song: "I Envy the Wind" },
-  { artist: "Lucinda Williams", song: "Blue" },
+  { artist: "Perfume Genius", title: "Whole Life" },
+  { artist: "Perfume Genius", title: "Describe" },
+  { artist: "Perfume Genius", title: "Without You" },
+  { artist: "Perfume Genius", title: "Jason" },
+  { artist: "Lucinda Williams", title: "Lonely Girls" },
+  { artist: "Lucinda Williams", title: "Steal Your Love" },
+  { artist: "Lucinda Williams", title: "I Envy the Wind" },
+  { artist: "Lucinda Williams", title: "Blue" },
 ];
 
 
@@ -57,9 +57,9 @@ export default function Songs({ navigation }) {
       <Text>Your Songs</Text>
       <FlatList
         data={SONGS}
-        keyExtractor={(item) => item.song}
+        keyExtractor={(item) => item.title}
         renderItem={(data) => (
-            <Song song={data.item.song} artist={data.item.artist} navigation={navigation}/>
+            <Song song={data.item} title={data.item.title} artist={data.item.artist} navigation={navigation}/>
         )}
         ListEmptyComponent={<Text>No Current Songs</Text>}
 
