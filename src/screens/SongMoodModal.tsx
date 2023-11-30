@@ -24,8 +24,15 @@ const MOODS = [
   { moodName: "Romantic", color: "pink" },
   { moodName: "Nostalgic", color: "tan" },
 ];
+
 const SongMoodModal = ({ song, title, artist }) => {
+
   const [selectedMoods, setSelectedMoods] = useState([]);
+
+  const getMoodColor = (moodName) => {
+    const mood = selectedMoods.find(mood => mood.moodName === moodName);
+    return mood ? { color: mood.color } : {};
+}
 
   const handleValueChange = (value, mood) => {
     if (value === true) {
@@ -37,6 +44,8 @@ const SongMoodModal = ({ song, title, artist }) => {
     }
   };
 
+
+
   return (
     <View>
       <FlatList
@@ -45,7 +54,7 @@ const SongMoodModal = ({ song, title, artist }) => {
         renderItem={({ item }) => {
           return (
             <View style={styles.mood}>
-              <Text>{item.moodName}</Text>
+              <Text style={getMoodColor(item.moodName)}>{item.moodName}</Text>
               <Switch
                 value={!!selectedMoods.find(mood => mood.moodName === item.moodName)}
                 onValueChange={selected => {handleValueChange(selected, item )}}
