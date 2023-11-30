@@ -5,7 +5,7 @@ import {
   StyleSheet, 
   Text, 
   TouchableOpacity, 
-  View 
+  View,
 } from "react-native";
 
 const styles = StyleSheet.create({
@@ -33,14 +33,11 @@ const styles = StyleSheet.create({
 
 const Song = (props) => {
 
-  const dispatch = useDispatch();
+  dispatch = useDispatch();
 
   const handleClickSong = () => {
-    dispatch({
-      type: 'ADD_CLIP_TO_PHRASE',
-      payload: { clip }
-  })
-      props.navigation.navigate("SongMoodModal");
+    dispatch
+    props.navigation.navigate("SongMoodModal")
   }
 
   return (
@@ -51,7 +48,7 @@ const Song = (props) => {
       </View>
       <View>
         <TouchableOpacity
-          onPress={() => handleClickSong()}
+          onPress={handleClickSong}
         >
           <Text>Add Moods</Text>
         </TouchableOpacity>

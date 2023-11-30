@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
+import store from "./src/redux/store";
 import SongsScreen from "./src/screens/SongsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -51,7 +52,7 @@ function TabNavigator() {
 
 export default function App() {
   return (
-    <Provider>
+    <Provider store={store}>
       <NavigationContainer>
         <RootStack.Navigator>
           <RootStack.Screen
@@ -62,6 +63,6 @@ export default function App() {
           <RootStack.Screen name="SongMoodModal" component={SongMoodModal} />
         </RootStack.Navigator>
       </NavigationContainer>
-    </Provider>
+      </Provider>
   );
 }
