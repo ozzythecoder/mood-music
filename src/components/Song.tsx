@@ -33,22 +33,25 @@ const styles = StyleSheet.create({
 
 const Song = (props) => {
 
-  dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleClickSong = () => {
-    dispatch
+    dispatch({
+      type: 'SET_CLICKED_SONG',
+      payload: props.song,
+  })
     props.navigation.navigate("SongMoodModal")
   }
 
   return (
     <View style={styles.song}>
       <View >
-        <Text style={styles.text}>{props.song}</Text>
+        <Text style={styles.text}>{props.title}</Text>
         <Text style={styles.subtext}>{props.artist}</Text>
       </View>
       <View>
         <TouchableOpacity
-          onPress={handleClickSong}
+          onPress={() => handleClickSong()}
         >
           <Text>Add Moods</Text>
         </TouchableOpacity>
