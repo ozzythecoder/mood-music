@@ -34,6 +34,8 @@ function TabNavigator() {
           let iconName;
           if (route.name === "Songs") {
             iconName = focused ? "musical-notes" : "musical-notes-outline";
+          } else {
+            iconName = "musical-notes";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },

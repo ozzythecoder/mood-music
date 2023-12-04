@@ -1,8 +1,18 @@
-import { put, takeLatest } from 'redux-saga/effects';
-import axios from 'axios';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
+import axios, { AxiosResponse} from 'axios';
+   
+   type EditSongMoodsAction = {
+    type: 'EDIT_SONG_MOODS';
+    payload: {
+        id: number;
+        title: string;
+    };
+   }
 
-function* getSongs() {
-    const songs = yield axios.get('')
+function* getSongs(): SagaIterator {
+    const getSongsFromApi = () => axios.get('');
+    const songs = yield call(getSongsFromApi);
 
     yield put ({
         type: 'SET_SONGS',
@@ -10,7 +20,7 @@ function* getSongs() {
     })
 };
 
-function* editSongMoodsSaga(action) {
+function* editSongMoodsSaga(action: EditSongMoodsAction){
     try {
         const songId = action.payload.id;
 
@@ -28,7 +38,7 @@ function* editSongMoodsSaga(action) {
     }
 }
 
-function* clipSaga() {
+function* clipSaga(){
     yield takeLatest('EDIT_SONG_MOODS', editSongMoodsSaga);
     yield takeLatest('GET_SONGS', getSongs)
 }
