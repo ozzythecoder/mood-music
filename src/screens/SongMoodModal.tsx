@@ -25,16 +25,16 @@ const MOODS = [
   { moodName: "Nostalgic", color: "tan" },
 ];
 
-const SongMoodModal = ({ song, title, artist }) => {
+const SongMoodModal = () => {
 
-  const [selectedMoods, setSelectedMoods] = useState([]);
+  const [selectedMoods, setSelectedMoods] = useState<Array<{ moodName: string; color: string }>>([]);
 
-  const getMoodColor = (moodName) => {
+  const getMoodColor = (moodName: string) => {
     const mood = selectedMoods.find(mood => mood.moodName === moodName);
     return mood ? { color: mood.color } : {};
 }
 
-  const handleValueChange = (value, mood) => {
+  const handleValueChange = (value: boolean, mood: {moodName: string, color: string}) => {
     if (value === true) {
       setSelectedMoods((moods) => [...moods, mood]);
     } else {
@@ -43,8 +43,6 @@ const SongMoodModal = ({ song, title, artist }) => {
       );
     }
   };
-
-
 
   return (
     <View>

@@ -7,6 +7,8 @@ import {
   TouchableOpacity, 
   View,
 } from "react-native";
+import { StackNavigationProp } from '@react-navigation/stack';
+
 
 const styles = StyleSheet.create({
   text: {
@@ -24,14 +26,18 @@ const styles = StyleSheet.create({
   },
 });
 
-// type SongProps = {
-//   artist: string;
-//   song: string;
-// };
+
+
+ type SongProps = {
+   artist: string;
+   song: string;
+    title: string;
+    navigation: SongScreenNavigationProp;
+};
 
 
 
-const Song = (props) => {
+const Song = (props: SongProps) => {
 
   const dispatch = useDispatch();
 
