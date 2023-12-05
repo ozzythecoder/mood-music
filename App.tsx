@@ -1,3 +1,4 @@
+
 import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
@@ -52,7 +53,7 @@ function TabNavigator() {
   );
 }
 
-export default function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -68,3 +69,5 @@ export default function App() {
       </Provider>
   );
 }
+
+export default App;
