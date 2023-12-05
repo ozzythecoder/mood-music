@@ -1,28 +1,73 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 
-export default function App() {
+import "react-native-gesture-handler";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
+import SongsScreen from "./src/screens/SongsScreen";
+import SongMoodModal from "./src/screens/SongMoodModal";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+const Tab = createBottomTabNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
+const SongStack = createStackNavigator();
+
+type RootStackParamList = {
+  Main: undefined;
+  SongMoodModal: undefined;
+};
+
+function SongStackScreen() {
   return (
-    <NavigationContainer>
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.container}>
-          <Text>Howdy!!!</Text>
-          <StatusBar style="auto" />
-        </View>
-      </SafeAreaView >
-    </NavigationContainer>
+    <SongStack.Navigator>
+      <SongStack.Screen name="Songs" component={SongsScreen} />
+    </SongStack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function TabNavigator() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "Songs") {
+            iconName = focused ? "musical-notes" : "musical-notes-outline";
+          } else {
+            iconName = "musical-notes";
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "tomato",
+        tabBarInactiveTintColor: "gray",
+      })}
+    >
+      <Tab.Screen
+        name="Songs"
+        component={SongsScreen}
+        options={{ tabBarLabel: "Songs" }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <RootStack.Navigator>
+          <RootStack.Screen
+            name="Main"
+            component={TabNavigator}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen name="SongMoodModal" component={SongMoodModal} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+      </Provider>
+  );
+}
+
+export default App;
