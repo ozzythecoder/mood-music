@@ -3,9 +3,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
   FlatList,
-  TouchableOpacity,
 } from "react-native";
 import Song from "../components/Song";
 
@@ -59,7 +57,7 @@ export default function Songs({ navigation }) {
         data={SONGS}
         keyExtractor={(item) => item.title}
         renderItem={(data) => (
-            <Song song={data.item} title={data.item.title} artist={data.item.artist} navigation={navigation}/>
+            <Song song={data.item} navigation={navigation}/>
         )}
         ListEmptyComponent={<Text>No Current Songs</Text>}
 
