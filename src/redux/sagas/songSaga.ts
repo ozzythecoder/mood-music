@@ -7,6 +7,7 @@ import axios, { AxiosResponse} from 'axios';
     payload: {
         id: number;
         title: string;
+
     };
    }
 
@@ -21,6 +22,7 @@ function* getSongs(): SagaIterator {
 };
 
 function* editSongMoodsSaga(action: EditSongMoodsAction){
+    console.log('Action in editSongMoodsSaga:', action)
     try {
         const songId = action.payload.id;
 

@@ -1,16 +1,30 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { View, Text, FlatList, Switch, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   mood: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 10,
-    borderBottomColor: "grey",
+    borderBottomColor: 'grey',
     borderBottomWidth: 1,
   },
+  button: {
+    backgroundColor: 'green',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    borderRadius: 6,
+    margin: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  }
 });
 
 const MOODS = [
@@ -25,16 +39,33 @@ const MOODS = [
   { moodName: "Nostalgic", color: "tan" },
 ];
 
-const SongMoodModal = () => {
 
-  const [selectedMoods, setSelectedMoods] = useState<Array<{ moodName: string; color: string }>>([]);
+
+const SongMoodModal = ({navigation}) => {
+
+const dispatch = useDispatch();
+
+  const handleSaveMoods = () => {
+  //   dispatch({
+  //     type: 'EDIT_SONG_MOODS',
+  //     payload: props.song,
+  // })
+    navigation.navigate("Songs")
+  }
+
+  const [selectedMoods, setSelectedMoods] = useState<
+    Array<{ moodName: string; color: string }>
+  >([]);
 
   const getMoodColor = (moodName: string) => {
-    const mood = selectedMoods.find(mood => mood.moodName === moodName);
+    const mood = selectedMoods.find((mood) => mood.moodName === moodName);
     return mood ? { color: mood.color } : {};
-}
+  };
 
-  const handleValueChange = (value: boolean, mood: {moodName: string, color: string}) => {
+  const handleValueChange = (
+    value: boolean,
+    mood: { moodName: string; color: string }
+  ) => {
     if (value === true) {
       setSelectedMoods((moods) => [...moods, mood]);
     } else {
@@ -46,21 +77,34 @@ const SongMoodModal = () => {
 
   return (
     <View>
-      <FlatList
-        data={MOODS}
-        keyExtractor={(item) => item.moodName}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.mood}>
-              <Text style={getMoodColor(item.moodName)}>{item.moodName}</Text>
-              <Switch
-                value={!!selectedMoods.find(mood => mood.moodName === item.moodName)}
-                onValueChange={selected => {handleValueChange(selected, item )}}
-              />
-            </View>
-          );
-        }}
-      />
+      <View>
+        <FlatList
+          data={MOODS}
+          keyExtractor={(item) => item.moodName}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.mood}>
+                <Text style={getMoodColor(item.moodName)}>{item.moodName}</Text>
+                <Switch
+                  value={
+                    !!selectedMoods.find(
+                      (mood) => mood.moodName === item.moodName
+                    )
+                  }
+                  onValueChange={(selected) => {
+                    handleValueChange(selected, item);
+                  }}
+                />
+              </View>
+            );
+          }}
+        />
+      </View>
+      <View>
+        <TouchableOpacity style={styles.button} onPress={() => handleSaveMoods()}>
+          <Text style={styles.buttonText}>Save</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
