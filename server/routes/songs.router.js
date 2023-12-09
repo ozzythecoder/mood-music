@@ -4,18 +4,23 @@ const client = require("./pool");
 // const {rejectUnauthenticated} = require('../modules/authentication-middleware');
 
 router.post("/", async (req, res) => {
-  console.log("in song router:", req.body);
+  console.log("in song router:", req.body.moods);
   // const userCurrent = req.user.clicked_song;
+
+const newSong = {
+  "moods": req.body.moods,
+  "artist": req.body.song.artist,
+  "title": req.body.song.title,
+}
+
+console.log('newSong:', newSong)
 
   try {
     // Connect to the MongoDB cluster
     await client.connect();
     // Make the appropriate DB calls
     // Create a single new listing
-    await addSong(client, {
-      title: req.body.song.title,
-      artist: req.body.song.artist,
-    });
+    await addSong(client, newSong);
   } finally {
     // Close the connection to the MongoDB cluster
     await client.close();
