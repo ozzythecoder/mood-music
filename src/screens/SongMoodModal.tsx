@@ -1,30 +1,30 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { View, Text, FlatList, Switch, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   mood: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 10,
-    borderBottomColor: 'grey',
+    borderBottomColor: "grey",
     borderBottomWidth: 1,
   },
   button: {
-    backgroundColor: 'green',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "green",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 10,
     borderRadius: 6,
     margin: 10,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  }
+    color: "white",
+    fontWeight: "bold",
+  },
 });
 
 const MOODS = [
@@ -39,23 +39,22 @@ const MOODS = [
   { moodName: "Nostalgic", color: "tan" },
 ];
 
-
-
-const SongMoodModal = ({navigation}) => {
-
-const dispatch = useDispatch();
-
-  const handleSaveMoods = () => {
-  //   dispatch({
-  //     type: 'EDIT_SONG_MOODS',
-  //     payload: props.song,
-  // })
-    navigation.navigate("Songs")
-  }
+const SongMoodModal = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const clickedSong = useSelector(store => store.clickedSong)
 
   const [selectedMoods, setSelectedMoods] = useState<
     Array<{ moodName: string; color: string }>
   >([]);
+
+  const handleSaveMoods = (song, selectedMoods) => {
+    const songWithMoods = {song: song, moods: selectedMoods}
+    dispatch({
+      type: "EDIT_SONG_MOODS",
+      payload: songWithMoods,
+    });
+    navigation.navigate("Songs");
+  };
 
   const getMoodColor = (moodName: string) => {
     const mood = selectedMoods.find((mood) => mood.moodName === moodName);
@@ -101,7 +100,10 @@ const dispatch = useDispatch();
         />
       </View>
       <View>
-        <TouchableOpacity style={styles.button} onPress={() => handleSaveMoods()}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => handleSaveMoods(clickedSong, selectedMoods)}
+        >
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </View>
