@@ -3,11 +3,16 @@ import { SagaIterator } from 'redux-saga';
 import axios, { AxiosResponse} from 'axios';
    
    type EditSongMoodsAction = {
-    type: 'EDIT_SONG_MOODS';
+    type: string;
     payload: {
-        id: number;
-        title: string;
-
+        moods: {
+            moodName: string,
+            color: string,
+        }[],
+        song: {
+            artist: string,
+            title: string,
+        }
     };
    }
 
@@ -22,27 +27,28 @@ function* getSongs(): SagaIterator {
 };
 
 function* editSongMoodsSaga(action: EditSongMoodsAction){
-    console.log('Action in editSongMoodsSaga:', action)
+    console.log('in editSong saga:', action.payload)
     try {
-        const songId = action.payload.id;
+        // const songId = action.payload.id;
 
         yield axios({
-            method: 'PUT',
-            url: ``,
+            method: 'POST',
+            url: 'http://localhost:3000/api/songs', 
+            data: action.payload
         })
 
-        yield put({
-            type: 'GET_SONGS'
-        })
+        // yield put({
+        //     type: 'GET_SONGS'
+        // })
     }
     catch (error) {
         console.log('Error with edit song moods saga:', error);
     }
 }
 
-function* clipSaga(){
+function* songSaga(){
     yield takeLatest('EDIT_SONG_MOODS', editSongMoodsSaga);
     yield takeLatest('GET_SONGS', getSongs)
 }
 
-export default editSongMoodsSaga
+export default songSaga
