@@ -41,13 +41,30 @@ const MOODS = [
 
 const SongMoodModal = ({ navigation }) => {
   const dispatch = useDispatch();
-  const clickedSong = useSelector(store => store.clickedSong)
+  const clickedSong = useSelector((store: StoreType) => store.clickedSong)
 
   const [selectedMoods, setSelectedMoods] = useState<
     Array<{ moodName: string; color: string }>
   >([]);
 
-  const handleSaveMoods = (song, selectedMoods) => {
+  type StoreType = {
+    clickedSong: SongType;
+   }
+
+  type SongType = {
+    id: number;
+    title: string;
+    artist: string;
+  }
+
+  type SelectedMoodsType = 
+    Array<{
+    moodName: string;
+    color: string;
+  }>
+  
+
+  const handleSaveMoods = (song: SongType, selectedMoods: SelectedMoodsType) => {
     const songWithMoods = {song: song, moods: selectedMoods}
     dispatch({
       type: "EDIT_SONG_MOODS",
