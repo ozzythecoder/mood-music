@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
     await connection.query('COMMIT');
     res.send(result.rows)
   } catch (error) {
+    await connection.query('ROLLBACK');
     console.log(`Transaction Error - Rolling back new account`, error);
     res.sendStatus(500);
   } finally {
@@ -37,13 +38,17 @@ const newSong = {
 
 console.log('newSong:', newSong)
 
+      // Connect to the MongoDB cluster
+      const connection = await client.connect();
+
   try {
-    // Connect to the MongoDB cluster
-    await client.connect();
+    await connection.query('BEGIN');
     // Make the appropriate DB calls
-    // Create a single new listing
+    // Create a single new song
     await addSong(client, newSong);
+    await connection.query('COMMIT');
   } catch (error) {
+    await connection.query('ROLLBACK');
     console.log(`Transaction Error - Rolling back new account`, error);
     res.sendStatus(500);
   } finally {
