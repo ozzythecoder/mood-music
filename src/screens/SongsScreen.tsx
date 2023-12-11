@@ -55,17 +55,8 @@ export default function Songs({ navigation }) {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Text>Your Songs</Text>
-      <FlatList
-        data={SONGS}
-        keyExtractor={(item) => item.title}
-        renderItem={(data) => (
-            <Song song={data.item} title={data.item.title} artist={data.item.artist} navigation={navigation}/>
-        )}
-        ListEmptyComponent={<Text>No Current Songs</Text>}
+      <Song navigation={navigation}/>
 
-        // refreshing={true}
-        // onRefresh={() => {}}
-      />
     </SafeAreaView>
   );
 }

@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { 
   StyleSheet, 
   Text, 
   TouchableOpacity, 
   View,
+  FlatList
 } from "react-native";
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -28,41 +29,65 @@ const styles = StyleSheet.create({
 
 
 
- type SongProps = {
-   artist: string;
-   song: string;
-    title: string;
-    navigation: SongScreenNavigationProp;
-};
-
-
-
-const Song = (props: SongProps) => {
+const Song = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const handleClickSong = () => {
+ const songsDB = useSelector((store: StoreType) => store.songs)
+
+  useEffect(() => {
+    dispatch({ type: 'GET_DB_SONGS' })
+    
+  }, []);
+
+  type StoreType = {
+    songs: Array<{
+      id: number;
+      title: string;
+      artist: string;
+    }>
+  }
+
+  type SongType = {
+    id: number;
+    artist: string;
+    title: string;
+  }
+
+  const handleClickSong = (song: SongType) => {
     dispatch({
       type: 'SET_CLICKED_SONG',
-      payload: props.song,
+      payload: song,
   })
-    props.navigation.navigate("SongMoodModal")
+    navigation.navigate("SongMoodModal")
   }
 
   return (
-    <View style={styles.song}>
+    <FlatList
+    data={songsDB}
+    keyExtractor={(item) => item.title}
+    renderItem={(data) => (
+      <View style={styles.song}>
       <View >
-        <Text style={styles.text}>{props.title}</Text>
-        <Text style={styles.subtext}>{props.artist}</Text>
+        <Text style={styles.text}>{data.item.title}</Text>
+        <Text style={styles.subtext}>{data.item.artist}</Text>
       </View>
       <View>
         <TouchableOpacity
-          onPress={() => handleClickSong()}
+          onPress={() => handleClickSong(data.item)}
         >
           <Text>Add Moods</Text>
         </TouchableOpacity>
       </View>
     </View>
+    )}
+    ListEmptyComponent={<Text>No Current Songs</Text>}
+
+    // refreshing={true}
+    // onRefresh={() => {}}
+  />
+
+
   );
 };
 

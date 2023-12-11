@@ -10,9 +10,9 @@ import axios, { AxiosResponse} from 'axios';
     };
    }
 
-function* getSongs(): SagaIterator {
-    const getSongsFromApi = () => axios.get('');
-    const songs = yield call(getSongsFromApi);
+function* getDBSongs(): SagaIterator {
+    const getSongsFromDB = () => axios.get('http://localhost:3000/api/songs');
+    const songs = yield call(getSongsFromDB);
 
     yield put ({
         type: 'SET_SONGS',
@@ -30,7 +30,7 @@ function* editSongMoodsSaga(action: EditSongMoodsAction){
         })
 
         yield put({
-            type: 'GET_SONGS'
+            type: 'GET_DB_SONGS'
         })
     }
     catch (error) {
@@ -40,7 +40,7 @@ function* editSongMoodsSaga(action: EditSongMoodsAction){
 
 function* clipSaga(){
     yield takeLatest('EDIT_SONG_MOODS', editSongMoodsSaga);
-    yield takeLatest('GET_SONGS', getSongs)
+    yield takeLatest('GET_DB_SONGS', getDBSongs)
 }
 
 export default editSongMoodsSaga
