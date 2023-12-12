@@ -7,12 +7,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import SongsScreen from "./src/screens/SongsScreen";
+import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
 const RootStack = createStackNavigator<RootStackParamList>();
 const SongStack = createStackNavigator();
+const PlaylistsStack = createStackNavigator();
+
 
 type RootStackParamList = {
   Main: undefined;
@@ -27,6 +30,14 @@ function SongStackScreen() {
   );
 }
 
+function PlaylistsStackScreen() {
+  return (
+    <PlaylistsStack.Navigator>
+      <PlaylistsStack.Screen name="Playlists" component={PlaylistsScreen} />
+    </PlaylistsStack.Navigator>
+  );
+}
+
 function TabNavigator() {
   return (
     <Tab.Navigator
@@ -38,6 +49,9 @@ function TabNavigator() {
           } else {
             iconName = "musical-notes";
           }
+          if (route.name === "Playlists") {
+            iconName = "list-outline";
+          }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "tomato",
@@ -48,6 +62,11 @@ function TabNavigator() {
         name="Songs"
         component={SongsScreen}
         options={{ tabBarLabel: "Songs" }}
+      />
+      <Tab.Screen
+        name="Playlists"
+        component={PlaylistsScreen}
+        options={{ tabBarLabel: "Playlists" }}
       />
     </Tab.Navigator>
   );
@@ -66,7 +85,7 @@ const App = () => {
           <RootStack.Screen name="SongMoodModal" component={SongMoodModal} />
         </RootStack.Navigator>
       </NavigationContainer>
-      </Provider>
+    </Provider>
   );
 }
 
