@@ -1,5 +1,4 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { SagaIterator } from 'redux-saga';
 import axios, { AxiosResponse} from 'axios';
    
    type EditSongMoodsAction = {
@@ -16,14 +15,18 @@ import axios, { AxiosResponse} from 'axios';
     };
    }
 
-function* getDBSongs(): SagaIterator {
-    const getSongsFromDB = () => axios.get('http://localhost:3000/api/songs');
-    const songs = yield call(getSongsFromDB);
-
+function* getDBSongs() {
+try {
+    const response = yield axios.get('http://localhost:3000/api/songs');
+    
     yield put ({
         type: 'SET_SONGS',
-        payload: songs.data
+        payload: response.data
     })
+}
+catch (error) {
+    console.log('Error with get songs saga:', error);
+}
 };
 
 function* editSongMoodsSaga(action: EditSongMoodsAction){
