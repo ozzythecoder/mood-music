@@ -26,12 +26,11 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
  type SongProps = {
-   artist: string;
-   song: string;
+   song: {
+    artist: string;
     title: string;
+  }
     navigation: SongScreenNavigationProp;
 };
 
@@ -52,8 +51,8 @@ const Song = (props: SongProps) => {
   return (
     <View style={styles.song}>
       <View >
-        <Text style={styles.text}>{props.title}</Text>
-        <Text style={styles.subtext}>{props.artist}</Text>
+        <Text style={styles.text}>{props.song.title}</Text>
+        <Text style={styles.subtext}>{props.song.artist}</Text>
       </View>
       <View>
         <TouchableOpacity
