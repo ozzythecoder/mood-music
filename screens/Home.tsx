@@ -1,3 +1,4 @@
+import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 
 const MOOD_COLORS = [

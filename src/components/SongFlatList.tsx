@@ -27,7 +27,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const Song = ({navigation}) => {
+
+
+const SongList = ({navigation}) => {
 
   const dispatch = useDispatch();
 
@@ -39,11 +41,11 @@ const Song = ({navigation}) => {
   }, []);
 
   type StoreType = {
-    songs: Array<{
+    songs: {
       id: number;
       title: string;
       artist: string;
-    }>
+    }[]
   }
 
   type SongType = {
@@ -89,4 +91,4 @@ const Song = ({navigation}) => {
   );
 };
 
-export default Song;
+export default SongList;
