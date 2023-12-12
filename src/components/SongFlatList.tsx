@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
 
 
-const SongList = ({navigation}) => {
+const SongList = ({navigation}: any) => {
 
   const dispatch = useDispatch();
 
