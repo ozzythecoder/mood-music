@@ -3,9 +3,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
   FlatList,
-  TouchableOpacity,
 } from "react-native";
 import Song from "../components/Song";
 
