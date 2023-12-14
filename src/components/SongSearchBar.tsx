@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { 
   StyleSheet, 
   Text, 
@@ -9,7 +10,7 @@ TextInput,
 
 
 
-const SongSearch = () => {
+const SongSearch = ({librarySearch, setLibrarySearch}: {librarySearch: string}) => {
 
   type StoreType = {
     songs: {
@@ -31,7 +32,9 @@ return (
    <TextInput
           style={styles.input}
           placeholder="Search"
+          value={librarySearch}
           clearButtonMode="always"
+          onChangeText={(text) => setLibrarySearch(text)}
         />
     </View>
   );
