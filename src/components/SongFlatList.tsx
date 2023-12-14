@@ -11,18 +11,14 @@ import {
 const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch: string}) => {
   const dispatch = useDispatch();
 
-  const songsDB = useSelector((store: StoreType) => store.songs);
+  const songsDB = useSelector((store: SongArrayType) => store.songs);
 
   useEffect(() => {
     dispatch({ type: "GET_DB_SONGS" });
   }, []);
 
-  type StoreType = {
-    songs: {
-      id: number;
-      title: string;
-      artist: string;
-    }[];
+  type SongArrayType = {
+    songs: SongType[];
   };
 
   type SongType = {
@@ -39,7 +35,7 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
     navigation.navigate("SongMoodModal");
   };
 
-  const Song = ({song}) => {
+  const Song = ({song}: {song: SongType}) => {
     return(
     <View style={styles.song}>
     <View>
@@ -55,7 +51,7 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
     )
   }
 
-  const renderSong = ({item}) => {
+  const renderSong = ({item}: {item: SongType}) => {
     if (librarySearch === "") {
       return <Song song={item} />
     }
