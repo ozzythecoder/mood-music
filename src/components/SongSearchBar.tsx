@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { Feather} from "@expo/vector-icons";
-
+import { Feather } from "@expo/vector-icons";
 
 const SongSearch = ({
   librarySearch,
@@ -12,20 +11,21 @@ const SongSearch = ({
 
   return (
     <View style={styles.container}>
-              <Feather
-          name="search"
-          size={20}
-          color="black"
-          style={{ marginLeft: 1 }}
-        />
+      <View style={styles.input}>
+      <Feather
+        name="search"
+        size={20}
+        color="black"
+      />
       {/* search input field */}
       <TextInput
-        style={styles.input}
+        style={styles.inputText}
         placeholder="Search"
         value={librarySearch}
         clearButtonMode="always"
         onChangeText={(text) => setLibrarySearch(text)}
       />
+      </View>
     </View>
   );
 };
@@ -35,19 +35,21 @@ export default SongSearch;
 // styles
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
-    paddingLeft: 10,
-    justifyContent: "flex-start",
+    marginVertical: 10,
+    alignItems: "center"
+
+  },
+  input: {
+    padding: 10,
+    width: "90%",
     alignItems: "center",
     flexDirection: "row",
-    width: "90%",
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 7,
   },
-  input: {
-    fontSize: 20,
-    padding: 10,
-    width: "90%",
+  inputText: {
+    marginLeft: 5,
+    fontSize: 20, 
   },
 });

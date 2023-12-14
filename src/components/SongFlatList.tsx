@@ -64,8 +64,9 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
   }
 
   return (
-    <View>
+    <View   style={styles.container}>
       <FlatList
+      style={styles.list}
         data={songsDB}
         keyExtractor={(item) => item.title}
         renderItem={(data) => renderSong(data)}
@@ -81,6 +82,12 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
 export default SongList;
 
 const styles = StyleSheet.create({
+  container: {
+alignItems: "center",
+  },
+  list: {
+    width: "90%"
+  },
   text: {
     color: "black",
     fontWeight: "bold",
@@ -90,7 +97,6 @@ const styles = StyleSheet.create({
   },
   song: {
     marginBottom: 5,
-    paddingHorizontal: 10,
     justifyContent: "space-between",
     flexDirection: "row",
   },
