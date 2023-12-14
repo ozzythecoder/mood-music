@@ -16,12 +16,12 @@ const RootStack = createStackNavigator<RootStackParamList>();
 const SongStack = createStackNavigator();
 const PlaylistsStack = createStackNavigator();
 
-
 type RootStackParamList = {
   Main: undefined;
   SongMoodModal: undefined;
 };
 
+// Function to add more screens to the song stack.
 function SongStackScreen() {
   return (
     <SongStack.Navigator>
@@ -41,23 +41,28 @@ function PlaylistsStackScreen() {
 function TabNavigator() {
   return (
     <Tab.Navigator
+    // sets navigator icons and links
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "Songs") {
             iconName = focused ? "musical-notes" : "musical-notes-outline";
+
           } else {
             iconName = "musical-notes";
           }
           if (route.name === "Playlists") {
             iconName = "list-outline";
           }
+
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
       })}
     >
+      {/* Creates route on TabNavigator and links to SongScreen */}
       <Tab.Screen
         name="Songs"
         component={SongsScreen}

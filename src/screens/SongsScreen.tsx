@@ -1,11 +1,22 @@
 import React from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  FlatList,
-} from "react-native";
-import Song from "../components/Song";
+import { SafeAreaView, StyleSheet} from "react-native";
+import { useState } from "react";
+import SongList from "../components/SongFlatList";
+import SongSearch from "../components/SongSearchBar";
+
+export default function Songs({ navigation }: {navigation: any}) {
+  const [librarySearch, setLibrarySearch] = useState("");
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <SongSearch
+        librarySearch={librarySearch}
+        setLibrarySearch={setLibrarySearch}
+      />
+      <SongList navigation={navigation} librarySearch={librarySearch} />
+    </SafeAreaView>
+  );
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -33,28 +44,4 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     padding: 3,
   },
-
 });
-
-const SONGS = [
-  { artist: "Perfume Genius", title: "Whole Life" },
-  { artist: "Perfume Genius", title: "Describe" },
-  { artist: "Perfume Genius", title: "Without You" },
-  { artist: "Perfume Genius", title: "Jason" },
-  { artist: "Lucinda Williams", title: "Lonely Girls" },
-  { artist: "Lucinda Williams", title: "Steal Your Love" },
-  { artist: "Lucinda Williams", title: "I Envy the Wind" },
-  { artist: "Lucinda Williams", title: "Blue" },
-];
-
-
-
-export default function Songs({ navigation }) {
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <Text>Your Songs</Text>
-      <Song navigation={navigation}/>
-
-    </SafeAreaView>
-  );
-}
