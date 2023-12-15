@@ -49,7 +49,9 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   inputText: {
+    width: "90%",
     marginLeft: 5,
+
     fontSize: 20, 
   },
 });
