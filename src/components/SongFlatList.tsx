@@ -22,9 +22,14 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
   };
 
   type SongType = {
-    id: number;
+    _id: string;
     artist: string;
     title: string;
+    moods: [
+      {moodName: string;
+      color: string
+    }
+    ]
   };
 
   const handleClickSong = (song: SongType) => {
@@ -61,6 +66,9 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
     if (item.artist.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))) {
       return <Song song={item} />
     } 
+    //   if (item.moods && item.moods.some(mood => mood.moodName.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, "")))) {
+    //   return <Song song={item} />
+    // } 
   }
 
   return (
@@ -68,7 +76,7 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
       <FlatList
       style={styles.list}
         data={songsDB}
-        keyExtractor={(item) => item.title}
+        keyExtractor={(item) => item._id}
         renderItem={(data) => renderSong(data)}
         ListEmptyComponent={<Text>No Current Songs</Text>}
 

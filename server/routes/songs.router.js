@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.put("/", async (req, res) => {
   console.log("in song router:", req.body.moods);
   // const userCurrent = req.user.clicked_song;
 
@@ -41,7 +41,7 @@ try {
       await client.connect();
     // Make the appropriate DB calls
     // Create a single new song
-    await addSong(client, newSong);
+    await upsertSong(client, newSong);
   } catch (error) {
     console.log(`Transaction Error - Rolling back new account`, error);
     res.sendStatus(500);
@@ -62,9 +62,16 @@ async function getSongs(client) {
 return results
 }
 
-async function addSong(client, newSong) {
-  const result = await client.db("mood-music").collection("songs").insertOne(newSong);
-  console.log(`New song added with the following id: ${result.insertedId}`);
+async function upsertSong(client, newSong) {
+  const result = await client.db("mood-music").collection("songs").updateOne(
+    {title: newSong.title},
+    {
+      $set: {
+        moods: newSong.moods
+      },
+    },
+    {upsert: true}
+  );
 }
 
 
