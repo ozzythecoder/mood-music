@@ -17,6 +17,13 @@ const SongMoodModal = ({ navigation }: {navigation: any}) => {
 
   useEffect(() => {
     dispatch({ type: "GET_MOODS" });
+
+  }, []);
+
+  useEffect(() => {
+    if (clickedSong.moods) {
+      setSelectedMoods(clickedSong.moods);
+    }
   }, []);
 
   type StoreType = {
@@ -31,6 +38,10 @@ const SongMoodModal = ({ navigation }: {navigation: any}) => {
     _id: string;
     title: string;
     artist: string;
+    moods: {
+      moodName: string,
+      color: string,
+  }[];
   }
 
   type SelectedMoodsType = 
