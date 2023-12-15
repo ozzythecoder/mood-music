@@ -1,38 +1,31 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { 
-  StyleSheet, 
-  Text, 
-TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
+const SongSearch = ({
+  librarySearch,
+  setLibrarySearch,
+}: {
+  librarySearch: string;
+}) => {
 
-
-const SongSearch = () => {
-
-  type StoreType = {
-    songs: {
-      id: number;
-      title: string;
-      artist: string;
-    }[]
-  }
-
-  type SongType = {
-    id: number;
-    artist: string;
-    title: string;
-  }
-
-return (
-  <View style={styles.container}>
-    {/* search input field */}
-   <TextInput
-          style={styles.input}
-          placeholder="Search"
-          clearButtonMode="always"
-        />
+  return (
+    <View style={styles.container}>
+      <View style={styles.input}>
+      <Feather
+        name="search"
+        size={20}
+        color="black"
+      />
+      {/* search input field */}
+      <TextInput
+        style={styles.inputText}
+        placeholder="Search"
+        value={librarySearch}
+        clearButtonMode="always"
+        onChangeText={(text) => setLibrarySearch(text)}
+      />
+      </View>
     </View>
   );
 };
@@ -42,33 +35,23 @@ export default SongSearch;
 // styles
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
-    width: "90%",
+    marginVertical: 10,
+    alignItems: "center"
 
   },
-  searchBar__unclicked: {
-    padding: 10,
-    flexDirection: "row",
-    width: "95%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignItems: "center",
-  },
-  searchBar__clicked: {
-    padding: 10,
-    flexDirection: "row",
-    width: "80%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
   input: {
-    fontSize: 20,
-    marginLeft: 10,
+    padding: 10,
     width: "90%",
+    alignItems: "center",
+    flexDirection: "row",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 7,
+  },
+  inputText: {
+    width: "90%",
+    marginLeft: 5,
+
+    fontSize: 20, 
   },
 });

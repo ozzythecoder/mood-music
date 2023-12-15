@@ -1,67 +1,54 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, Text, FlatList, Switch, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const styles = StyleSheet.create({
-  mood: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-    borderBottomColor: "grey",
-    borderBottomWidth: 1,
-  },
-  button: {
-    backgroundColor: "green",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    borderRadius: 6,
-    margin: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-});
 
-const MOODS = [
-  { moodName: "Happy", color: "yellow" },
-  { moodName: "Sad", color: "blue" },
-  { moodName: "Melancholic", color: "purple" },
-  { moodName: "Excited", color: "green" },
-  { moodName: "Adventurous", color: "orange" },
-  { moodName: "Angry", color: "red" },
-  { moodName: "Relaxed", color: "indigo" },
-  { moodName: "Romantic", color: "pink" },
-  { moodName: "Nostalgic", color: "tan" },
-];
-
-const SongMoodModal = ({ navigation }) => {
+const SongMoodModal = ({ navigation }: {navigation: any}) => {
   const dispatch = useDispatch();
+
   const clickedSong = useSelector((store: StoreType) => store.clickedSong)
+  const moodsDB = useSelector((store: MoodsArrayType) => store.moods);
 
   const [selectedMoods, setSelectedMoods] = useState<
-    Array<{ moodName: string; color: string }>
+    { moodName: string; color: string }[]
   >([]);
+
+  useEffect(() => {
+    dispatch({ type: "GET_MOODS" });
+
+  }, []);
+
+  useEffect(() => {
+    if (clickedSong.moods) {
+      setSelectedMoods(clickedSong.moods);
+    }
+  }, []);
 
   type StoreType = {
     clickedSong: SongType;
    }
 
+   type MoodsArrayType = {
+    moods: SelectedMoodsType
+   }
+
   type SongType = {
-    id: number;
+    _id: string;
     title: string;
     artist: string;
+    moods: {
+      moodName: string,
+      color: string,
+  }[];
   }
 
   type SelectedMoodsType = 
-    Array<{
+    {
     moodName: string;
     color: string;
-  }>
+  }[]
   
 
   const handleSaveMoods = (song: SongType, selectedMoods: SelectedMoodsType) => {
@@ -95,7 +82,7 @@ const SongMoodModal = ({ navigation }) => {
     <View>
       <View>
         <FlatList
-          data={MOODS}
+          data={moodsDB}
           keyExtractor={(item) => item.moodName}
           renderItem={({ item }) => {
             return (
@@ -129,3 +116,26 @@ const SongMoodModal = ({ navigation }) => {
 };
 
 export default SongMoodModal;
+
+const styles = StyleSheet.create({
+  mood: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+    borderBottomColor: "grey",
+    borderBottomWidth: 1,
+  },
+  button: {
+    backgroundColor: "green",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    borderRadius: 6,
+    margin: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+});

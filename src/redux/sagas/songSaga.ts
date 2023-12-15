@@ -1,5 +1,5 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-import axios, { AxiosResponse} from 'axios';
+import { put, takeLatest } from 'redux-saga/effects';
+import axios  from 'axios';
    
    type EditSongMoodsAction = {
     type: string;
@@ -9,6 +9,7 @@ import axios, { AxiosResponse} from 'axios';
             color: string,
         }[],
         song: {
+            _id: string,
             artist: string,
             title: string,
         }
@@ -35,7 +36,7 @@ function* editSongMoodsSaga(action: EditSongMoodsAction){
         // const songId = action.payload.id;
 
         yield axios({
-            method: 'POST',
+            method: 'PUT',
             url: 'http://localhost:3000/api/songs', 
             data: action.payload
         })
