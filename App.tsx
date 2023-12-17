@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
+import HomeScreen from "./src/screens/HomeScreen";
 import SongsScreen from "./src/screens/SongsScreen";
 import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
@@ -41,28 +42,33 @@ function PlaylistsStackScreen() {
 function TabNavigator() {
   return (
     <Tab.Navigator
-    // sets navigator icons and links
+      // sets navigator icons and links
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "Songs") {
             iconName = focused ? "musical-notes" : "musical-notes-outline";
-
+          } else if (route.name === "Home") {
+            iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "Playlists") {
+            iconName = focused ? "list" : "list-outline";
           } else {
             iconName = "musical-notes";
-          }
-          if (route.name === "Playlists") {
-            iconName = "list-outline";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        
+
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
       })}
     >
       {/* Creates route on TabNavigator and links to SongScreen */}
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ tabBarLabel: "Home" }}
+      />
       <Tab.Screen
         name="Songs"
         component={SongsScreen}
