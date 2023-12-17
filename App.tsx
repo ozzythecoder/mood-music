@@ -41,7 +41,7 @@ function PlaylistsStackScreen() {
 function TabNavigator() {
   return (
     <Tab.Navigator
-    // sets navigator icons and links
+      // sets navigator icons and links
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -57,7 +57,7 @@ function TabNavigator() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        
+
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
       })}
