@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+// Defining type for component state and API response
+interface Artist {
+    id: string;
+    name: string;
+  }
+
 function SpotifySearch() {
-    const [searchInput, setSearchInput] = useState('');
-    const [accessToken, setAccessToken] = useState('');
+    const [searchInput, setSearchInput] = useState<string>('');
+    const [accessToken, setAccessToken] = useState<string>('');
+    const [searchResults, setSearchResults] = useState<Artist[]>([]);
 
     useEffect(() => {
         // API Access Token
@@ -43,15 +50,16 @@ function SpotifySearch() {
 
         try {
             const response = await fetch(
-                `https://api.spotify.com/v1/search?q=${searchInput}&type=artist`,
+                `https://api.spotify.com/v1/search?q=${searchInput}&type=artist&limit=8`,
                 artistParameters
             );
 
             console.log('Full search response:', response);
 
-            const data = await response.json();
+        const data: { artists: { items: Artist[] } } = await response.json();
             console.log("search results:", data);
-            // Continue with the logic to handle the search results
+            // updating state with search results
+            setSearchResults(data.artists.items);
         } catch (error) {
             console.log('Error fetching search results:', error);
         }
@@ -61,20 +69,32 @@ function SpotifySearch() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Search for an artist"
-                    value={searchInput}
-                    onChangeText={(text) => setSearchInput(text)}
-                />
-                <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-                    <Ionicons name="search" size={24} color="#fff" />
-                </TouchableOpacity>
-            </View>
-            <Text>Search results to show here:</Text>
-            {/* Continue with the logic to display search results */}
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Search for an artist"
+            placeholderTextColor="#888"
+            value={searchInput}
+            onChangeText={(text) => setSearchInput(text)}
+          />
+          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+            <Ionicons name="search" size={24} color="#fff" />
+          </TouchableOpacity>
         </View>
+        {searchResults.length > 0 ? (
+          <FlatList
+            data={searchResults}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View>
+                <Text>{item.name}</Text>
+              </View>
+            )}
+          />
+        ) : (
+          <Text style={styles.resultsText}>No results found</Text>
+        )}
+      </View>
     );
 }
 
