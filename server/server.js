@@ -15,6 +15,7 @@ app.use(cors());
 // Route includes
 const songsRouter = require('./routes/songs.router');
 const moodsRouter = require('./routes/moods.router');
+const spotifyRouter = require('./routes/spotify.router');
 
 
 // Body parser middleware
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /* Routes */
 app.use('/api/songs', songsRouter);
 app.use('/api/moods', moodsRouter);
+app.use('/api/spotify', spotifyRouter)
 
 // Serve static files
 app.use(express.static('build'));
