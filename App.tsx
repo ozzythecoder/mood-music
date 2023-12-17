@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
+import HomeScreen from "./src/screens/HomeScreen";
 import SongsScreen from "./src/screens/SongsScreen";
 import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
@@ -63,6 +64,11 @@ function TabNavigator() {
       })}
     >
       {/* Creates route on TabNavigator and links to SongScreen */}
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ tabBarLabel: "Home" }}
+      />
       <Tab.Screen
         name="Songs"
         component={SongsScreen}
