@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   StyleSheet,
@@ -12,10 +12,6 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
   const dispatch = useDispatch();
 
   const songsDB = useSelector((store: SongArrayType) => store.songs);
-
-  useEffect(() => {
-    dispatch({ type: "GET_DB_SONGS" });
-  }, []);
 
   type SongArrayType = {
     songs: SongType[];

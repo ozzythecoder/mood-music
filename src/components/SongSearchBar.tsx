@@ -1,13 +1,17 @@
-import React from "react";
+import React, { Dispatch, SetStateAction  } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+
+
+type SongSearchType = {
+  librarySearch: string;
+  setLibrarySearch: Dispatch<SetStateAction<string>>;
+}
 
 const SongSearch = ({
   librarySearch,
   setLibrarySearch,
-}: {
-  librarySearch: string;
-}) => {
+}: SongSearchType) => {
 
   return (
     <View style={styles.container}>
