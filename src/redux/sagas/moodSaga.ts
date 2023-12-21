@@ -1,10 +1,10 @@
-import { put, takeLatest } from 'redux-saga/effects';
-import axios from 'axios';
+import { put, takeLatest, call } from 'redux-saga/effects';
+import axios, { AxiosResponse } from 'axios';
    
 
 function* getMoods() {
 try {
-    const response = yield axios.get('http://localhost:3000/api/moods');
+    const response: AxiosResponse = yield call(axios.get, 'http://localhost:3000/api/moods');
     
     yield put ({
         type: 'SET_MOODS',

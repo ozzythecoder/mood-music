@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import SpotifySearch from "../components/SpotifySearch";
 
@@ -19,7 +21,11 @@ const margin = 2;
 // this will definitely need to be updated to a more universal way of styling the buttons for different screen widths
 
 const HomeScreen = () => {
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+      dispatch({ type: "GET_DB_SONGS" });
+    }, []);
     return (
         <>
             <FlatList

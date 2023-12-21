@@ -10,7 +10,6 @@ import HomeScreen from "./src/screens/HomeScreen";
 import SongsScreen from "./src/screens/SongsScreen";
 import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
-import Home from "./src/screens/Home";
 import ProfileScreen from "./src/components/Profile";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -20,6 +19,7 @@ const RootStack = createStackNavigator<RootStackParamList>();
 const SongStack = createStackNavigator();
 const PlaylistsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+
 
 type RootStackParamList = {
   Main: undefined;
@@ -82,12 +82,6 @@ function TabNavigator() {
         options={{ tabBarLabel: "Home" }}
       />
       <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{ tabBarLabel: "Home" }}
-
-      />
-      <Tab.Screen
         name="Songs"
         component={SongsScreen}
         options={{ tabBarLabel: "Songs" }}
@@ -107,6 +101,7 @@ function TabNavigator() {
 }
 
 const App = () => {
+  
   return (
     <Provider store={store}>
       <NavigationContainer>
