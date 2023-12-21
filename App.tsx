@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
+import LoginScreen from "./src/screens/LoginScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import SongsScreen from "./src/screens/SongsScreen";
 import PlaylistsScreen from "./src/screens/PlaylistsScreen";
@@ -13,6 +14,7 @@ import SongMoodModal from "./src/screens/SongMoodModal";
 import ProfileScreen from "./src/components/Profile";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Entypo } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -64,17 +66,17 @@ function TabNavigator() {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Playlists") {
             iconName = focused ? "list" : "list-outline";
+          } else if (route.name === "Login") {
+            iconName = focused ? "log-in" : "log-in-outline";
           } else {
-            iconName = "musical-notes";
+            iconName = focused ? "musical-notes" : "musical-notes-outline";
           }
-
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
       })}
-    >
+      >
       {/* Creates route on TabNavigator and links to SongScreen */}
       <Tab.Screen
         name="Home"
@@ -95,6 +97,11 @@ function TabNavigator() {
         name="Profile"
         component={ProfileScreen}
         options={{tabBarLabel: "Profile"}}
+      />
+      <Tab.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ tabBarLabel: "Login" }}
       />
     </Tab.Navigator>
   );
