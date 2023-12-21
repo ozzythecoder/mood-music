@@ -9,12 +9,16 @@ import store from "./src/redux/store";
 import SongsScreen from "./src/screens/SongsScreen";
 import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
+import Home from "./src/screens/Home";
+import ProfileScreen from "./src/components/Profile";
+
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
 const RootStack = createStackNavigator<RootStackParamList>();
 const SongStack = createStackNavigator();
 const PlaylistsStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 
 
 type RootStackParamList = {
@@ -28,6 +32,14 @@ function SongStackScreen() {
       <SongStack.Screen name="Songs" component={SongsScreen} />
     </SongStack.Navigator>
   );
+}
+
+function ProfileStackScreen(){
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+    </ProfileStack.Navigator>
+  )
 }
 
 function PlaylistsStackScreen() {
@@ -59,6 +71,12 @@ function TabNavigator() {
       })}
     >
       <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{ tabBarLabel: "Home" }}
+
+      />
+      <Tab.Screen
         name="Songs"
         component={SongsScreen}
         options={{ tabBarLabel: "Songs" }}
@@ -67,6 +85,11 @@ function TabNavigator() {
         name="Playlists"
         component={PlaylistsScreen}
         options={{ tabBarLabel: "Playlists" }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{tabBarLabel: "Profile"}}
       />
     </Tab.Navigator>
   );

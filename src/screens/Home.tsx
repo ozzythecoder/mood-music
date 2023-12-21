@@ -1,5 +1,20 @@
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack";
+
+type RootStackParamList = {
+  Home: undefined,
+  Profile: {name: 'Profile'}
+}
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList,'Home'>;
+
+type Props = {
+  navigation: ProfileScreenNavigationProp;
+};
 
 const MOOD_COLORS = [
   { moodName: 'Happy', hexCode: '#ffd700' },
@@ -18,9 +33,9 @@ const margin = 2;
 // this will definitely need to be updated to a more universal way of styling the buttons for different screen widths
 
 const Home = () => {
-
+  const navigation = useNavigation();
   return (
-    <FlatList
+      <FlatList
       data={MOOD_COLORS}
       keyExtractor={item => item.moodName}
       numColumns={numColumns}
@@ -29,14 +44,14 @@ const Home = () => {
         const textColor = parseInt(item.hexCode.replace('#', ''), 16) > 0xffffff / 1.1 ? 'black' : 'white';
 
         return (
-          <TouchableOpacity
-            style={[styles.button, { width: `${(100 - (margin * (numColumns + 1))) / numColumns}%`, backgroundColor: item.hexCode }]}
-            onPress={() => {
-              console.log(`Selected mood: ${item.moodName}`);
-            }}
-          >
-            <Text style={[styles.buttonText, { color: textColor }]}>{item.moodName}</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, { width: `${(100 - (margin * (numColumns + 1))) / numColumns}%`, backgroundColor: item.hexCode }]}
+              onPress={() => {
+                console.log(`Selected mood: ${item.moodName}`);
+              }}
+            >
+              <Text style={[styles.buttonText, { color: textColor }]}>{item.moodName}</Text>
+            </TouchableOpacity>
         );
       }}
     />
