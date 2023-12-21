@@ -6,18 +6,16 @@ const client = require("./pool");
 router.get("/", async (req, res) => {
   console.log("in song get router");
 
-      // Connect to the MongoDB cluster
-      const connection = await client.connect();
-
   try {
-    await connection.query('BEGIN');
+      // Connect to the MongoDB cluster
+      await client.connect();
+
     // Make the appropriate DB calls
     // GET full list of songs from DB
     const result = await getSongs(client);
-    await connection.query('COMMIT');
-    res.send(result.rows)
+    console.log('result:', result)
+    res.send(result)
   } catch (error) {
-    await connection.query('ROLLBACK');
     console.log(`Transaction Error - Rolling back new account`, error);
     res.sendStatus(500);
   } finally {
@@ -26,7 +24,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.put("/", async (req, res) => {
   console.log("in song router:", req.body.moods);
   // const userCurrent = req.user.clicked_song;
 
@@ -38,17 +36,13 @@ const newSong = {
 
 console.log('newSong:', newSong)
 
+try {
       // Connect to the MongoDB cluster
-      const connection = await client.connect();
-
-  try {
-    await connection.query('BEGIN');
+      await client.connect();
     // Make the appropriate DB calls
     // Create a single new song
-    await addSong(client, newSong);
-    await connection.query('COMMIT');
+    await upsertSong(client, newSong);
   } catch (error) {
-    await connection.query('ROLLBACK');
     console.log(`Transaction Error - Rolling back new account`, error);
     res.sendStatus(500);
   } finally {
@@ -65,15 +59,19 @@ async function getSongs(client) {
 
   const results = await cursor.toArray();
 
-    console.log(`Found songs:`);
-    results.forEach((result, i) => {
-        console.log(result.title);
-    });
+return results
 }
 
-async function addSong(client, newSong) {
-  const result = await client.db("mood-music").collection("songs").insertOne(newSong);
-  console.log(`New song added with the following id: ${result.insertedId}`);
+async function upsertSong(client, newSong) {
+  const result = await client.db("mood-music").collection("songs").updateOne(
+    {title: newSong.title},
+    {
+      $set: {
+        moods: newSong.moods
+      },
+    },
+    {upsert: true}
+  );
 }
 
 
