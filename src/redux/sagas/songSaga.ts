@@ -1,5 +1,5 @@
-import { put, takeLatest } from 'redux-saga/effects';
-import axios  from 'axios';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import axios, { AxiosResponse} from 'axios';
    
    type EditSongMoodsAction = {
     type: string;
@@ -9,7 +9,6 @@ import axios  from 'axios';
             color: string,
         }[],
         song: {
-            _id: string,
             artist: string,
             title: string,
         }
@@ -18,7 +17,7 @@ import axios  from 'axios';
 
 function* getDBSongs() {
 try {
-    const response = yield axios.get('http://localhost:3000/api/songs');
+    const response: AxiosResponse = yield call(axios.get, 'http://localhost:3000/api/songs');
     
     yield put ({
         type: 'SET_SONGS',
@@ -35,11 +34,7 @@ function* editSongMoodsSaga(action: EditSongMoodsAction){
     try {
         // const songId = action.payload.id;
 
-        yield axios({
-            method: 'PUT',
-            url: 'http://localhost:3000/api/songs', 
-            data: action.payload
-        })
+        yield call(axios.post, 'http://localhost:3000/api/songs', action.payload);
         yield put({
             type: 'GET_DB_SONGS'
         })
