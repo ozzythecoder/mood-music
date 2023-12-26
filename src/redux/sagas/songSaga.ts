@@ -15,6 +15,7 @@ import axios, { AxiosResponse} from 'axios';
     };
    }
 
+//    fetches songs from the mongodb and then calls set_songs to update the store.
 function* getDBSongs() {
 try {
     const response: AxiosResponse = yield call(axios.get, 'http://localhost:3000/api/songs');
@@ -29,12 +30,13 @@ catch (error) {
 }
 };
 
+// updates mongodb with changes to moods for songs that are already in the db, or adds any new songs. 
+// Then calls get_db_songs to update the store.
 function* editSongMoodsSaga(action: EditSongMoodsAction){
     console.log('in editSong saga:', action.payload)
     try {
-        // const songId = action.payload.id;
 
-        yield call(axios.post, 'http://localhost:3000/api/songs', action.payload);
+        yield call(axios.put, 'http://localhost:3000/api/songs', action.payload);
         yield put({
             type: 'GET_DB_SONGS'
         })
