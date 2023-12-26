@@ -10,9 +10,9 @@ import SongSearch from "../components/SongSearchBar";
 export default function Songs({ navigation }: {navigation: any}) {
   const dispatch = useDispatch();
 
-  // useFocusEffect(() => {
-  //   dispatch({ type: "GET_DB_SONGS" });
-  // });
+  useFocusEffect(() => {
+    dispatch({ type: "GET_DB_SONGS" });
+  });
 
   const [librarySearch, setLibrarySearch] = useState("");
 

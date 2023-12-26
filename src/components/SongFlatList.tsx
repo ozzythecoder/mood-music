@@ -7,8 +7,15 @@ import {
   View,
   FlatList,
 } from "react-native";
+import SongMoodList from "./SongMoodFlatList";
 
-const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch: string}) => {
+const SongList = ({
+  navigation,
+  librarySearch,
+}: {
+  navigation: any;
+  librarySearch: string;
+}) => {
   const dispatch = useDispatch();
 
   const songsDB = useSelector((store: SongArrayType) => store.songs);
@@ -21,11 +28,7 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
     _id: string;
     artist: string;
     title: string;
-    moods: [
-      {moodName: string;
-      color: string
-    }
-    ]
+    moods: [{ moodName: string; color: string }];
   };
 
   const handleClickSong = (song: SongType) => {
@@ -36,48 +39,52 @@ const SongList = ({ navigation, librarySearch }: {navigation: any, librarySearch
     navigation.navigate("SongMoodModal");
   };
 
-  const Song = ({song}: {song: SongType}) => {
-    return(
-    <View style={styles.song}>
-    <View>
-      <Text style={styles.text}>{song.title}</Text>
-      <Text style={styles.subtext}>{song.artist}</Text>
-    </View>
-    <View>
+  const Song = ({ song }: { song: SongType }) => {
+    return (
       <TouchableOpacity onPress={() => handleClickSong(song)}>
-        <Text>Add Moods</Text>
+        <View style={styles.song}>
+          <View>
+            <Text style={styles.text}>{song.title}</Text>
+            <Text style={styles.subtext}>{song.artist}</Text>
+          </View>
+          <SongMoodList song={song} />
+          <Text>Add Moods</Text>
+        </View>
       </TouchableOpacity>
-    </View>
-  </View>
-    )
-  }
+    );
+  };
 
-  const renderSong = ({item}: {item: SongType}) => {
+  const renderSong = ({ item }: { item: SongType }) => {
     if (librarySearch === "") {
-      return <Song song={item} />
+      return <Song song={item} />;
     }
-    if (item.title.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))) {
-      return <Song song={item} />
+    if (
+      item.title
+        .toUpperCase()
+        .includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
+    ) {
+      return <Song song={item} />;
     }
-    if (item.artist.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))) {
-      return <Song song={item} />
-    } 
+    if (
+      item.artist
+        .toUpperCase()
+        .includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
+    ) {
+      return <Song song={item} />;
+    }
     //   if (item.moods && item.moods.some(mood => mood.moodName.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, "")))) {
     //   return <Song song={item} />
-    // } 
-  }
+    // }
+  };
 
   return (
-    <View   style={styles.container}>
+    <View style={styles.container}>
       <FlatList
-      style={styles.list}
+        style={styles.list}
         data={songsDB}
         keyExtractor={(item) => item._id}
         renderItem={(data) => renderSong(data)}
         ListEmptyComponent={<Text>No Current Songs</Text>}
-
-        // refreshing={true}
-        // onRefresh={() => {}}
       />
     </View>
   );
@@ -87,10 +94,10 @@ export default SongList;
 
 const styles = StyleSheet.create({
   container: {
-alignItems: "center",
+    alignItems: "center",
   },
   list: {
-    width: "90%"
+    width: "90%",
   },
   text: {
     color: "black",
@@ -102,6 +109,7 @@ alignItems: "center",
   song: {
     marginBottom: 5,
     justifyContent: "space-between",
+    alignItems: "center",
     flexDirection: "row",
   },
 });
