@@ -26,6 +26,7 @@ const HomeScreen = () => {
     useEffect(() => {
       dispatch({ type: "GET_DB_SONGS" });
     }, []);
+    
     return (
         <>
             <FlatList
