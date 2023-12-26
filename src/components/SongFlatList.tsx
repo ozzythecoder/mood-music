@@ -75,6 +75,7 @@ const SongList = ({
     //   if (item.moods && item.moods.some(mood => mood.moodName.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, "")))) {
     //   return <Song song={item} />
     // }
+    return null
   };
 
   return (
