@@ -27,6 +27,10 @@ const HomeScreen = () => {
       dispatch({ type: "GET_DB_SONGS" });
     }, []);
 
+    useEffect(() => {
+        dispatch({ type: "GET_MOODS" });
+      }, []);
+
     return (
         <>
             <FlatList
