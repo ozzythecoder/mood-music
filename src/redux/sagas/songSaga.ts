@@ -34,7 +34,7 @@ function* editSongMoodsSaga(action: EditSongMoodsAction){
     try {
         // const songId = action.payload.id;
 
-        yield call(axios.post, 'http://localhost:3000/api/songs', action.payload);
+        yield call(axios.put, 'http://localhost:3000/api/songs', action.payload);
         yield put({
             type: 'GET_DB_SONGS'
         })

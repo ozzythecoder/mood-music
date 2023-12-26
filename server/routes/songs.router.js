@@ -40,15 +40,12 @@ try {
       // Connect to the MongoDB cluster
       await client.connect();
     // Make the appropriate DB calls
-    // Create a single new song
+    // Create or update a single song
     await upsertSong(client, newSong);
   } catch (error) {
     console.log(`Transaction Error - Rolling back new account`, error);
     res.sendStatus(500);
-  } finally {
-    // Close the connection to the MongoDB cluster
-    await client.close();
-  }
+  } 
 });
 
 async function getSongs(client) {

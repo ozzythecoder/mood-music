@@ -6,10 +6,13 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 const SongMoodModal = ({ navigation }: {navigation: any}) => {
+  
   const dispatch = useDispatch();
 
   const clickedSong = useSelector((store: StoreType) => store.clickedSong)
   const moodsDB = useSelector((store: MoodsArrayType) => store.moods);
+
+  console.log('clickedSong in song modal', clickedSong)
 
   const [selectedMoods, setSelectedMoods] = useState<
     { moodName: string; color: string }[]
@@ -21,6 +24,7 @@ const SongMoodModal = ({ navigation }: {navigation: any}) => {
   }, []);
 
   useEffect(() => {
+
     if (clickedSong.moods) {
       setSelectedMoods(clickedSong.moods);
     }
