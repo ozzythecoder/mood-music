@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
     res.sendStatus(500);
   } finally {
     // Close the connection to the MongoDB cluster
-    await client.close();
+    client.close();
   }
 });
 

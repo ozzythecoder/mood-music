@@ -15,7 +15,6 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
   >([]);
 
   useEffect(() => {
-    dispatch({ type: "GET_MOODS" });
     navigation.setOptions({ title: clickedSong.title });
   }, []);
 

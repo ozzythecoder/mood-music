@@ -19,10 +19,10 @@ router.get("/", async (req, res) => {
     console.log(`Transaction Error - Rolling back new account`, error);
     res.sendStatus(500);
   } 
-  finally {
-    // Close the connection to the MongoDB cluster
-    await client.close();
-  }
+  // finally {
+  //   // Close the connection to the MongoDB cluster
+  //   await client.close();
+  // }
 });
 
 router.put("/", async (req, res) => {
