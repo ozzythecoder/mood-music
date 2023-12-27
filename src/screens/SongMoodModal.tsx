@@ -11,7 +11,7 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
   const moodsDB = useSelector((store: MoodsArrayType) => store.moods);
 
   const [selectedMoods, setSelectedMoods] = useState<
-    { moodName: string; color: string }[]
+  MoodType[]
   >([]);
 
   useEffect(() => {
@@ -29,6 +29,12 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
     clickedSong: SongType;
   };
 
+  type MoodType = { 
+    _id: string; 
+    moodName: string; 
+    color: string 
+  }
+
   type MoodsArrayType = {
     moods: SelectedMoodsType;
   };
@@ -38,12 +44,14 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
     title: string;
     artist: string;
     moods: {
+      _id: string;
       moodName: string;
       color: string;
     }[];
   };
 
   type SelectedMoodsType = {
+    _id: string;
     moodName: string;
     color: string;
   }[];
@@ -63,7 +71,7 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
 
   const handleValueChange = (
     value: boolean,
-    mood: { moodName: string; color: string }
+    mood: MoodType,
   ) => {
     if (value === true) {
       setSelectedMoods((moods) => [...moods, mood]);
