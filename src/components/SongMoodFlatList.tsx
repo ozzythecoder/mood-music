@@ -5,7 +5,8 @@ type SongType = {
   _id: string;
   artist: string;
   title: string;
-  moods: [{ moodName: string; color: string }];
+  moods: [{ moodName: string;}];
+  moodFull: [{ moodName: string; color: string;}];
 };
 
 const SongMoodList = ({ song }: { song: SongType }) => {
@@ -13,7 +14,7 @@ const SongMoodList = ({ song }: { song: SongType }) => {
       <FlatList
         horizontal={true}
         style={{marginLeft: 15}}
-        data={song.moods}
+        data={song.moodFull}
         keyExtractor={(item) => item.moodName}
         renderItem={(data) => (
           <View
