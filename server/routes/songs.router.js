@@ -50,7 +50,19 @@ router.put("/", async (req, res) => {
 });
 
 async function getSongs(client) {
-  const cursor = client.db("mood-music").collection("songs").find();
+  const pipeline = [
+    {
+      $lookup: 
+      {
+        from: "moods",
+        localField: "moods.moodName",
+        foreignField: "moodName",
+        as: "moodFull",
+      }
+    }
+  ];
+
+  const cursor = client.db("mood-music").collection("songs").aggregate(pipeline);
 
   const results = await cursor.toArray();
 
