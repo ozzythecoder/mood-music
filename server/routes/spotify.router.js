@@ -3,10 +3,10 @@ const router = express.Router();
 const axios = require('axios');
 require('dotenv').config();
 
-console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
+// console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
 
 router.post('/', (req, res) => {
-    console.log('data in post', req.body)
+    // console.log('data in post', req.body)
     console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
 
     // adding headers to the POST request
@@ -33,6 +33,5 @@ router.post('/', (req, res) => {
         })
 
 })
-
 
 module.exports = router;
