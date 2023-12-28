@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -9,20 +9,30 @@ import {
 } from "react-native";
 import SongMoodList from "./SongMoodFlatList";
 
-const NewPlaylist = ({
-  navigation,
-  librarySearch,
-}: {
-  navigation: any;
-  librarySearch: string;
-}) => {
-  const dispatch = useDispatch();
+const NewPlaylist = () => {
 
-  const songsDB = useSelector((store: SongArrayType) => store.songs);
+  const clickedMood = useSelector((store: ClickedMoodType) => store.clickedMood);
+  const newPlaylist = useSelector((store: NewPlaylistType) => store.newPlaylist);
 
-  type SongArrayType = {
-    songs: SongType[];
+  console.log('new playlist on screen', newPlaylist)
+
+  type NewPlaylistType = {
+    newPlaylist: SongType[];
   };
+
+  type MoodType = {
+    _id: string; 
+    moodName: string; 
+    color: string
+    };
+
+  type ClickedMoodType = { 
+    clickedMood: {
+    _id: string; 
+    moodName: string; 
+    color: string
+    } 
+  }
 
   type SongType = {
     _id: string;
@@ -32,60 +42,26 @@ const NewPlaylist = ({
     moodFull: [{ _id: string; moodName: string; color: string }];
   };
 
-  const handleClickSong = (song: SongType) => {
-    dispatch({
-      type: "SET_CLICKED_SONG",
-      payload: song,
-    });
-    navigation.navigate("SongMoodModal");
-  };
-
-  const Playlist = ({ song }: { song: SongType }) => {
+  const Song = ({ song }: { song: SongType }) => {
+    console.log('song in playlist: ', song)
     return (
-      <TouchableOpacity onPress={() => handleClickSong(song)}>
         <View style={styles.song}>
           <View>
             <Text style={styles.text}>{song.title}</Text>
             <Text style={styles.subtext}>{song.artist}</Text>
           </View>
           <SongMoodList song={song} />
-          <Text>Add Moods</Text>
         </View>
-      </TouchableOpacity>
     );
-  };
-
-  const renderSong = ({ item }: { item: SongType }) => {
-    if (librarySearch === "") {
-      return <Song song={item} />;
-    }
-    if (
-      item.title
-        .toUpperCase()
-        .includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
-    ) {
-      return <Song song={item} />;
-    }
-    if (
-      item.artist
-        .toUpperCase()
-        .includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
-    ) {
-      return <Song song={item} />;
-    }
-    //   if (item.moods && item.moods.some(mood => mood.moodName.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, "")))) {
-    //   return <Song song={item} />
-    // }
-    return null
   };
 
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.list}
-        data={songsDB}
+        data={newPlaylist}
         keyExtractor={(item) => item._id}
-        renderItem={(data) => renderSong(data)}
+        renderItem={({item}) => <Song song={item} />}
         ListEmptyComponent={<Text>No Current Songs</Text>}
       />
     </View>
