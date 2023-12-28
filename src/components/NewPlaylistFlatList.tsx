@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import SongMoodList from "./SongMoodFlatList";
 
-const SongList = ({
+const NewPlaylist = ({
   navigation,
   librarySearch,
 }: {
@@ -40,7 +40,7 @@ const SongList = ({
     navigation.navigate("SongMoodModal");
   };
 
-  const Song = ({ song }: { song: SongType }) => {
+  const Playlist = ({ song }: { song: SongType }) => {
     return (
       <TouchableOpacity onPress={() => handleClickSong(song)}>
         <View style={styles.song}>
@@ -92,7 +92,7 @@ const SongList = ({
   );
 };
 
-export default SongList;
+export default NewPlaylist;
 
 const styles = StyleSheet.create({
   container: {
