@@ -1,10 +1,18 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, View} from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { SafeAreaView, StyleSheet} from "react-native";
 import { useState } from "react";
 import SongList from "../components/SongFlatList";
 import SongSearch from "../components/SongSearchBar";
 
 export default function Songs({ navigation }: {navigation: any}) {
+  const dispatch = useDispatch();
+
+  useFocusEffect(() => {
+    dispatch({ type: "GET_DB_SONGS" });
+  });
+
   const [librarySearch, setLibrarySearch] = useState("");
 
   return (

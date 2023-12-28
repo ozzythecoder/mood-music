@@ -1,25 +1,24 @@
 import React from "react";
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, Text, FlatList, Switch, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-
-const SongMoodModal = ({ navigation }: {navigation: any}) => {
+const SongMoodModal = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
 
-  const clickedSong = useSelector((store: StoreType) => store.clickedSong)
+  const clickedSong = useSelector((store: StoreType) => store.clickedSong);
   const moodsDB = useSelector((store: MoodsArrayType) => store.moods);
 
   const [selectedMoods, setSelectedMoods] = useState<
-    { moodName: string; color: string }[]
+  MoodType[]
   >([]);
 
   useEffect(() => {
-    dispatch({ type: "GET_MOODS" });
-
+    navigation.setOptions({ title: clickedSong.title });
   }, []);
 
+  // sets the mood switches to the current song
   useEffect(() => {
     if (clickedSong.moods) {
       setSelectedMoods(clickedSong.moods);
@@ -28,31 +27,40 @@ const SongMoodModal = ({ navigation }: {navigation: any}) => {
 
   type StoreType = {
     clickedSong: SongType;
-   }
+  };
 
-   type MoodsArrayType = {
-    moods: SelectedMoodsType
-   }
+  type MoodType = { 
+    _id: string; 
+    moodName: string; 
+    color: string 
+  }
+
+  type MoodsArrayType = {
+    moods: SelectedMoodsType;
+  };
 
   type SongType = {
     _id: string;
     title: string;
     artist: string;
     moods: {
-      moodName: string,
-      color: string,
-  }[];
-  }
+      _id: string;
+      moodName: string;
+      color: string;
+    }[];
+  };
 
-  type SelectedMoodsType = 
-    {
+  type SelectedMoodsType = {
+    _id: string;
     moodName: string;
     color: string;
-  }[]
-  
+  }[];
 
-  const handleSaveMoods = (song: SongType, selectedMoods: SelectedMoodsType) => {
-    const songWithMoods = {song: song, moods: selectedMoods}
+  const handleSaveMoods = (
+    song: SongType,
+    selectedMoods: SelectedMoodsType
+  ) => {
+    const songWithMoods = { song: song, moods: selectedMoods };
     dispatch({
       type: "EDIT_SONG_MOODS",
       payload: songWithMoods,
@@ -60,14 +68,10 @@ const SongMoodModal = ({ navigation }: {navigation: any}) => {
     navigation.navigate("Songs");
   };
 
-  const getMoodColor = (moodName: string) => {
-    const mood = selectedMoods.find((mood) => mood.moodName === moodName);
-    return mood ? { color: mood.color } : {};
-  };
 
   const handleValueChange = (
     value: boolean,
-    mood: { moodName: string; color: string }
+    mood: MoodType,
   ) => {
     if (value === true) {
       setSelectedMoods((moods) => [...moods, mood]);
@@ -87,8 +91,9 @@ const SongMoodModal = ({ navigation }: {navigation: any}) => {
           renderItem={({ item }) => {
             return (
               <View style={styles.mood}>
-                <Text style={getMoodColor(item.moodName)}>{item.moodName}</Text>
+                <Text>{item.moodName}</Text>
                 <Switch
+                  trackColor={{ false: "grey", true: item.color }}
                   value={
                     !!selectedMoods.find(
                       (mood) => mood.moodName === item.moodName
