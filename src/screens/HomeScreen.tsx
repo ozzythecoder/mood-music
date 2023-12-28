@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import SpotifySearch from "../components/SpotifySearch";
+import SpotifySearch from "../components/Spotify/SpotifySearch";
+import SpotifyAccessToken from "../components/Spotify/SpotifyAccessToken";
 
 const MOOD_COLORS = [
     { moodName: 'Happy', hexCode: '#ffd700' },
@@ -24,12 +25,16 @@ const HomeScreen = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-      dispatch({ type: "GET_DB_SONGS" });
+        dispatch({ type: "GET_DB_SONGS" });
     }, []);
 
     useEffect(() => {
         dispatch({ type: "GET_MOODS" });
-      }, []);
+    }, []);
+
+    useEffect(() => {
+        dispatch({ type: "GET_ACCESS_TOKEN" })
+    }, []);
 
     return (
         <>
@@ -53,6 +58,7 @@ const HomeScreen = () => {
                     );
                 }}
             />
+            <SpotifyAccessToken />
             <SpotifySearch />
         </>
     )
