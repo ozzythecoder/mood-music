@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet, Image, Dimensions } from "react-native";
+import { Text, TouchableOpacity, SafeAreaView, StyleSheet, Image, Dimensions } from "react-native";
 
 const ScreenWidth = Dimensions.get('window').width;
 const ScreenHeight = Dimensions.get('window').height;

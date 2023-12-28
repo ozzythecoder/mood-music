@@ -22,7 +22,6 @@ const SongStack = createStackNavigator();
 const PlaylistsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 
-
 type RootStackParamList = {
   Main: undefined;
   SongMoodModal: undefined;
@@ -108,7 +107,7 @@ function TabNavigator() {
 }
 
 const App = () => {
-  
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -118,7 +117,10 @@ const App = () => {
             component={TabNavigator}
             options={{ headerShown: false }}
           />
-          <RootStack.Screen name="SongMoodModal" component={SongMoodModal} />
+          <RootStack.Screen 
+          name="SongMoodModal" 
+          component={SongMoodModal} 
+          />
         </RootStack.Navigator>
       </NavigationContainer>
     </Provider>
