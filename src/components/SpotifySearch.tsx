@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -50,7 +50,7 @@ function SpotifySearch() {
 
         try {
             const response = await fetch(
-                `https://api.spotify.com/v1/search?q=${searchInput}&type=artist&limit=8`,
+                `https://api.spotify.com/v1/search?q=${searchInput}&type=artist&limit=10`,
                 artistParameters
             );
 
@@ -73,7 +73,7 @@ function SpotifySearch() {
           <TextInput
             style={styles.input}
             placeholder="Search for an artist"
-            placeholderTextColor="#888"
+            placeholderTextColor="#777"
             value={searchInput}
             onChangeText={(text) => setSearchInput(text)}
           />
