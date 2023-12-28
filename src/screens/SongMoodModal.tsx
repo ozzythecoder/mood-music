@@ -36,7 +36,7 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
   }
 
   type MoodsArrayType = {
-    moods: SelectedMoodsType;
+    moods: MoodType[];
   };
 
   type SongType = {
@@ -50,15 +50,9 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
     }[];
   };
 
-  type SelectedMoodsType = {
-    _id: string;
-    moodName: string;
-    color: string;
-  }[];
-
   const handleSaveMoods = (
     song: SongType,
-    selectedMoods: SelectedMoodsType
+    selectedMoods: MoodType[]
   ) => {
     const songWithMoods = { song: song, moods: selectedMoods };
     dispatch({

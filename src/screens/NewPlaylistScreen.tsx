@@ -9,6 +9,14 @@ export default function NewPlaylist({ navigation }: {navigation: any}) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+{/* playback control buttons eventually? */}
+
+{/* flatlist with the playlist 
+    includes re-regenerate switch*/}
+
+{/* re-generate button */}
+{/* title your playlist field  */}
+{/* save button */}
 
     </SafeAreaView>
   );
