@@ -21,11 +21,18 @@ const MoodButtons = ({ navigation }: { navigation: any }) => {
   };
 
   const handleClickMood = (mood: MoodType) => {
+    // sets the clicked mood in the store
     dispatch({
       type: "SET_CLICKED_MOOD",
       payload: mood,
     });
-    navigation.navigate("NewPlaylistScreen");
+    // sends the clicked mood to a saga to generate a playlist from the DB
+    dispatch({
+        type: "CREATE_NEW_PLAYLIST",
+        payload: mood,
+    })
+    // navigates to the new playlist page in the playlist stack
+    navigation.navigate("Playlists", {screen: "New Playlist"});
   };
 
   return (

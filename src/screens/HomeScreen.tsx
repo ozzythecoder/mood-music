@@ -1,4 +1,5 @@
 import React from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import SpotifySearch from "../components/SpotifySearch";
@@ -11,9 +12,9 @@ const HomeScreen = ({ navigation }: {navigation: any}) => {
     dispatch({ type: "GET_DB_SONGS" });
   }, []);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     dispatch({ type: "GET_MOODS" });
-  }, []);
+  });
 
   return (
     <>

@@ -12,6 +12,7 @@ import SongsScreen from "./src/screens/SongsScreen";
 import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
 import ProfileScreen from "./src/components/Profile";
+import NewPlaylistScreen from "./src/screens/NewPlaylistScreen";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Entypo } from "@expo/vector-icons";
@@ -47,7 +48,8 @@ function ProfileStackScreen(){
 function PlaylistsStackScreen() {
   return (
     <PlaylistsStack.Navigator>
-      <PlaylistsStack.Screen name="Playlists" component={PlaylistsScreen} />
+      <PlaylistsStack.Screen name="Saved Playlists" component={PlaylistsScreen} />
+      <PlaylistsStack.Screen name="New Playlist" component={NewPlaylistScreen} />
     </PlaylistsStack.Navigator>
   );
 }
@@ -74,7 +76,8 @@ function TabNavigator() {
         },
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
-      })}
+      })
+    }
       >
       {/* Creates route on TabNavigator and links to SongScreen */}
       <Tab.Screen
@@ -89,7 +92,7 @@ function TabNavigator() {
       />
       <Tab.Screen
         name="Playlists"
-        component={PlaylistsScreen}
+        children={PlaylistsStackScreen}
         options={{ tabBarLabel: "Playlists" }}
       />
       <Tab.Screen
