@@ -5,9 +5,10 @@ type SongType = {
   _id: string;
   artist: string;
   title: string;
-  moods: [{ moodName: string;}];
-  moodFull: [{ moodName: string; color: string;}];
+  moods: [string];
+  moodFull: [{ _id: string; moodName: string; color: string;}];
 };
+
 
 const SongMoodList = ({ song }: { song: SongType }) => {
   return (

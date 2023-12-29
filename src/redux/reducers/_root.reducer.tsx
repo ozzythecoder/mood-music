@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import clickedSong from './clickedSong.reducer';
 import songs from './songs.reducer'
 import moods from './moods.reducer';
+import clickedMood from './clickedMood.reducer';
+import newPlaylist from './playlist.reducer';
 import spotify from './spotify.reducer'
 import playlists from './playlists.reducer'
 
@@ -12,8 +14,9 @@ const rootReducer = combineReducers({
     clickedSong,
     songs,
     moods,
+    clickedMood,
+    newPlaylist,
     spotify,
-    playlists,
 });
 
 export default rootReducer;
