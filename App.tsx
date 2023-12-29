@@ -36,7 +36,7 @@ function SongStackScreen() {
   );
 }
 
-function ProfileStackScreen(){
+function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen name="Profile" component={ProfileScreen} />
@@ -67,6 +67,8 @@ function TabNavigator() {
             iconName = focused ? "list" : "list-outline";
           } else if (route.name === "Login") {
             iconName = focused ? "log-in" : "log-in-outline";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "person" : "person-outline";
           } else {
             iconName = focused ? "musical-notes" : "musical-notes-outline";
           }
@@ -75,7 +77,7 @@ function TabNavigator() {
         tabBarActiveTintColor: "tomato",
         tabBarInactiveTintColor: "gray",
       })}
-      >
+    >
       {/* Creates route on TabNavigator and links to SongScreen */}
       <Tab.Screen
         name="Home"
@@ -95,7 +97,7 @@ function TabNavigator() {
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{tabBarLabel: "Profile"}}
+        options={{ tabBarLabel: "Profile" }}
       />
       <Tab.Screen
         name="Login"
@@ -117,9 +119,9 @@ const App = () => {
             component={TabNavigator}
             options={{ headerShown: false }}
           />
-          <RootStack.Screen 
-          name="SongMoodModal" 
-          component={SongMoodModal} 
+          <RootStack.Screen
+            name="SongMoodModal"
+            component={SongMoodModal}
           />
         </RootStack.Navigator>
       </NavigationContainer>

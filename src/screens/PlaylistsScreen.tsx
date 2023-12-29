@@ -25,6 +25,11 @@ export default function Playlists({ navigation }) {
             <View>
                 <Text>Search Bar Here</Text><Text>Create Playlist Btn Here</Text>
             </View>
+
+            <View>
+                <Text>Your Playlists</Text><Text>Create Playlist Btn Here</Text>
+            </View>
+
             <FlatList
                 data={dummyPlaylistData}
                 keyExtractor={(item) => item.title}
