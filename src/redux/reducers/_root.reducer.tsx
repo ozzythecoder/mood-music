@@ -17,6 +17,7 @@ const rootReducer = combineReducers({
     clickedMood,
     newPlaylist,
     spotify,
+    playlists,
 });
 
 export default rootReducer;
