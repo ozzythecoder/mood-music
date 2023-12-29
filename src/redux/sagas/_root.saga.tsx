@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects';
 import songSaga from './songSaga';
 import moodSaga from './moodSaga';
 import newPlaylistSaga from './playlistSaga';
+import playlistsSaga from './playlistsSaga';
 
 
 // rootSaga is the primary saga.
@@ -12,5 +13,6 @@ export default function* rootSaga() {
     songSaga(),
     moodSaga(),
     newPlaylistSaga(),
+    playlistsSaga(),
   ]);
 }
