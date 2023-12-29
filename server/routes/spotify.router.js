@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
         headers: headers,
     })
         .then(response => {
-            console.log("response.data is:", response.data);
+            // console.log("response.data is:", response.data);
             res.send(response.data);
         })
         .catch(error => {

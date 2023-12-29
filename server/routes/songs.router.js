@@ -50,6 +50,8 @@ router.put("/", async (req, res) => {
 });
 
 async function getSongs(client) {
+  // creates a pipeline that aggregates a 'moodFull' property to the returned songs.
+  // moodFull is an array of mood objects with _id, moodName, and color
   const pipeline = [
     {
       $lookup: 

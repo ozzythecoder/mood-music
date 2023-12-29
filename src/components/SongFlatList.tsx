@@ -28,7 +28,8 @@ const SongList = ({
     _id: string;
     artist: string;
     title: string;
-    moods: [{ _id: string; moodName: string; color: string }];
+    moods: [string];
+    moodFull: [{ _id: string; moodName: string; color: string }];
   };
 
   const handleClickSong = (song: SongType) => {
