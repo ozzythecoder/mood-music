@@ -26,8 +26,9 @@ export default function Playlists({ navigation }) {
                 <Text>Search Bar Here</Text><Text>Create Playlist Btn Here</Text>
             </View>
 
-            <View>
-                <Text>Your Playlists</Text><Text>Create Playlist Btn Here</Text>
+            <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Your Playlists</Text>
+                <Text style={styles.sectionSubTitle}>Select Playlist to Edit</Text>
             </View>
 
             <FlatList
@@ -40,7 +41,7 @@ export default function Playlists({ navigation }) {
                     </View>
                 </>
                 )}
-                ListEmptyComponent={<Text>No Playlists Created</Text>}
+                ListEmptyComponent={<Text>No Playlists Created Yet!</Text>}
 
             />
         </SafeAreaView>
@@ -67,6 +68,20 @@ const styles = StyleSheet.create({
     text: {
         color: "black",
         fontWeight: "bold",
+    },
+    sectionContainer: {
+        marginBottom: 10,
+        marginTop: 10,
+        paddingHorizontal: 10,
+    },
+    sectionTitle: {
+        color: "black",
+        fontWeight: "bold",
+        fontSize: 20,
+    },
+    sectionSubTitle: {
+        color: "black",
+        paddingHorizontal: 10,
     },
     subtext: {
         color: "black",
