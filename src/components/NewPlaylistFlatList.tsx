@@ -3,15 +3,12 @@ import { useSelector } from "react-redux";
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   FlatList,
 } from "react-native";
 import SongMoodList from "./SongMoodFlatList";
 
 const NewPlaylist = () => {
-
-  const clickedMood = useSelector((store: ClickedMoodType) => store.clickedMood);
   const newPlaylist = useSelector((store: NewPlaylistType) => store.newPlaylist);
 
   console.log('new playlist on screen', newPlaylist)

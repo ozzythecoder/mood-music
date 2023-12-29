@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import usePlaylist from "../hooks/use-playlist";
 import { StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
 
 const numColumns = 3;
@@ -9,6 +10,7 @@ const margin = 2;
 const MoodButtons = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
   const moodsDB = useSelector((store: MoodsArrayType) => store.moods);
+  const newPlaylist = usePlaylist();
 
   type MoodType = {
     _id: string;
@@ -20,20 +22,20 @@ const MoodButtons = ({ navigation }: { navigation: any }) => {
     moods: MoodType[];
   };
 
-  const handleClickMood = (mood: MoodType) => {
-    // sets the clicked mood in the store
-    dispatch({
-      type: "SET_CLICKED_MOOD",
-      payload: mood,
-    });
-    // sends the clicked mood to a saga to generate a playlist from the DB
-    dispatch({
-        type: "CREATE_NEW_PLAYLIST",
-        payload: mood,
-    })
+  const handleClickMood = async (mood: MoodType) => {
+    await dispatchClickedMood(mood);
+    await newPlaylist(mood);
     // navigates to the new playlist page in the playlist stack
     navigation.navigate("Playlists", {screen: "New Playlist"});
   };
+
+  const dispatchClickedMood = (mood: MoodType) => {
+    // sets the clicked mood in the store
+    dispatch({
+        type: "SET_CLICKED_MOOD",
+        payload: mood,
+      });
+    }
 
   return (
     <FlatList
