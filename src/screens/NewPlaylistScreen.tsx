@@ -1,21 +1,29 @@
 import React from "react";
-import { useFocusEffect } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { SafeAreaView, StyleSheet} from "react-native";
-import { useState } from "react";
 import NewPlaylist from "../components/NewPlaylistFlatList";
+import CreatePlaylistButton from "../components/CreatePlaylistButton";
+
+type ClickedMoodType = { 
+  clickedMood: {
+  _id: string; 
+  moodName: string; 
+  color: string
+  } 
+}
 
 export default function NewPlaylistScreen({ navigation }: {navigation: any}) {
-  const dispatch = useDispatch();
+  const clickedMood = useSelector((store: ClickedMoodType) => store.clickedMood);
 
   return (
     <SafeAreaView style={styles.safeArea}>
 {/* playback control buttons eventually? */}
 
 {/* flatlist with the playlist 
-    includes re-regenerate switch*/}
+    needs re-regenerate switch*/}
 <NewPlaylist />
 {/* re-generate button */}
+<CreatePlaylistButton clickedMood = {clickedMood} />
 {/* title your playlist field  */}
 {/* save button */}
 

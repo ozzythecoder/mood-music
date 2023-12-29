@@ -36,7 +36,7 @@ async function getNewPlaylist(client, moodName) {
         },
       },
     },
-    { $sample: { size: 2 } },
+    { $sample: { size: 10 } },
   ];
   const cursor = client
     .db("mood-music")
