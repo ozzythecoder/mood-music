@@ -3,6 +3,7 @@ import songSaga from './songSaga';
 import moodSaga from './moodSaga';
 import newPlaylistSaga from './playlistSaga';
 import playlistsSaga from './playlistsSaga';
+import spotifySaga from './spotifySaga';
 
 
 // rootSaga is the primary saga.
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     moodSaga(),
     newPlaylistSaga(),
     playlistsSaga(),
+    spotifySaga(),
   ]);
 }

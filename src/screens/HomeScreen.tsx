@@ -6,7 +6,7 @@ import SpotifySearch from "../components/Spotify/SpotifySearch";
 import SpotifyAccessToken from "../components/Spotify/SpotifyAccessToken";
 import MoodButtons from "../components/MoodButtons";
 
-const HomeScreen = ({ navigation }: {navigation: any}) => {
+const HomeScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,14 +17,10 @@ const HomeScreen = ({ navigation }: {navigation: any}) => {
     dispatch({ type: "GET_MOODS" });
   });
 
-    useEffect(() => {
-        dispatch({ type: "GET_ACCESS_TOKEN" })
-    }, []);
-
   return (
     <>
       <MoodButtons navigation={navigation} />
-            <SpotifyAccessToken />
+      <SpotifyAccessToken />
       <SpotifySearch />
     </>
   );
