@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { SafeAreaView, StyleSheet} from "react-native";
 import { useState } from "react";
 import SongList from "../components/SongFlatList";
-import SongSearch from "../components/SongSearchBar";
+import SongSearch from "../components/SongSearchField";
 
 export default function Songs({ navigation }: {navigation: any}) {
   const dispatch = useDispatch();
