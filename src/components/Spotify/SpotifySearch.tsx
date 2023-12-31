@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Text, StyleSheet, Image } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,102 +8,120 @@ import { useSelector, useDispatch } from 'react-redux';
 interface Artist {
   id: string;
   name: string;
+  images?: { height: number; url: string; width: number }[];
+  followers?: { href: null; total: number };
+  genres?: string[];
 }
 
-interface Song {
+interface Track {
   id: string;
   name: string;
   artists: { name: string }[];
-  album: { name: string };
+  album: {
+    name: string;
+    images: { url: string }[];
+  };
 }
 
 function SpotifySearch() {
 
   const [artistSearchInput, setArtistSearchInput] = useState<string>('');
-  const [songSearchInput, setSongSearchInput] = useState<string>('');
+  const [trackSearchInput, setTrackSearchInput] = useState<string>('');
   const [artistSearchResults, setArtistSearchResults] = useState<Artist[]>([]);
-  const [songSearchResults, setSongSearchResults] = useState<Song[]>([]);
-  const [tab, setTab] = useState<'artist' | 'song'>('artist');
+  const [trackSearchResults, setTrackSearchResults] = useState<Track[]>([]);
+  const [tab, setTab] = useState<'artist' | 'track'>('artist');
 
   // using useSelector to get the accessToken from the Redux store
-  const accessToken = useSelector((store: any) => store.spotify.accessToken);
+  const accessToken = useSelector((store: any) => store.spotify.accessToken.accessToken);
+  const accessTokenExpDate = useSelector((store: any) => store.spotify.accessToken.expirationDate);
   const dispatch = useDispatch();
 
-  const handleTabChange = (selectedTab: 'artist' | 'song') => {
+  const handleTabChange = (selectedTab: 'artist' | 'track') => {
     setTab(selectedTab);
+
+    // this clears the results of the other tab once clicked.  Can be removed if we want to keep those results up
+    if (selectedTab === 'artist') {
+      setTrackSearchResults([]);
+    } else {
+      setArtistSearchResults([]);
+    }
+
   };
 
-  // Search for songs based on artist name or song name
+  // Search for tracks based on artist name or track name
   const handleSearch = async () => {
+    console.log("inside handleSearch, searching for", artistSearchInput)
     if (tab === 'artist') {
       // perform artist search here
-      const handleArtistSearch = async () => {
-        console.log('Searching for artists:', artistSearchInput);
-    
-        const artistParameters = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + accessToken,
-          },
-        };
-    
-        try {
-          const response = await fetch(
-            `https://api.spotify.com/v1/search?q=${artistSearchInput}&type=artist&limit=10`,
-            artistParameters
-          );
-    
-          const data: { artists: { items: Artist[] } } = await response.json();
-          setArtistSearchResults(data.artists.items);
-        } catch (error) {
-          console.log('Error fetching artist search results:', error);
-        }
-    
-        setArtistSearchInput('');
+      console.log('Searching for artists:', artistSearchInput);
+
+      const artistParameters = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + accessToken,
+        },
       };
+
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/search?q=${artistSearchInput}&type=artist&limit=8`,
+          artistParameters
+        );
+
+        console.log('Full search response:', response);
+
+        const data: { artists: { items: Artist[] } } = await response.json();
+        console.log('Data:', data);
+
+        setArtistSearchResults(data.artists.items);
+      } catch (error) {
+        console.log('Error fetching artist search results:', error);
+      }
+
+      setArtistSearchInput('');
+
     } else {
-      // perform song search here
-      const handleSongSearch = async () => {
-        console.log('Searching for songs:', songSearchInput);
-    
-        const songParameters = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + accessToken,
-          },
-        };
-    
-        try {
-          const response = await fetch(
-            `https://api.spotify.com/v1/search?q=${songSearchInput}&type=track&limit=10`,
-            songParameters
-          );
-    
-          const data: { tracks?: { items?: Song[] } } = await response.json();
-          if (data.tracks && data.tracks.items) {
-            setSongSearchResults(data.tracks.items);
-          } else {
-            // Handle the case when items are missing
-            console.log('No song results found');
-          }
-    
-        } catch (error) {
-          console.log('Error fetching song search results:', error);
-        }
-    
-        setSongSearchInput('');
+      // perform track search here
+      console.log('Searching for tracks:', trackSearchInput);
+
+      const trackParameters = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + accessToken,
+        },
       };
+
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/search?q=${trackSearchInput}&type=track&limit=10`,
+          trackParameters
+        );
+
+        const data: { tracks?: { items?: Track[] } } = await response.json();
+        if (data.tracks && data.tracks.items) {
+          setTrackSearchResults(data.tracks.items);
+        } else {
+          // Handle the case when items are missing
+          console.log('No track results found');
+        }
+
+      } catch (error) {
+        console.log('Error fetching track search results:', error);
+      }
+
+      setTrackSearchInput('');
+
     }
   }
 
   return (
     <View style={styles.container}>
       {/* Tab Buttons */}
-     {/* Search Text and Tab Buttons */}
-     <View style={styles.searchTextContainer}>
-        <Text style={styles.searchText}>Search by </Text>
+      {/* Search Text and Tab Buttons */}
+      <View style={styles.searchTextContainer}>
+        <Text style={styles.searchText}>Search tracks by </Text>
         <TouchableOpacity
           style={[styles.tabButton, tab === 'artist' ? styles.activeTab : null]}
           onPress={() => handleTabChange('artist')}
@@ -112,10 +130,10 @@ function SpotifySearch() {
         </TouchableOpacity>
         <Text style={styles.searchText}> or </Text>
         <TouchableOpacity
-          style={[styles.tabButton, tab === 'song' ? styles.activeTab : null]}
-          onPress={() => handleTabChange('song')}
+          style={[styles.tabButton, tab === 'track' ? styles.activeTab : null]}
+          onPress={() => handleTabChange('track')}
         >
-          <Text style={styles.tabButtonText}>Song</Text>
+          <Text style={styles.tabButtonText}>Track</Text>
         </TouchableOpacity>
         <Text style={styles.searchText}> Name</Text>
       </View>
@@ -124,10 +142,10 @@ function SpotifySearch() {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
-          placeholder={`Search for ${tab === 'artist' ? 'artist' : 'song'}`}
+          placeholder={`Search for ${tab === 'artist' ? 'artist' : 'track'}`}
           placeholderTextColor="#777"
-          value={tab === 'artist' ? artistSearchInput : songSearchInput}
-          onChangeText={(text) => (tab === 'artist' ? setArtistSearchInput(text) : setSongSearchInput(text))}
+          value={tab === 'artist' ? artistSearchInput : trackSearchInput}
+          onChangeText={(text) => (tab === 'artist' ? setArtistSearchInput(text) : setTrackSearchInput(text))}
         />
         <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
           <Ionicons name="search" size={24} color="#fff" />
@@ -135,14 +153,27 @@ function SpotifySearch() {
       </View>
 
       {/* Search Results */}
+
+      {/* Artist Search Results */}
       {tab === 'artist' ? (
         artistSearchResults.length > 0 ? (
           <FlatList
             data={artistSearchResults}
             keyExtractor={(item) => item.id}
+            numColumns={2}
             renderItem={({ item }) => (
-              <View>
-                <Text>{item.name}</Text>
+              <View style={styles.artistResultItem}>
+                {item.images.length > 0 ? (
+                  <Image
+                    source={{ uri: item.images[0]?.url }}
+                    style={styles.artistImage}
+                  />
+                ) : (
+                  <View style={styles.placeholderImage} />
+                )}
+                <Text style={styles.artistName}>{item.name}</Text>
+                <Text style={styles.artistFollowers}>{item.followers.total} Followers</Text>
+                <Text style={styles.artistGenres}>{item.genres.join(', ')}</Text>
               </View>
             )}
           />
@@ -150,20 +181,30 @@ function SpotifySearch() {
           <Text style={styles.resultsText}>No artist results found</Text>
         )
       ) : (
-        songSearchResults.length > 0 ? (
+        trackSearchResults.length > 0 ? (
           <FlatList
-            data={songSearchResults.slice(0, 10)}
+            data={trackSearchResults.slice(0, 10)}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={styles.resultItem}>
-                <Text style={styles.songName}>{item.name}</Text>
-                <Text style={styles.artistName}>{item.artists.map(artist => artist.name).join(', ')}</Text>
-                <Text style={styles.albumName}>{item.album.name}</Text>
+              <View style={styles.trackResultItem}>
+                {item.album.images.length > 0 ? (
+                  <Image
+                    style={styles.albumThumbnail}
+                    source={{ uri: item.album.images[0].url }}
+                  />
+                ) : (
+                  <View style={styles.placeholderImage} />
+                )}
+                <View style={styles.trackInfo}>
+                  <Text style={styles.trackName}>{item.name}</Text>
+                  <Text style={styles.artistName}>{item.artists.map(artist => artist.name).join(', ')}</Text>
+                  <Text style={styles.albumName}>{item.album.name}</Text>
+                </View>
               </View>
             )}
           />
         ) : (
-          <Text style={styles.resultsText}>No song results found</Text>
+          <Text style={styles.resultsText}>No track results found</Text>
         )
       )}
     </View>
@@ -216,19 +257,57 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  resultItem: {
+  trackResultItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 16,
   },
-  songName: {
+  albumThumbnail: {
+    width: 70,
+    height: 70,
+    marginRight: 10,
+    borderRadius: 10,
+  },
+  trackInfo: {
+    flex: 1,
+  },
+  trackName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#111',
+    marginBottom: 4,
   },
   artistName: {
     fontSize: 16,
     color: '#555',
   },
   albumName: {
+    fontSize: 14,
+    color: '#777',
+  },
+  artistResultItem: {
+    flex: 1,
+    alignItems: 'center',
+    marginBottom: 16,
+    marginLeft: 8,
+    marginRight: 8,
+  },
+  artistImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 20,
+  },
+  placeholderImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 20,
+    backgroundColor: '#ddd',
+  },
+  artistFollowers: {
+    fontSize: 16,
+    color: '#555',
+  },
+  artistGenres: {
     fontSize: 14,
     color: '#777',
   },
