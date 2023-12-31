@@ -1,4 +1,7 @@
 import React from "react";
+import { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 import {
     SafeAreaView,
     StyleSheet,
@@ -20,6 +23,15 @@ const dummyPlaylistData = [
 ];
 
 export default function Playlists({ navigation }) {
+
+    const dispatch = useDispatch();
+
+    useFocusEffect(() => {
+        dispatch({ type: "GET_DB_PLAYLISTS" });
+    });
+
+    const [playlists, setPlaylists] = useState("");
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <View>
