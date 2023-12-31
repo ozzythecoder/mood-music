@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 
 function* getAccessToken() {
     try {
+        console.log('in access token saga')
         const response: AxiosResponse = yield call(axios.post, 'http://localhost:3000/api/spotify');
         const accessToken = response.data.access_token;
         console.log('access token is:', accessToken);
