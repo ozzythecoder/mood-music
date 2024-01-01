@@ -17,20 +17,6 @@ const NewPlaylist = () => {
     newPlaylist: SongType[];
   };
 
-  type MoodType = {
-    _id: string; 
-    moodName: string; 
-    color: string
-    };
-
-  type ClickedMoodType = { 
-    clickedMood: {
-    _id: string; 
-    moodName: string; 
-    color: string
-    } 
-  }
-
   type SongType = {
     _id: string;
     artist: string;
