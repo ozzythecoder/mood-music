@@ -30,8 +30,26 @@ function* CreatePlaylist(action: CreatePlaylistAction) {
   }
 }
 
+// saves newPlaylist to the db
+function* SavePlaylist(action: CreatePlaylistAction) {
+  console.log('in playlist saga', action.payload)
+try {
+  yield call(axios.post, 'http://localhost:3000/api/playlist', action.payload);
+
+  // yield put({
+  //   type: "GET_PLAYLISTS",
+  //   payload: response.data,
+  // });
+} catch (error) {
+  console.log("Error with save playlist saga:", error);
+}
+}
+
+
+
 function* newPlaylistSaga() {
   yield takeLatest("CREATE_NEW_PLAYLIST", CreatePlaylist);
+  yield takeLatest("SAVE_PLAYLIST", SavePlaylist);
 }
 
 export default newPlaylistSaga;
