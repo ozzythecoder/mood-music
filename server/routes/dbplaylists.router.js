@@ -5,7 +5,6 @@ const router = express.Router();
 
 
 router.get("/", async (req, res) => {
-  console.log("in song get router");
 
   try {
 
@@ -16,7 +15,7 @@ router.get("/", async (req, res) => {
     console.log("result:", result);
     res.send(result);
   } catch (error) {
-    console.log(`Error:`, error);
+    console.log(`error:`, error);
     res.sendStatus(500);
   }
 
