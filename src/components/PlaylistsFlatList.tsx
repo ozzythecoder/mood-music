@@ -45,25 +45,9 @@ const PlaylistsList = ({ navigation }: { navigation: any; }) => {
     };
 
     const renderPlaylist = ({ item }: { item: PlaylistType }) => {
-        if (librarySearch === "") {
-            return <Song song={item} />;
-        }
-        if (
-            item.title
-                .toUpperCase()
-                .includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
-        ) {
-            return <Song song={item} />;
-        }
-        if (
-            item.artist
-                .toUpperCase()
-                .includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
-        ) {
-            return <Song song={item} />;
-        }
 
-        return null
+        return <Playlist playlist={item} />;
+
     };
 
     return (
