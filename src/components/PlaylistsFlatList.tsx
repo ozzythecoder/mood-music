@@ -7,7 +7,8 @@ import {
     View,
     FlatList,
 } from "react-native";
-import SongMoodList from "./SongMoodFlatList";
+
+
 
 const PlaylistsList = ({ navigation }: { navigation: any; }) => {
     const dispatch = useDispatch();
