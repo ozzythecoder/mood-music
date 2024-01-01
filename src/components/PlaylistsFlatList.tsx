@@ -9,45 +9,42 @@ import {
 } from "react-native";
 import SongMoodList from "./SongMoodFlatList";
 
-const SongList = ({ navigation }: { navigation: any; }) => {
+const PlaylistsList = ({ navigation }: { navigation: any; }) => {
     const dispatch = useDispatch();
 
     const dbPlaylists = useSelector((store: PlaylistsArrayType) => store.playlists);
 
     type PlaylistsArrayType = {
-        playlists: PlaylistsType[];
+        playlists: PlaylistType[];
     };
 
-    type PlaylistsType = {
+    type PlaylistType = {
         _id: string;
         title: string;
         songs: [string];
     };
 
-    const handleClickPlaylists = (playlists: PlaylistsType) => {
+    const handleClickPlaylist = (playlist: PlaylistType) => {
         dispatch({
-            type: "SET_CLICKED_PLAYLISTS",
-            payload: playlists,
+            type: "SET_CLICKED_PLAYLIST",
+            payload: playlist,
         });
-        navigation.navigate("PlaylistsMoodModal");
+        navigation.navigate("T O   B E   D E T E R M I N E D");
     };
 
-    const Playlists = ({ playlists }: { playlists: PlaylistsType }) => {
+    const Playlist = ({ playlist }: { playlist: PlaylistType }) => {
         return (
-            <TouchableOpacity onPress={() => handleClickSong(song)}>
-                <View style={styles.song}>
+            <TouchableOpacity onPress={() => handleClickPlaylist(playlist)}>
+                <View style={styles.playlist}>
                     <View>
-                        <Text style={styles.text}>{song.title}</Text>
-                        <Text style={styles.subtext}>{song.artist}</Text>
+                        <Text style={styles.text}>{playlist.title}</Text>
                     </View>
-                    <SongMoodList song={song} />
-                    <Text>Add Moods</Text>
                 </View>
             </TouchableOpacity>
         );
     };
 
-    const renderSong = ({ item }: { item: SongType }) => {
+    const renderPlaylist = ({ item }: { item: PlaylistType }) => {
         if (librarySearch === "") {
             return <Song song={item} />;
         }
@@ -65,9 +62,7 @@ const SongList = ({ navigation }: { navigation: any; }) => {
         ) {
             return <Song song={item} />;
         }
-        //   if (item.moods && item.moods.some(mood => mood.moodName.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, "")))) {
-        //   return <Song song={item} />
-        // }
+
         return null
     };
 
@@ -75,16 +70,15 @@ const SongList = ({ navigation }: { navigation: any; }) => {
         <View style={styles.container}>
             <FlatList
                 style={styles.list}
-                data={songsDB}
+                data={dbPlaylists}
                 keyExtractor={(item) => item._id}
-                renderItem={(data) => renderSong(data)}
-                ListEmptyComponent={<Text>No Current Songs</Text>}
+                renderItem={(data) => renderPlaylist(data)}
+                ListEmptyComponent={<Text>No Playlists Saved</Text>}
             />
         </View>
     );
 };
 
-export default SongList;
 
 const styles = StyleSheet.create({
     container: {
@@ -100,10 +94,14 @@ const styles = StyleSheet.create({
     subtext: {
         color: "black",
     },
-    song: {
+    playlist: {
         marginBottom: 5,
         justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "row",
     },
 });
+
+
+
+export default PlaylistsList;
