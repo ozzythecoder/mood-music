@@ -1,51 +1,49 @@
 const express = require("express");
-const router = express.Router();
 const client = require("./pool");
-// const {rejectUnauthenticated} = require('../modules/authentication-middleware');
+const router = express.Router();
+
+
 
 router.get("/", async (req, res) => {
-  const moodName = req.query.moodName;
-  console.log("moodName in get:", moodName);
+  console.log("in song get router");
 
   try {
-    // Connect to the MongoDB cluster
+
     await client.connect();
 
-    // Make the appropriate DB calls
-    // GET full list of songs from DB
-    const result = await getNewPlaylist(client, moodName);
-    console.log("playlist:", result);
+    // get all playlists
+    const result = await getPlaylists(client);
+    console.log("result:", result);
     res.send(result);
   } catch (error) {
-    console.log(`Transaction Error - Rolling back new account`, error);
+    console.log(`Error:`, error);
     res.sendStatus(500);
-  } finally {
-    // Close the connection to the MongoDB cluster
-    client.close();
   }
+
 });
 
-async function getNewPlaylist(client, moodName) {
+
+async function getPlaylists(client) {
+
+  // pipeline aggregates a property to the recieved playlists data
   const pipeline = [
     {
-      $match: {
-        moods: {
-          $elemMatch: {
-            moodName: moodName,
-          },
-        },
-      },
-    },
-    { $sample: { size: 10 } },
+      $lookup:
+      {
+        from: "playlists",
+        localField: "playlists.songs",
+        foreignField: "title",
+        as: "playlistsContents",
+      }
+    }
   ];
-  const cursor = client
-    .db("mood-music")
-    .collection("songs")
-    .aggregate(pipeline);
+
+  const cursor = client.db("mood-music").collection("playlists").aggregate(pipeline);
 
   const results = await cursor.toArray();
 
   return results;
 }
+
 
 module.exports = router;
