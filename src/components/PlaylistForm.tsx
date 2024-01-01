@@ -1,16 +1,18 @@
 import React, { Dispatch, SetStateAction  } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
-
 
 type PlaylistTitleType = {
     playlistTitle: string;
   setPlaylistTitle: Dispatch<SetStateAction<string>>;
+  playlistDescription: string;
+  setPlaylistDescription: Dispatch<SetStateAction<string>>;
 }
 
-const PlaylistTitle = ({
+const PlaylistForm = ({
     playlistTitle,
     setPlaylistTitle,
+    playlistDescription,
+    setPlaylistDescription,
 }: PlaylistTitleType) => {
 
   return (
@@ -19,17 +21,27 @@ const PlaylistTitle = ({
       {/* Title input field */}
       <TextInput
         style={styles.inputText}
-        placeholder="Title Your New Playlist"
+        placeholder="Title your new playlist"
         value={playlistTitle}
         clearButtonMode="always"
         onChangeText={(text) => setPlaylistTitle(text)}
+      />
+      </View>
+      <View style={styles.input}>
+      {/* Description input field */}
+      <TextInput
+        style={styles.inputText}
+        placeholder="Add a description for your playlist"
+        value={playlistDescription}
+        clearButtonMode="always"
+        onChangeText={(text) => setPlaylistDescription(text)}
       />
       </View>
     </View>
   );
 };
 
-export default PlaylistTitle;
+export default PlaylistForm;
 
 // styles
 const styles = StyleSheet.create({
@@ -39,6 +51,7 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 10,
+    marginTop: 10,
     width: "95%",
     alignItems: "center",
     justifyContent: "space-between",
