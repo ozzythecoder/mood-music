@@ -30,6 +30,7 @@ router.post("/", async (req, res) => {
 
   const newPlaylist = {
     title: req.body.playlistTitle,
+    description: req.body.playlistDescription,
     songs: req.body.newPlaylist.map(item => item.title),
   };
 
@@ -80,7 +81,8 @@ async function upsertPlaylist(client, newPlaylist) {
       { title: newPlaylist.title },
       {
         $set: {
-          moods: newPlaylist.songs,
+          description: newPlaylist.description,
+          songs: newPlaylist.songs,
         },
       },
       { upsert: true }

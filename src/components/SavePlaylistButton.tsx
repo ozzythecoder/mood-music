@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useSelector} from "react-redux";
-import { StyleSheet, Text, TouchableOpacity} from "react-native";
+import { useSelector } from "react-redux";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 type MoodType = {
   _id: string;
@@ -9,44 +9,55 @@ type MoodType = {
   color: string;
 };
 
-const SavePlaylistButton = ({playlistTitle,  navigation} : {playlistTitle: string, navigation: any}) => {
-    const newPlaylist = useSelector((store: NewPlaylistType) => store.newPlaylist);
-    const dispatch = useDispatch();
+const SavePlaylistButton = ({
+  playlistTitle,
+  playlistDescription,
+  navigation,
+}: {
+  playlistTitle: string;
+  playlistDescription: string;
+  navigation: any;
+}) => {
+  const newPlaylist = useSelector(
+    (store: NewPlaylistType) => store.newPlaylist
+  );
+  const dispatch = useDispatch();
 
-    type NewPlaylistType = {
-        newPlaylist: SongType[];
-      };
-    
-      type SongType = {
-        _id: string;
-        artist: string;
-        title: string;
-        moods: [string];
-        moodFull: [{ _id: string; moodName: string; color: string }];
-      };
+  type NewPlaylistType = {
+    newPlaylist: SongType[];
+  };
 
-      const handleSavePlaylist = (
-        playlistTitle: string,
-        newPlaylist: SongType[]
-      ) => {
-        const playlist = { playlistTitle, newPlaylist };
-        dispatch({
-          type: "SAVE_PLAYLIST",
-          payload: playlist,
-        });
-        navigation.navigate("Saved Playlists");
-      }
+  type SongType = {
+    _id: string;
+    artist: string;
+    title: string;
+    moods: [string];
+    moodFull: [{ _id: string; moodName: string; color: string }];
+  };
+
+  const handleSavePlaylist = (
+    playlistTitle: string,
+    playlistDescription: string,
+    newPlaylist: SongType[]
+  ) => {
+    const playlist = { playlistTitle, playlistDescription, newPlaylist };
+    dispatch({
+      type: "SAVE_PLAYLIST",
+      payload: playlist,
+    });
+    navigation.navigate("Saved Playlists");
+  };
 
   return (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleSavePlaylist(playlistTitle, newPlaylist)}
-          >
-            <Text style={[styles.buttonText]}>
-              Save Playlist
-            </Text>
-          </TouchableOpacity>
-        );
+    <TouchableOpacity
+      style={styles.button}
+      onPress={() =>
+        handleSavePlaylist(playlistTitle, playlistDescription, newPlaylist)
+      }
+    >
+      <Text style={[styles.buttonText]}>Save Playlist</Text>
+    </TouchableOpacity>
+  );
 };
 
 export default SavePlaylistButton;

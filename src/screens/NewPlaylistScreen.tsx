@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { SafeAreaView, StyleSheet } from "react-native";
 import NewPlaylist from "../components/NewPlaylistFlatList";
 import CreatePlaylistButton from "../components/CreatePlaylistButton";
-import PlaylistTitle from "../components/PlaylistTitleField";
+import PlaylistForm from "../components/PlaylistForm";
 import SavePlaylistButton from "../components/SavePlaylistButton";
 
 type ClickedMoodType = {
@@ -19,6 +19,7 @@ export default function NewPlaylistScreen({ navigation }: { navigation: any }) {
     (store: ClickedMoodType) => store.clickedMood
   );
   const [playlistTitle, setPlaylistTitle] = useState("");
+  const [playlistDescription, setPlaylistDescription] = useState("");
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -30,12 +31,18 @@ export default function NewPlaylistScreen({ navigation }: { navigation: any }) {
       {/* re-generate button */}
       <CreatePlaylistButton clickedMood={clickedMood} />
       {/* title your playlist field  */}
-      <PlaylistTitle
+      <PlaylistForm
         playlistTitle={playlistTitle}
         setPlaylistTitle={setPlaylistTitle}
+        playlistDescription={playlistDescription}
+        setPlaylistDescription={setPlaylistDescription}
       />
       {/* save button */}
-      <SavePlaylistButton playlistTitle={playlistTitle} navigation={navigation} />
+      <SavePlaylistButton
+        playlistTitle={playlistTitle}
+        playlistDescription={playlistDescription}
+        navigation={navigation}
+      />
     </SafeAreaView>
   );
 }
