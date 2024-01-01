@@ -10,17 +10,8 @@ import {
     FlatList,
     TouchableOpacity,
 } from "react-native";
-import Playlist from "../components/Playlist";
+import PlaylistsList from "../components/PlaylistsFlatList";
 
-
-
-// Note: for real data title should be determined by mood name
-const dummyPlaylistData = [
-    { title: "Happy Playlist", blurb: "For the bad days" },
-    { title: "Nostalgic Playlist", blurb: "For reminiscing" },
-    { title: "Energetic Playlist", blurb: "For getting up that hill" },
-    { title: "Angry Playlist", blurb: "For when jobs don't call back" },
-];
 
 export default function Playlists({ navigation }: { navigation: any }) {
 
@@ -30,7 +21,6 @@ export default function Playlists({ navigation }: { navigation: any }) {
         dispatch({ type: "GET_DB_PLAYLISTS" });
     });
 
-    const [playlists, setPlaylists] = useState("");
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -43,19 +33,8 @@ export default function Playlists({ navigation }: { navigation: any }) {
                 <Text style={styles.sectionSubTitle}>Select Playlist to Edit</Text>
             </View>
 
-            <FlatList
-                data={dummyPlaylistData}
-                keyExtractor={(item) => item.title}
-                renderItem={(data) => (<>
-                    <Playlist playlist={data.item} title={data.item.title} blurb={data.item.blurb} navigation={navigation} />
-                    <View style={styles.container}>
-                        <View style={styles.seperator} />
-                    </View>
-                </>
-                )}
-                ListEmptyComponent={<Text>No Playlists Created Yet!</Text>}
+            <PlaylistsList navigation={navigation} />
 
-            />
         </SafeAreaView>
     );
 }
