@@ -35,7 +35,7 @@ export default function NewPlaylistScreen({ navigation }: { navigation: any }) {
         setPlaylistTitle={setPlaylistTitle}
       />
       {/* save button */}
-      <SavePlaylistButton playlistTitle={playlistTitle} />
+      <SavePlaylistButton playlistTitle={playlistTitle} navigation={navigation} />
     </SafeAreaView>
   );
 }

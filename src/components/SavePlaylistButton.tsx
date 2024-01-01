@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useSelector} from "react-redux/es/hooks/useSelector";
+import { useSelector} from "react-redux";
 import { StyleSheet, Text, TouchableOpacity} from "react-native";
 
 type MoodType = {
@@ -34,7 +34,7 @@ const SavePlaylistButton = ({playlistTitle,  navigation} : {playlistTitle: strin
           type: "SAVE_PLAYLIST",
           payload: playlist,
         });
-        navigation.navigate("Songs");
+        navigation.navigate("Saved Playlists");
       }
 
   return (
@@ -43,7 +43,7 @@ const SavePlaylistButton = ({playlistTitle,  navigation} : {playlistTitle: strin
             onPress={() => handleSavePlaylist(playlistTitle, newPlaylist)}
           >
             <Text style={[styles.buttonText]}>
-              Regenerate Playlist
+              Save Playlist
             </Text>
           </TouchableOpacity>
         );
