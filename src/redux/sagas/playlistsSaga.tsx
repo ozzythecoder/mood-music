@@ -5,7 +5,7 @@ import axios, { AxiosResponse } from 'axios';
 //    fetches playlists from mongodb then calls set_playlists to update store
 function* getDBPlaylists() {
     try {
-        const response: AxiosResponse = yield call(axios.get, 'http://localhost:3000/api/playlists');
+        const response: AxiosResponse = yield call(axios.get, 'http://localhost:3000/api/dbplaylists');
 
         yield put({
             type: 'SET_PLAYLISTS',
