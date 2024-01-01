@@ -17,7 +17,7 @@ const songsRouter = require('./routes/songs.router');
 const moodsRouter = require('./routes/moods.router');
 const playlistRouter = require('./routes/playlist.router')
 const spotifyRouter = require('./routes/spotify.router');
-
+const dbPlaylistsRouter = require('./routes/dbplaylists.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -35,6 +35,7 @@ app.use('/api/songs', songsRouter);
 app.use('/api/moods', moodsRouter);
 app.use('/api/playlist', playlistRouter);
 app.use('/api/spotify', spotifyRouter)
+app.use('/api/dbplaylists', dbPlaylistsRouter)
 
 // Serve static files
 app.use(express.static('build'));

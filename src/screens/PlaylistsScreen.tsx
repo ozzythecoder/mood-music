@@ -22,7 +22,7 @@ const dummyPlaylistData = [
     { title: "Angry Playlist", blurb: "For when jobs don't call back" },
 ];
 
-export default function Playlists({ navigation }) {
+export default function Playlists({ navigation }: { navigation: any }) {
 
     const dispatch = useDispatch();
 
