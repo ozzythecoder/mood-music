@@ -139,9 +139,11 @@ const styles = StyleSheet.create({
   },
   songInfo: {
     flexDirection: "row",
+    maxWidth: "60%",
   },
   moodView: {
     paddingTop: 5,
+    maxWidth: "30%",
   },
   albumThumbnail: {
     width: 50,

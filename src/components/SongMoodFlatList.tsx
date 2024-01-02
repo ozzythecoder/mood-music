@@ -5,9 +5,9 @@ import { SongType } from "./SongFlatList";
 
 const SongMoodList = ({ song }: { song: SongType }) => {
   return (
+    <View style={styles.moods}>
       <FlatList
         horizontal={true}
-        style={{marginLeft: 15}}
         data={song.moodFull}
         keyExtractor={(item) => item.moodName}
         renderItem={(data) => (
@@ -16,16 +16,20 @@ const SongMoodList = ({ song }: { song: SongType }) => {
           />
         )}
       />
+      </View>
   );
 };
 
 export default SongMoodList;
 
 const styles = StyleSheet.create({
+  moods: {
+marginBottom: 2,
+  },
   moodBox: {
-    height: 17,
-    width: 17,
-    margin: 2,
+    height: 10,
+    width: 10,
+    margin: 1,
     borderRadius: 5,
   },
 });
