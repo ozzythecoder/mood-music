@@ -10,16 +10,11 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 
 
-
-
-
 type PlaylistProps = {
   blurb: string;
   title: string;
   navigation: PlaylistsScreenNavigationProp;
 };
-
-
 
 const Playlist = (props: PlaylistProps) => {
 

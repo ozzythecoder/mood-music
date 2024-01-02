@@ -25,8 +25,18 @@ function* getAccessToken() {
     }
 };
 
+function* getArtistInfo(action: any) {
+    try {
+        const artistId = action.payload;
+        console.log("in getArtistInfo with artistId:", artistId);
+    } catch (error) {
+        console.log('error in getArtistInfo saga:', error);
+    }
+}
+
 function* spotifySaga() {
-    yield takeLatest('FETCH_SPOTIFY_ACCESS_TOKEN', getAccessToken)
+    yield takeLatest('FETCH_SPOTIFY_ACCESS_TOKEN', getAccessToken);
+    yield takeLatest('SET_CLICKED_ARTIST_ID', getArtistInfo)
 }
 
 export default spotifySaga;
