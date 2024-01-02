@@ -55,7 +55,7 @@ async function getNewPlaylist(client, moodName) {
       $match: {
         moods: {
           $elemMatch: {
-            moodName: moodName,
+            $eq: moodName,
           },
         },
       },
