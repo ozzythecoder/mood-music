@@ -3,6 +3,21 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, Text, FlatList, Switch, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { SongType } from "../components/SongFlatList";
+
+type StoreType = {
+  clickedSong: SongType;
+};
+
+type MoodType = { 
+  _id: string; 
+  moodName: string; 
+  color: string 
+}
+
+type MoodsArrayType = {
+  moods: MoodType[];
+};
 
 const SongMoodModal = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
@@ -20,35 +35,10 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
 
   // sets the mood switches to the current song
   useEffect(() => {
-    if (clickedSong.moods) {
-      setSelectedMoods(clickedSong.moods);
+    if (clickedSong.moodFull) {
+      setSelectedMoods(clickedSong.moodFull);
     }
   }, []);
-
-  type StoreType = {
-    clickedSong: SongType;
-  };
-
-  type MoodType = { 
-    _id: string; 
-    moodName: string; 
-    color: string 
-  }
-
-  type MoodsArrayType = {
-    moods: MoodType[];
-  };
-
-  type SongType = {
-    _id: string;
-    title: string;
-    artist: string;
-    moods: {
-      _id: string;
-      moodName: string;
-      color: string;
-    }[];
-  };
 
   const handleSaveMoods = (
     song: SongType,

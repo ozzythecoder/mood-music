@@ -6,8 +6,23 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  Image,
 } from "react-native";
 import SongMoodList from "./SongMoodFlatList";
+
+type SongArrayType = {
+  songs: SongType[];
+};
+
+export type SongType = {
+  _id: string;
+  title: string;
+  artists: string;
+  album: string;
+  image: string;
+  moods: string[];
+  moodFull: { _id: string; moodName: string; color: string }[];
+};
 
 const SongList = ({
   navigation,
@@ -20,18 +35,6 @@ const SongList = ({
 
   const songsDB = useSelector((store: SongArrayType) => store.songs);
 
-  type SongArrayType = {
-    songs: SongType[];
-  };
-
-  type SongType = {
-    _id: string;
-    artist: string;
-    title: string;
-    moods: [string];
-    moodFull: [{ _id: string; moodName: string; color: string }];
-  };
-
   const handleClickSong = (song: SongType) => {
     dispatch({
       type: "SET_CLICKED_SONG",
@@ -43,13 +46,27 @@ const SongList = ({
   const Song = ({ song }: { song: SongType }) => {
     return (
       <TouchableOpacity onPress={() => handleClickSong(song)}>
-        <View style={styles.song}>
-          <View>
-            <Text style={styles.text}>{song.title}</Text>
-            <Text style={styles.subtext}>{song.artist}</Text>
+        <View style={styles.entry}>
+          <View style={styles.songInfo}>
+            {song.image.length > 0 ? (
+              <Image
+                style={styles.albumThumbnail}
+                source={{ uri: song.image }}
+              />
+            ) : (
+              <View style={styles.placeholderImage} />
+            )}
+            <View>
+              <Text style={styles.trackName}>{song.title}</Text>
+              <Text style={styles.artistName}>{song.artists}</Text>
+              <Text style={styles.albumName}>{song.album}</Text>
+            </View>
           </View>
-          <SongMoodList song={song} />
-          <Text>Add Moods</Text>
+
+          <View style={styles.moodView}>
+            <SongMoodList song={song} />
+            <Text>Add Moods</Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -67,16 +84,22 @@ const SongList = ({
       return <Song song={item} />;
     }
     if (
-      item.artist
+      item.artists
         .toUpperCase()
         .includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
     ) {
       return <Song song={item} />;
     }
-    //   if (item.moods && item.moods.some(mood => mood.moodName.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, "")))) {
-    //   return <Song song={item} />
-    // }
-    return null
+      if (
+        item.moods && 
+        item.moods.some(mood => 
+          mood.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
+        )
+        ) 
+      {
+      return <Song song={item} />
+    }
+    return null;
   };
 
   return (
@@ -108,10 +131,45 @@ const styles = StyleSheet.create({
   subtext: {
     color: "black",
   },
-  song: {
-    marginBottom: 5,
+  entry: {
+    marginBottom: 10,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+  },
+  songInfo: {
+    flexDirection: "row",
+  },
+  moodView: {
+    paddingTop: 5,
+  },
+  albumThumbnail: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+    borderRadius: 10,
+  },
+  trackInfo: {
+    flex: 1,
+  },
+  trackName: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#111",
+    marginBottom: 4,
+  },
+  artistName: {
+    fontSize: 12,
+    color: "#555",
+  },
+  albumName: {
+    fontSize: 10,
+    color: "#777",
+  },
+  placeholderImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 20,
+    backgroundColor: "#ddd",
   },
 });
