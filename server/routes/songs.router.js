@@ -30,7 +30,7 @@ router.put("/", async (req, res) => {
   // const userCurrent = req.user.clicked_song;
 
   const newSong = {
-    moods: req.body.moods,
+    moods: req.body.moods.map(mood => mood.moodName),
     artists: req.body.song.artists.map(artist => artist.name).join(', '),
     title: req.body.song.name,
     album: req.body.song.album.name,
@@ -60,7 +60,7 @@ async function getSongs(client) {
       $lookup: 
       {
         from: "moods",
-        localField: "moods.moodName",
+        localField: "moods",
         foreignField: "moodName",
         as: "moodFull",
       }
