@@ -5,8 +5,9 @@ import {
   Text,
   View,
   FlatList,
+  Image,
 } from "react-native";
-import SongMoodList from "./SongMoodFlatList";
+import { SongType } from "./SongFlatList";
 
 const NewPlaylist = () => {
   const newPlaylist = useSelector((store: NewPlaylistType) => store.newPlaylist);
@@ -17,24 +18,26 @@ const NewPlaylist = () => {
     newPlaylist: SongType[];
   };
 
-  type SongType = {
-    _id: string;
-    artist: string;
-    title: string;
-    moods: [string];
-    moodFull: [{ _id: string; moodName: string; color: string }];
-  };
-
   const Song = ({ song }: { song: SongType }) => {
     console.log('song in playlist: ', song)
     return (
-        <View style={styles.song}>
-          <View>
-            <Text style={styles.text}>{song.title}</Text>
-            <Text style={styles.subtext}>{song.artist}</Text>
-          </View>
-          <SongMoodList song={song} />
+      <View style={styles.entry}>
+      <View style={styles.songInfo}>
+        {song.image.length > 0 ? (
+          <Image
+            style={styles.albumThumbnail}
+            source={{ uri: song.image }}
+          />
+        ) : (
+          <View style={styles.placeholderImage} />
+        )}
+        <View>
+          <Text style={styles.trackName}>{song.title}</Text>
+          <Text style={styles.artistName}>{song.artists}</Text>
+          <Text style={styles.albumName}>{song.album}</Text>
         </View>
+      </View>
+      </View >
     );
   };
 
@@ -60,17 +63,47 @@ const styles = StyleSheet.create({
   list: {
     width: "90%",
   },
-  text: {
-    color: "black",
-    fontWeight: "bold",
-  },
-  subtext: {
-    color: "black",
-  },
-  song: {
-    marginBottom: 5,
+  entry: {
+    marginBottom: 10,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+  },
+  songInfo: {
+    flexDirection: "row",
+    maxWidth: "60%",
+  },
+  moodView: {
+    paddingTop: 5,
+    maxWidth: "30%",
+  },
+  albumThumbnail: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+    borderRadius: 10,
+  },
+  trackInfo: {
+    flex: 1,
+  },
+  trackName: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#111",
+    marginBottom: 4,
+  },
+  artistName: {
+    fontSize: 12,
+    color: "#555",
+  },
+  albumName: {
+    fontSize: 10,
+    color: "#777",
+  },
+  placeholderImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 20,
+    backgroundColor: "#ddd",
   },
 });
