@@ -126,6 +126,27 @@ function SpotifySearch({ navigation }: { navigation: any }) {
     }
   }
 
+  // when artist search result is clicked, dispatches clicked artist ID
+  const handleArtistClick = (artistId: string) => {
+    console.log("artistId is:", artistId)
+    dispatch({
+      type: "SET_CLICKED_ARTIST_ID",
+      payload: artistId,
+    });
+    // navigates to a screen where you display the artist's songs (still have yet to build 👋👋👋👋👋👋👋👋)
+    // navigation.navigate("ArtistSongsScreen");
+  };
+
+  const formatFollowers = (followers: number): string => {
+    if (followers >= 1000000) {
+      return (followers / 1000000).toFixed(1) + 'M Followers';
+    } else if (followers >= 1000) {
+      return (followers / 1000).toFixed(1) + 'K Followers';
+    } else {
+      return followers + ' Followers';
+    }
+  };
+
   const handleClickSong = (track: Track) => {
     dispatch({
       type: "SET_CLICKED_SONG",
@@ -180,51 +201,55 @@ function SpotifySearch({ navigation }: { navigation: any }) {
             keyExtractor={(item) => item.id}
             numColumns={2}
             renderItem={({ item }) => (
-              <View style={styles.artistResultItem}>
-                {item.images.length > 0 ? (
-                  <Image
-                    source={{ uri: item.images[0]?.url }}
-                    style={styles.artistImage}
-                  />
-                ) : (
-                  <View style={styles.placeholderImage} />
-                )}
-                <Text style={styles.artistName}>{item.name}</Text>
-                <Text style={styles.artistFollowers}>{item.followers.total} Followers</Text>
-                <Text style={styles.artistGenres}>{item.genres.join(', ')}</Text>
-              </View>
+              <TouchableOpacity onPress={() => handleArtistClick(item.id)}>
+                <View style={styles.artistResultItem}>
+                  {item.images.length > 0 ? (
+                    <Image
+                      source={{ uri: item.images[0]?.url }}
+                      style={styles.artistImage}
+                    />
+                  ) : (
+                    <View style={styles.placeholderImage} />
+                  )}
+                  <Text style={styles.artistNameSearch}>{item.name}</Text>
+                  <Text style={styles.artistFollowers}>{formatFollowers(item.followers.total)}</Text>
+                  <Text style={styles.artistGenres}>{item.genres.slice(0, 3).join(', ')}</Text>
+                </View>
+              </TouchableOpacity>
             )}
           />
         ) : (
           <Text style={styles.resultsText}>No artist results found</Text>
         )
       ) : (
+
+        // (if tab isn't 'artist' show Track Search Results)
+
         trackSearchResults.length > 0 ? (
-          
-          <FlatList
+          < FlatList
             data={trackSearchResults.slice(0, 10)}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => handleClickSong(item)}>
-              <View style={styles.trackResultItem}>
-                {item.album.images.length > 0 ? (
-                  <Image
-                    style={styles.albumThumbnail}
-                    source={{ uri: item.album.images[0].url }}
-                  />
-                ) : (
-                  <View style={styles.placeholderImage} />
-                )}
-                <View style={styles.trackInfo}>
-                  <Text style={styles.trackName}>{item.name}</Text>
-                  <Text style={styles.artistName}>{item.artists.map(artist => artist.name).join(', ')}</Text>
-                  <Text style={styles.albumName}>{item.album.name}</Text>
+                <View style={styles.trackResultItem}>
+                  {item.album.images.length > 0 ? (
+                    <Image
+                      style={styles.albumThumbnail}
+                      source={{ uri: item.album.images[0].url }}
+                    />
+                  ) : (
+                    <View style={styles.placeholderImage} />
+                  )}
+                  <View style={styles.trackInfo}>
+                    <Text style={styles.trackName}>{item.name}</Text>
+                    <Text style={styles.artistName}>{item.artists.map(artist => artist.name).join(', ')}</Text>
+                    <Text style={styles.albumName}>{item.album.name}</Text>
+                  </View>
                 </View>
-              </View>
               </TouchableOpacity>
             )}
           />
-          
+
         ) : (
           <Text style={styles.resultsText}>No track results found</Text>
         )
@@ -279,6 +304,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // artist search results styling
+  artistResultItem: {
+    width: 150,
+    height: 200,
+    margin: 8,
+  },
+  artistImage: {
+    width: "100%",
+    height: 100,
+    borderRadius: 20,
+  },
+  placeholderImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 20,
+    backgroundColor: '#ddd',
+  },
+    artistNameSearch: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  artistFollowers: {
+    fontSize: 16,
+    color: '#555',
+  },
+  artistGenres: {
+    fontSize: 14,
+    color: '#777',
+  },
+  resultsText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 16,
+    color: '#333',
+  },
+  // track search results styling
   trackResultItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -306,38 +369,6 @@ const styles = StyleSheet.create({
   albumName: {
     fontSize: 14,
     color: '#777',
-  },
-  artistResultItem: {
-    flex: 1,
-    alignItems: 'center',
-    marginBottom: 16,
-    marginLeft: 8,
-    marginRight: 8,
-  },
-  artistImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 20,
-  },
-  placeholderImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 20,
-    backgroundColor: '#ddd',
-  },
-  artistFollowers: {
-    fontSize: 16,
-    color: '#555',
-  },
-  artistGenres: {
-    fontSize: 14,
-    color: '#777',
-  },
-  resultsText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 16,
-    color: '#333',
   },
 });
 
