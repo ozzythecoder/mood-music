@@ -6,8 +6,23 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  Image
 } from "react-native";
 import SongMoodList from "./SongMoodFlatList";
+
+type SongArrayType = {
+  songs: SongType[];
+};
+
+export type SongType = {
+  _id: string;
+  title: string;
+  artists: string;
+  album: string;
+  image: string;
+  moods: string[];
+  moodFull: { _id: string; moodName: string; color: string }[];
+};
 
 const SongList = ({
   navigation,
@@ -19,18 +34,6 @@ const SongList = ({
   const dispatch = useDispatch();
 
   const songsDB = useSelector((store: SongArrayType) => store.songs);
-
-  type SongArrayType = {
-    songs: SongType[];
-  };
-
-  type SongType = {
-    _id: string;
-    artist: string;
-    title: string;
-    moods: [string];
-    moodFull: [{ _id: string; moodName: string; color: string }];
-  };
 
   const handleClickSong = (song: SongType) => {
     dispatch({
@@ -44,11 +47,22 @@ const SongList = ({
     return (
       <TouchableOpacity onPress={() => handleClickSong(song)}>
         <View style={styles.song}>
-          <View>
-            <Text style={styles.text}>{song.title}</Text>
-            <Text style={styles.subtext}>{song.artist}</Text>
-          </View>
-          <SongMoodList song={song} />
+                {song.image.length > 0 ? (
+                  <Image
+                    style={styles.albumThumbnail}
+                    source={{ uri: song.image}}
+                  />
+                ) : (
+                  <View style={styles.placeholderImage} />
+                )}
+                <View >
+                  <Text style={styles.trackName}>{song.title}</Text>
+                  <SongMoodList song={song} />
+                  <Text style={styles.artistName}>{song.artists}</Text>
+                  <Text style={styles.albumName}>{song.album}</Text>
+              </View>
+
+      
           <Text>Add Moods</Text>
         </View>
       </TouchableOpacity>
@@ -67,7 +81,7 @@ const SongList = ({
       return <Song song={item} />;
     }
     if (
-      item.artist
+      item.artists
         .toUpperCase()
         .includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
     ) {
@@ -113,5 +127,45 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+  },
+  trackResultItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  albumThumbnail: {
+    width: 70,
+    height: 70,
+    marginRight: 10,
+    borderRadius: 10,
+  },
+  trackInfo: {
+    flex: 1,
+    width: "60%"
+  },
+  trackName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#111',
+    marginBottom: 4,
+  },
+  artistName: {
+    fontSize: 12,
+    color: '#555',
+  },
+  albumName: {
+    fontSize: 10,
+    color: '#777',
+  },
+  artistImage: {
+    width: 5,
+    height: 5,
+    borderRadius: 20,
+  },
+  placeholderImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 20,
+    backgroundColor: '#ddd',
   },
 });

@@ -1,7 +1,7 @@
 
    type SetSongsAction = {
     type: 'SET_SONGS';
-    payload: string[];
+    payload: object[];
    }
   
    const songs = (state = [], action: SetSongsAction) => {
