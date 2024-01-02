@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
   FlatList,
-  Image
+  Image,
 } from "react-native";
 import SongMoodList from "./SongMoodFlatList";
 
@@ -46,24 +46,27 @@ const SongList = ({
   const Song = ({ song }: { song: SongType }) => {
     return (
       <TouchableOpacity onPress={() => handleClickSong(song)}>
-        <View style={styles.song}>
-                {song.image.length > 0 ? (
-                  <Image
-                    style={styles.albumThumbnail}
-                    source={{ uri: song.image}}
-                  />
-                ) : (
-                  <View style={styles.placeholderImage} />
-                )}
-                <View >
-                  <Text style={styles.trackName}>{song.title}</Text>
-                  <SongMoodList song={song} />
-                  <Text style={styles.artistName}>{song.artists}</Text>
-                  <Text style={styles.albumName}>{song.album}</Text>
-              </View>
+        <View style={styles.entry}>
+          <View style={styles.songInfo}>
+            {song.image.length > 0 ? (
+              <Image
+                style={styles.albumThumbnail}
+                source={{ uri: song.image }}
+              />
+            ) : (
+              <View style={styles.placeholderImage} />
+            )}
+            <View>
+              <Text style={styles.trackName}>{song.title}</Text>
+              <Text style={styles.artistName}>{song.artists}</Text>
+              <Text style={styles.albumName}>{song.album}</Text>
+            </View>
+          </View>
 
-      
-          <Text>Add Moods</Text>
+          <View style={styles.moodView}>
+            <SongMoodList song={song} />
+            <Text>Add Moods</Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -87,10 +90,16 @@ const SongList = ({
     ) {
       return <Song song={item} />;
     }
-    //   if (item.moods && item.moods.some(mood => mood.moodName.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, "")))) {
-    //   return <Song song={item} />
-    // }
-    return null
+      if (
+        item.moods && 
+        item.moods.some(mood => 
+          mood.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
+        )
+        ) 
+      {
+      return <Song song={item} />
+    }
+    return null;
   };
 
   return (
@@ -122,50 +131,45 @@ const styles = StyleSheet.create({
   subtext: {
     color: "black",
   },
-  song: {
-    marginBottom: 5,
+  entry: {
+    marginBottom: 10,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
   },
-  trackResultItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
+  songInfo: {
+    flexDirection: "row",
+  },
+  moodView: {
+    paddingTop: 5,
   },
   albumThumbnail: {
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 50,
     marginRight: 10,
     borderRadius: 10,
   },
   trackInfo: {
     flex: 1,
-    width: "60%"
   },
   trackName: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#111',
+    fontWeight: "bold",
+    color: "#111",
     marginBottom: 4,
   },
   artistName: {
     fontSize: 12,
-    color: '#555',
+    color: "#555",
   },
   albumName: {
     fontSize: 10,
-    color: '#777',
-  },
-  artistImage: {
-    width: 5,
-    height: 5,
-    borderRadius: 20,
+    color: "#777",
   },
   placeholderImage: {
     width: 50,
     height: 50,
     borderRadius: 20,
-    backgroundColor: '#ddd',
+    backgroundColor: "#ddd",
   },
 });
