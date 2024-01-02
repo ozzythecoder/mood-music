@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     <>
       <MoodButtons navigation={navigation} />
       <SpotifyAccessToken />
-      <SpotifySearch />
+      <SpotifySearch navigation={navigation} />
     </>
   );
 };

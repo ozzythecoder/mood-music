@@ -2,11 +2,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { SongType } from "./SongFlatList";
 
-type MoodType = {
-  _id: string;
-  moodName: string;
-  color: string;
+type NewPlaylistType = {
+  newPlaylist: SongType[];
 };
 
 const SavePlaylistButton = ({
@@ -22,18 +21,6 @@ const SavePlaylistButton = ({
     (store: NewPlaylistType) => store.newPlaylist
   );
   const dispatch = useDispatch();
-
-  type NewPlaylistType = {
-    newPlaylist: SongType[];
-  };
-
-  type SongType = {
-    _id: string;
-    artist: string;
-    title: string;
-    moods: [string];
-    moodFull: [{ _id: string; moodName: string; color: string }];
-  };
 
   const handleSavePlaylist = (
     playlistTitle: string,

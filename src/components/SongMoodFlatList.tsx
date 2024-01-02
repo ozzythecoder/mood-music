@@ -1,13 +1,6 @@
 import React from "react";
 import { StyleSheet, View, FlatList } from "react-native";
-
-type SongType = {
-  _id: string;
-  artist: string;
-  title: string;
-  moods: [string];
-  moodFull: [{ _id: string; moodName: string; color: string;}];
-};
+import { SongType } from "./SongFlatList";
 
 
 const SongMoodList = ({ song }: { song: SongType }) => {
