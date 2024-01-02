@@ -7,20 +7,20 @@ const numColumns = 3;
 const margin = 2;
 // this will definitely need to be updated to a more universal way of styling the buttons for different screen widths
 
+type MoodType = {
+  _id: string;
+  moodName: string;
+  color: string;
+};
+
+type MoodsArrayType = {
+  moods: MoodType[];
+};
+
 const MoodButtons = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
   const moodsDB = useSelector((store: MoodsArrayType) => store.moods);
   const newPlaylist = usePlaylist();
-
-  type MoodType = {
-    _id: string;
-    moodName: string;
-    color: string;
-  };
-
-  type MoodsArrayType = {
-    moods: MoodType[];
-  };
 
   const handleClickMood = async (mood: MoodType) => {
     await dispatchClickedMood(mood);
