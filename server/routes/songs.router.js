@@ -26,13 +26,15 @@ router.get("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-  console.log("in song router:", req.body.moods);
+  console.log("in song router:", req.body);
   // const userCurrent = req.user.clicked_song;
 
   const newSong = {
     moods: req.body.moods,
-    artist: req.body.song.artist,
-    title: req.body.song.title,
+    artists: req.body.song.artists.map(artist => artist.name).join(', '),
+    title: req.body.song.name,
+    album: req.body.song.album.name,
+    image: req.body.song.album.images[0].url,
   };
 
   console.log("newSong:", newSong);
@@ -52,6 +54,7 @@ router.put("/", async (req, res) => {
 async function getSongs(client) {
   // creates a pipeline that aggregates a 'moodFull' property to the returned songs.
   // moodFull is an array of mood objects with _id, moodName, and color
+  // Maybe there is a way to append the id and color info onto the already existing mood objects?
   const pipeline = [
     {
       $lookup: 
@@ -81,6 +84,9 @@ async function upsertSong(client, newSong) {
       {
         $set: {
           moods: newSong.moods,
+          artists: newSong.artists,
+          album: newSong.album,
+          image: newSong.image,
         },
       },
       { upsert: true }
