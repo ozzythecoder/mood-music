@@ -30,7 +30,11 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
   >([]);
 
   useEffect(() => {
-    navigation.setOptions({ title: clickedSong.title });
+    clickedSong.title ? 
+    navigation.setOptions({ title: clickedSong.title })
+    :
+    navigation.setOptions({ title: clickedSong.name })
+    ;
   }, []);
 
   // sets the mood switches to the current song
