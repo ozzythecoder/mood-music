@@ -71,7 +71,7 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
   };
 
   return (
-    <View>
+    <View style={styles.safeArea}>
       <View>
         <FlatList
           data={moodsDB}
@@ -111,6 +111,10 @@ const SongMoodModal = ({ navigation }: { navigation: any }) => {
 export default SongMoodModal;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    paddingBottom: 50,
+  },
   mood: {
     flexDirection: "row",
     justifyContent: "space-between",

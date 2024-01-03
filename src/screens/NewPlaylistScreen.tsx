@@ -5,6 +5,7 @@ import NewPlaylist from "../components/NewPlaylistFlatList";
 import CreatePlaylistButton from "../components/CreatePlaylistButton";
 import PlaylistForm from "../components/PlaylistForm";
 import SavePlaylistButton from "../components/SavePlaylistButton";
+import { ScrollView } from "react-native-gesture-handler";
 
 type ClickedMoodType = {
   clickedMood: {
@@ -23,12 +24,14 @@ export default function NewPlaylistScreen({ navigation }: { navigation: any }) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+     
       {/* playback control buttons eventually? */}
 
       {/* flatlist with the playlist 
     needs re-regenerate switch*/}
       <NewPlaylist />
       {/* re-generate button */}
+      <ScrollView>
       <CreatePlaylistButton clickedMood={clickedMood} />
       {/* title your playlist field  */}
       <PlaylistForm
@@ -43,6 +46,7 @@ export default function NewPlaylistScreen({ navigation }: { navigation: any }) {
         playlistDescription={playlistDescription}
         navigation={navigation}
       />
+      </ScrollView>
     </SafeAreaView>
   );
 }

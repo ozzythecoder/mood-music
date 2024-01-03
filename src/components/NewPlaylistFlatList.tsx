@@ -59,6 +59,7 @@ export default NewPlaylist;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    marginTop: 10,
   },
   list: {
     width: "90%",
