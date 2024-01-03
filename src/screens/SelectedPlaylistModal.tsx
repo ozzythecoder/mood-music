@@ -23,11 +23,8 @@ const SelectedPlaylistModal = ({ navigation }: { navigation: any }) => {
 
 
     useEffect(() => {
-        selectedPlaylist.title ?
-            navigation.setOptions({ title: selectedPlaylist.title })
-            :
-            navigation.setOptions({ title: selectedPlaylist.name })
-            ;
+        navigation.setOptions({ title: selectedPlaylist.title })
+
     }, []);
 
 

@@ -28,10 +28,10 @@ const PlaylistsList = ({ navigation }: { navigation: any; }) => {
 
     const handleClickPlaylist = (playlist: PlaylistType) => {
         dispatch({
-            type: "SET_CLICKED_PLAYLIST",
+            type: "SET_SELECTED_PLAYLIST",
             payload: playlist,
         });
-        navigation.navigate("SongPlaylistModal");
+        navigation.navigate("SelectedPlaylistModal");
     };
 
     const Playlist = ({ playlist }: { playlist: PlaylistType }) => {
