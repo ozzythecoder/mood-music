@@ -5,7 +5,8 @@ require('dotenv').config();
 
 // console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
 
-router.post('/', (req, res) => {
+// access token POST
+router.post('/accesstoken', (req, res) => {
     // console.log('data in post', req.body)
     console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
 
@@ -33,5 +34,20 @@ router.post('/', (req, res) => {
         })
 
 })
+
+// // artist info GET
+// router.get('/artist/:artistId', (req, res) => {
+//     const artistId = req.params.artistId;
+//     console.log('server side with artist ID:', artistId)
+
+//     //  ⭐️ we would need to create a state management on the back-end if we want the access token to be server-side ⭐️
+
+//     const headers = {
+//         'Authorization': 'Bearer ' + accessToken(would go here if we had it stored),
+//     };
+
+//     axios.get(`https://api.spotify.com/v1/artists/${artistId}`)
+
+// })
 
 module.exports = router;

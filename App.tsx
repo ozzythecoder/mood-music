@@ -13,6 +13,7 @@ import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
 import ProfileScreen from "./src/components/Profile";
 import NewPlaylistScreen from "./src/screens/NewPlaylistScreen";
+import SearchArtistSongsScreen from "./src/screens/SearchArtistSongsScreen";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Entypo } from "@expo/vector-icons";
@@ -26,6 +27,7 @@ const ProfileStack = createStackNavigator();
 type RootStackParamList = {
   Main: undefined;
   SongMoodModal: undefined;
+  SearchArtistSongsScreen: undefined;
 };
 
 // Function to add more screens to the song stack.
@@ -125,6 +127,10 @@ const App = () => {
           <RootStack.Screen
             name="SongMoodModal"
             component={SongMoodModal}
+          />
+          <RootStack.Screen
+            name="SearchArtistSongsScreen"
+            component={SearchArtistSongsScreen}
           />
         </RootStack.Navigator>
       </NavigationContainer>
