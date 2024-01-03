@@ -21,6 +21,24 @@ router.get("/", async (req, res) => {
 
 });
 
+router.get("/playlist-songs", async (req, res) => {
+
+  try {
+
+    await client.connect();
+
+    // get all playlists
+    const songTitles = req.body;
+    const result = await getPlaylistSongs(client, songTitles);
+    console.log("result:", result);
+    res.send(result);
+  } catch (error) {
+    console.log(`error:`, error);
+    res.sendStatus(500);
+  }
+
+});
+
 
 async function getPlaylists(client) {
 
@@ -141,6 +159,27 @@ async function getPlaylists(client) {
 
 //   return combinedResults;
 // }
+
+
+
+async function getPlaylistSongs(client, songTitles) {
+
+  try {
+    await client.connect();
+    const database = client.db('mood-music');
+    const collection = database.collection('songs');
+
+    // Find documents based on the provided array of song titles
+    const query = { title: { $in: songTitles } };
+    const result = await collection.find(query).toArray();
+
+    return result;
+  } finally {
+    await client.close();
+  }
+}
+
+
 
 
 module.exports = router;
