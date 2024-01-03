@@ -6,6 +6,8 @@ import clickedMood from './clickedMood.reducer';
 import newPlaylist from './playlist.reducer';
 import spotify from './spotify.reducer'
 import playlists from './playlists.reducer'
+import selectedPlaylist from './selectedPlaylist.reducer';
+
 
 
 // rootReducer is the primary reducer for our entire project
@@ -18,6 +20,7 @@ const rootReducer = combineReducers({
     newPlaylist,
     spotify,
     playlists,
+    selectedPlaylist,
 });
 
 export default rootReducer;

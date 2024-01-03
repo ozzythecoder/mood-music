@@ -44,7 +44,7 @@ const MoodButtons = ({ navigation }: { navigation: any }) => {
       numColumns={numColumns}
       renderItem={({ item }) => {
         const textColor =
-          parseInt(item.color.replace("#", ""), 16) > 0xffffff / 1.1
+          parseInt(item.color.replace("#", ""), 16) > 0xffffff / 1.5
             ? "black"
             : "white";
 
