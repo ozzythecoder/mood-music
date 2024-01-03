@@ -80,9 +80,11 @@ const styles = StyleSheet.create({
     },
     subtext: {
         color: "black",
+        marginHorizontal: 10,
     },
     playlist: {
         marginBottom: 5,
+        marginTop: 5,
         justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "row",
