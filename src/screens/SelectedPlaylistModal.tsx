@@ -6,9 +6,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import SongMoodList from "../components/SongMoodFlatList";
 
 
-import { PlaylistType } from "../components/PlaylistsFlatList";
+// import { PlaylistType } from "../components/PlaylistsFlatList";
 import { SongType } from "../components/SongFlatList";
 
+export type PlaylistType = {
+    _id: string;
+    title: string;
+    songs: [string];
+};
 
 type StoreType = {
     selectedPlaylist: PlaylistType;

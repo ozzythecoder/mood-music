@@ -40,6 +40,7 @@ const PlaylistsList = ({ navigation }: { navigation: any; }) => {
                 <View style={styles.playlist}>
                     <View>
                         <Text style={styles.text}>{playlist.title}</Text>
+                        <Text style={styles.subtext}>{playlist.description}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
