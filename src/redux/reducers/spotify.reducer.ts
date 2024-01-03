@@ -59,13 +59,6 @@ type SetArtistInfoAction = {
     payload: Artist; // Assuming Artist is the type for detailed artist information
 };
 
-
-// defining the action type for setting albums and songs
-type SetAlbumsAndSongsAction = {
-    type: string;
-    payload: any[]; // Replace any with the actual type for albums and songs
-};
-
 // Reducer to manage detailed artist information
 const artistInfo = (state = null as Artist | null, action: SetArtistInfoAction) => {
     switch (action.type) {
@@ -76,9 +69,15 @@ const artistInfo = (state = null as Artist | null, action: SetArtistInfoAction) 
     }
 };
 
-type Song = {
+type Track = {
+    id: string;
     name: string;
-};
+    artists: { name: string }[];
+    album: {
+      name: string;
+      images: { url: string }[];
+    };
+  }
 
 type Album = {
     name: string;
@@ -87,35 +86,20 @@ type Album = {
 };
 
 type SetArtistTopTracks = {
-    type: 'SET_ARTIST_TOP_TRACKS';
+    type: "SET_ARTIST_TOP_TRACKS";
     payload: {
-        tracks: {
-            name: string;
-            album: Album;
-        }[];
+      tracks: Track[];
     };
-};
+  };
 
 // Reducer to manage top songs
 const artistTopTracks = (
-    state: { tracks: { name: string; album: Album }[] } = { tracks: [] },
+    state: Track[] = [],
     action: SetArtistTopTracks
 ) => {
     switch (action.type) {
         case 'SET_ARTIST_TOP_TRACKS':
-            return {
-                tracks: action.payload.tracks.slice(0, 10),
-            };
-        default:
-            return state;
-    }
-};
-
-// Reducer to manage albums and songs
-const albumsAndSongs = (state = [] as any[], action: SetAlbumsAndSongsAction) => {
-    switch (action.type) {
-        case 'SET_ALBUMS_AND_SONGS':
-            return action.payload;
+            return action.payload.tracks.slice(0, 10);
         default:
             return state;
     }
@@ -126,5 +110,4 @@ export default combineReducers({
     searchedArtistId,
     artistInfo,
     artistTopTracks,
-    albumsAndSongs,
 });

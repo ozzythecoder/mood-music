@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 
 interface Artist {
@@ -16,12 +18,20 @@ interface Album {
     coverArt: string;
 }
 
-interface Song {
+export interface Track {
+    id: string;
     name: string;
+    artists: { name: string }[];
+    album: {
+        name: string;
+        images: { url: string }[];
+        releaseDate?: number;
+    };
 }
 
 const SearchArtistSongsScreen = () => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const searchedArtistId = useSelector((store: any) => store.spotify.searchedArtistId);
     const accessToken = useSelector((store: any) => store.spotify.accessToken.accessToken);
     const artistInfo = useSelector((store: any) => store.spotify.artistInfo);
@@ -61,16 +71,18 @@ const SearchArtistSongsScreen = () => {
                 });
 
                 const data = await response.json();
+                console.log("current data is:", data)
 
                 dispatch({
                     type: 'SET_ARTIST_TOP_TRACKS',
                     payload: {
                         tracks: data.tracks.map((track: any) => ({
+                            id: track.id,
                             name: track.name,
+                            artists: track.artists,
                             album: {
                                 name: track.album.name,
-                                releaseDate: track.album.release_date,
-                                coverArt: track.album.images[0].url,
+                                images: [{ url: track.album.images[0].url }],
                             },
                         })),
                     },
@@ -86,38 +98,128 @@ const SearchArtistSongsScreen = () => {
         fetchArtistTopTracks();
     }, [searchedArtistId, accessToken, dispatch]);
 
+    const handleClickSong = (track: Track) => {
+        dispatch({
+            type: "SET_CLICKED_SONG",
+            payload: track,
+        });
+        navigation.navigate("SongMoodModal");
+    };
+
     return (
         <View>
             {artistInfo && (
-                <View>
-                    <Text>{artistInfo.name}</Text>
-                    {artistInfo.genres && <Text>Genres: {artistInfo.genres.join(', ')}</Text>}
-                    {artistInfo.followers && <Text>Followers: {artistInfo.followers.total}</Text>}
+                <View style={styles.artistHeader}>
+                    <Text style={styles.artistName}>{artistInfo.name}</Text>
+                    {artistInfo.genres && <Text style={styles.genres}>Genres: {artistInfo.genres.join(', ')}</Text>}
+                    {artistInfo.followers && <Text style={styles.followers}>Followers: {artistInfo.followers.total}</Text>}
                     {artistInfo.images && (
                         <Image
-                            source={{ uri: artistInfo.images[0].url }}
-                            style={{ width: 100, height: 100 }}
+                            source={{ uri: artistInfo.images[0]?.url }}
+                            style={styles.artistImage}
                         />
                     )}
                 </View>
             )}
-            <Text>Artist Songs</Text>
+
+            <Text style={styles.resultsText}>Top Tracks by {artistInfo.name}</Text>
             {topTracks && (
                 <FlatList
                     data={topTracks}
-                    keyExtractor={(item: { name: string; album: Album }) => item.name}
+                    keyExtractor={(item: Track) => item.id}
                     renderItem={({ item }) => (
-                        <View>
-                            <Text>{item.name}</Text>
-                            <Text>Album: {item.album.name}</Text>
-                            <Text>Release Date: {item.album.releaseDate}</Text>
-                            <Image source={{ uri: item.album.coverArt }} style={{ width: 50, height: 50 }} />
-                        </View>
+                        <TouchableOpacity onPress={() => handleClickSong(item)}>
+                            <View style={styles.trackResultItem}>
+                                {item.album.images.length > 0 ? (
+                                    <Image
+                                        style={styles.albumThumbnail}
+                                        source={{ uri: item.album.images[0].url }}
+                                    />
+                                ) : (
+                                    <View style={styles.placeholderImage} />
+                                )}
+                                <View style={styles.trackInfo}>
+                                    <Text style={styles.trackName}>{item.name}</Text>
+                                    <Text style={styles.albumName}>{item.album.name}</Text>
+                                    {/* Assuming releaseDate is part of album */}
+                                    <Text style={styles.releaseDate}>{item.album.releaseDate}</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
                     )}
                 />
             )}
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    artistHeader: {
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    artistName: {
+        fontSize: 30,
+        fontWeight: 'bold',
+    },
+    genres: {
+        fontSize: 16,
+        color: '#777',
+    },
+    followers: {
+        fontSize: 16,
+        color: '#777',
+    },
+    artistImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginVertical: 8,
+    },
+    resultsText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 16,
+        color: '#333',
+    },
+    trackResultItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 16,
+        backgroundColor: '#f5f5f5',
+        padding: 12,
+        borderRadius: 8,
+        elevation: 2,
+    },
+    albumThumbnail: {
+        width: 70,
+        height: 70,
+        marginRight: 10,
+        borderRadius: 8,
+    },
+    placeholderImage: {
+        width: 70,
+        height: 70,
+        borderRadius: 8,
+        backgroundColor: '#ddd',
+    },
+    trackInfo: {
+        flex: 1,
+    },
+    trackName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#111',
+        marginBottom: 4,
+    },
+    albumName: {
+        fontSize: 14,
+        color: '#777',
+    },
+    releaseDate: {
+        fontSize: 12,
+        color: '#777',
+    },
+});
 
 export default SearchArtistSongsScreen;
