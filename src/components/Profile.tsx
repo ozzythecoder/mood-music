@@ -38,16 +38,16 @@ const Profile = () => {
             
             <TouchableOpacity
             style={[styles.button]}
-            onPress={() => {console.log("Adding Library....");}}
+            onPress={() => {console.log("Changing profile picture....");}}
             >
-                <Text style={[styles.buttonText]}>Add New Library</Text>
+                <Text style={[styles.buttonText]}>Change Profile Picture</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+{/*             <TouchableOpacity
             style={[styles.button]}
             onPress={() => {console.log("Switching Library....");}}
             >
                 <Text style={[styles.buttonText]}>Switch Library</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
                 style={styles.button}
