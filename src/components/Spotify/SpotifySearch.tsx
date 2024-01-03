@@ -34,6 +34,7 @@ function SpotifySearch({ navigation }: { navigation: any }) {
 
   // using useSelector to get the accessToken from the Redux store
   const accessToken = useSelector((store: any) => store.spotify.accessToken.accessToken);
+  // not sure if needed, but can be used to see if we need a new access token
   const accessTokenExpDate = useSelector((store: any) => store.spotify.accessToken.expirationDate);
   const dispatch = useDispatch();
 
@@ -104,7 +105,6 @@ function SpotifySearch({ navigation }: { navigation: any }) {
         if (data.tracks && data.tracks.items) {
           setTrackSearchResults(data.tracks.items);
         } else {
-          // Handle the case when items are missing
           console.log('No track results found');
         }
 
@@ -119,13 +119,13 @@ function SpotifySearch({ navigation }: { navigation: any }) {
 
   // when artist search result is clicked, dispatches clicked artist ID
   const handleArtistClick = (artistId: string) => {
+
     console.log("artistId is:", artistId)
     dispatch({
       type: "SET_CLICKED_ARTIST_ID",
       payload: artistId,
     });
-    // navigates to a screen where you display the artist's songs (still have yet to build 👋👋👋👋👋👋👋👋)
-    // navigation.navigate("ArtistSongsScreen");
+    navigation.navigate("SearchArtistSongsScreen");
   };
 
   const formatFollowers = (followers: number): string => {

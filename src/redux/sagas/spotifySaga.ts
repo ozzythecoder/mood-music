@@ -1,11 +1,11 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest, call, select } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 
 
 function* getAccessToken() {
     try {
         console.log('in access token saga')
-        const response: AxiosResponse = yield call(axios.post, 'http://localhost:3000/api/spotify');
+        const response: AxiosResponse = yield call(axios.post, 'http://localhost:3000/api/spotify/accesstoken');
         const accessToken = response.data.access_token;
         console.log('access token is:', accessToken);
 
@@ -25,18 +25,8 @@ function* getAccessToken() {
     }
 };
 
-function* getArtistInfo(action: any) {
-    try {
-        const artistId = action.payload;
-        console.log("in getArtistInfo with artistId:", artistId);
-    } catch (error) {
-        console.log('error in getArtistInfo saga:', error);
-    }
-}
-
 function* spotifySaga() {
     yield takeLatest('FETCH_SPOTIFY_ACCESS_TOKEN', getAccessToken);
-    yield takeLatest('SET_CLICKED_ARTIST_ID', getArtistInfo)
 }
 
 export default spotifySaga;

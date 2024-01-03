@@ -90,13 +90,12 @@ const SongList = ({
     ) {
       return <Song song={item} />;
     }
-      if (
-        item.moods && 
-        item.moods.some(mood => 
-          mood.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
-        )
-        ) 
-      {
+    if (
+      item.moods &&
+      item.moods.some(mood =>
+        mood.toUpperCase().includes(librarySearch.toUpperCase().trim().replace(/\s/g, ""))
+      )
+    ) {
       return <Song song={item} />
     }
     return null;
