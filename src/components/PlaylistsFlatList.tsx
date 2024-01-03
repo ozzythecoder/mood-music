@@ -9,28 +9,29 @@ import {
 } from "react-native";
 
 
+type PlaylistsArrayType = {
+    playlists: PlaylistType[];
+};
+
+export type PlaylistType = {
+    _id: string;
+    title: string;
+    songs: [string];
+};
+
 
 const PlaylistsList = ({ navigation }: { navigation: any; }) => {
     const dispatch = useDispatch();
 
     const dbPlaylists = useSelector((store: PlaylistsArrayType) => store.playlists);
 
-    type PlaylistsArrayType = {
-        playlists: PlaylistType[];
-    };
-
-    type PlaylistType = {
-        _id: string;
-        title: string;
-        songs: [string];
-    };
 
     const handleClickPlaylist = (playlist: PlaylistType) => {
         dispatch({
             type: "SET_CLICKED_PLAYLIST",
             payload: playlist,
         });
-        navigation.navigate("T O   B E   D E T E R M I N E D");
+        navigation.navigate("SongPlaylistModal");
     };
 
     const Playlist = ({ playlist }: { playlist: PlaylistType }) => {
