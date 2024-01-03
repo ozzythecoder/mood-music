@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import PlaylistsList from "../components/PlaylistsFlatList";
+import { ScrollView } from "react-native-gesture-handler";
 
 
 export default function Playlists({ navigation }: { navigation: any }) {
@@ -24,6 +25,7 @@ export default function Playlists({ navigation }: { navigation: any }) {
 
     return (
         <SafeAreaView style={styles.safeArea}>
+            
             <View>
                 <Text>Search Bar Here</Text><Text>Create Playlist Btn Here</Text>
             </View>
@@ -34,7 +36,7 @@ export default function Playlists({ navigation }: { navigation: any }) {
             </View>
 
             <PlaylistsList navigation={navigation} />
-
+        
         </SafeAreaView>
     );
 }
@@ -44,6 +46,7 @@ export default function Playlists({ navigation }: { navigation: any }) {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
+        paddingBottom: 50,
     },
     container: {
         flex: 1,
