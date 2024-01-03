@@ -30,7 +30,7 @@ export default function Playlists({ navigation }: { navigation: any }) {
 
             <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>Your Playlists</Text>
-                <Text style={styles.sectionSubTitle}>Select Playlist to Edit</Text>
+                <Text style={styles.sectionSubTitle}>Select Playlist to View</Text>
             </View>
 
             <PlaylistsList navigation={navigation} />

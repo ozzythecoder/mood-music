@@ -9,28 +9,29 @@ import {
 } from "react-native";
 
 
+type PlaylistsArrayType = {
+    playlists: PlaylistType[];
+};
+
+export type PlaylistType = {
+    _id: string;
+    title: string;
+    songs: [string];
+};
+
 
 const PlaylistsList = ({ navigation }: { navigation: any; }) => {
     const dispatch = useDispatch();
 
     const dbPlaylists = useSelector((store: PlaylistsArrayType) => store.playlists);
 
-    type PlaylistsArrayType = {
-        playlists: PlaylistType[];
-    };
-
-    type PlaylistType = {
-        _id: string;
-        title: string;
-        songs: [string];
-    };
 
     const handleClickPlaylist = (playlist: PlaylistType) => {
         dispatch({
-            type: "SET_CLICKED_PLAYLIST",
+            type: "SET_SELECTED_PLAYLIST",
             payload: playlist,
         });
-        navigation.navigate("T O   B E   D E T E R M I N E D");
+        navigation.navigate("SelectedPlaylistModal");
     };
 
     const Playlist = ({ playlist }: { playlist: PlaylistType }) => {
@@ -39,6 +40,7 @@ const PlaylistsList = ({ navigation }: { navigation: any; }) => {
                 <View style={styles.playlist}>
                     <View>
                         <Text style={styles.text}>{playlist.title}</Text>
+                        <Text style={styles.subtext}>{playlist.description}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -78,9 +80,11 @@ const styles = StyleSheet.create({
     },
     subtext: {
         color: "black",
+        marginHorizontal: 10,
     },
     playlist: {
         marginBottom: 5,
+        marginTop: 5,
         justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "row",
