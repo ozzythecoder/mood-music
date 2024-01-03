@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import PlaylistsList from "../components/PlaylistsFlatList";
 import { ScrollView } from "react-native-gesture-handler";
+import PlaylistSearch from "../components/PlaylistSearchBar";
+
 
 
 export default function Playlists({ navigation }: { navigation: any }) {
@@ -25,10 +27,10 @@ export default function Playlists({ navigation }: { navigation: any }) {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-
-            <View>
-                <Text>Search Bar Here</Text>
-            </View>
+            <PlaylistSearch
+            // librarySearch={librarySearch}
+            // setLibrarySearch={setLibrarySearch}
+            />
 
             <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>Your Playlists</Text>
