@@ -7,6 +7,8 @@ import {
     View,
     FlatList,
 } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 
 
 type PlaylistsArrayType = {
@@ -28,7 +30,7 @@ const PlaylistsList = ({ navigation }: { navigation: any; }) => {
 
     const handleClickPlaylist = (playlist: PlaylistType) => {
         dispatch({
-            type: "SET_SELECTED_PLAYLIST",
+            type: "GET_SELECTED_PLAYLIST_SONGS",
             payload: playlist,
         });
         navigation.navigate("SelectedPlaylistModal");
