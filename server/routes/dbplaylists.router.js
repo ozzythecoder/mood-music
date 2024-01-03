@@ -22,26 +22,63 @@ router.get("/", async (req, res) => {
 });
 
 
+// async function getPlaylists(client) {
+
+//   // pipeline aggregates a property to the recieved playlists data
+//   const pipeline = [
+//     {
+//       $lookup:
+//       {
+//         from: "playlists",
+//         localField: "playlists.songs",
+//         foreignField: "title",
+//         as: "playlistsContents",
+//       }
+//     }
+//   ];
+
+//   const cursor = client.db("mood-music").collection("playlists").aggregate(pipeline);
+
+//   const results = await cursor.toArray();
+
+//   return results;
+// }
+
+
 async function getPlaylists(client) {
 
-  // pipeline aggregates a property to the recieved playlists data
-  const pipeline = [
-    {
-      $lookup:
-      {
-        from: "playlists",
-        localField: "playlists.songs",
-        foreignField: "title",
-        as: "playlistsContents",
-      }
-    }
-  ];
+  try {
+    await client.connect();
+    console.log('Connected to the database');
 
-  const cursor = client.db("mood-music").collection("playlists").aggregate(pipeline);
+    const database = client.db('mood-music');
+    const playlistsCollection = database.collection('playlists');
+    const songsCollection = database.collection('songs');
 
-  const results = await cursor.toArray();
+    // Fetch all playlists
+    const playlists = await playlistsCollection.find().toArray();
 
-  return results;
+    // Iterate over each playlist and fetch corresponding songs
+    const playlistsWithSongs = await Promise.all(
+      playlists.map(async (playlist) => {
+        // Fetch songs for the current playlist
+        const songs = await songsCollection
+          .find({ title: { $in: playlist.songs } })
+          .toArray();
+
+        // Append songs data to the playlist
+        return {
+          ...playlist,
+          songs,
+        };
+      })
+    );
+
+    return playlistsWithSongs;
+  } finally {
+    await client.close();
+    console.log('Connection to the database closed');
+  }
 }
 
 
