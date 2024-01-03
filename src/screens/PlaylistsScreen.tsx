@@ -25,9 +25,9 @@ export default function Playlists({ navigation }: { navigation: any }) {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            
+
             <View>
-                <Text>Search Bar Here</Text><Text>Create Playlist Btn Here</Text>
+                <Text>Search Bar Here</Text>
             </View>
 
             <View style={styles.sectionContainer}>
@@ -36,7 +36,7 @@ export default function Playlists({ navigation }: { navigation: any }) {
             </View>
 
             <PlaylistsList navigation={navigation} />
-        
+
         </SafeAreaView>
     );
 }
