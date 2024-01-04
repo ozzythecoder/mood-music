@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     marginTop: 10,
+    maxHeight: 250,
   },
   list: {
     width: "90%",

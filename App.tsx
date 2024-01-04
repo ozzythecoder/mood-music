@@ -52,8 +52,8 @@ function ProfileStackScreen() {
 function PlaylistsStackScreen() {
   return (
     <PlaylistsStack.Navigator>
+       <PlaylistsStack.Screen name="New Playlist" component={NewPlaylistScreen} />
       <PlaylistsStack.Screen name="Saved Playlists" component={PlaylistsScreen} />
-      <PlaylistsStack.Screen name="New Playlist" component={NewPlaylistScreen} />
       <PlaylistsStack.Screen name="SelectedPlaylistModal" component={SelectedPlaylistModal} />
     </PlaylistsStack.Navigator>
   );

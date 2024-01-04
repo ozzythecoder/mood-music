@@ -22,7 +22,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/playlist-songs", async (req, res) => {
-
+  const songTitles = req.body;
+  
   try {
 
     await client.connect();
