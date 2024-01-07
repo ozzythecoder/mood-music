@@ -1,3 +1,5 @@
+// clickedSong reducer is currently used to tag moods to songs on the SongMoodModal
+
 // updated reducer to include specific type of Track.  Can revert if desired:
 
 // type SetClickedSongAction = {

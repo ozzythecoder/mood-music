@@ -3,12 +3,13 @@ const router = express.Router();
 const axios = require('axios');
 require('dotenv').config();
 
+// client id and secret in .env file - copied from Spotify API project Mood Music (Forrest's project currently, but can update to new project)
 // console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
 
 // access token POST
 router.post('/accesstoken', (req, res) => {
     // console.log('data in post', req.body)
-    console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
+    // console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
 
     // adding headers to the POST request
     const headers = {
@@ -35,7 +36,7 @@ router.post('/accesstoken', (req, res) => {
 
 })
 
-// // artist info GET
+// // start of artist info GET
 // router.get('/artist/:artistId', (req, res) => {
 //     const artistId = req.params.artistId;
 //     console.log('server side with artist ID:', artistId)

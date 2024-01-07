@@ -1,3 +1,5 @@
+// Spotify Search component which handles the Artist and Track searches.  Artist search directly uses SearchArtistSongsScreen as well
+
 import React, { useState } from 'react';
 import { View, TextInput, Text, StyleSheet, Image } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
