@@ -1,3 +1,5 @@
+// Spotify Search component which handles the Artist and Track searches.  Artist search directly uses SearchArtistSongsScreen as well
+
 import React, { useState } from 'react';
 import { View, TextInput, Text, StyleSheet, Image } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
@@ -42,13 +44,12 @@ function SpotifySearch({ navigation }: { navigation: any }) {
   const handleTabChange = (selectedTab: 'artist' | 'track') => {
     setTab(selectedTab);
 
-    // this clears the results of the other tab once clicked.  Can be removed if we want to keep those results up
+    // this clears the results of the other tab once clicked.  Can be removed if we want to keep those results up, or can create a Clear button
     if (selectedTab === 'artist') {
       setTrackSearchResults([]);
     } else {
       setArtistSearchResults([]);
     }
-
   };
 
   // Search for tracks based on artist name or track name

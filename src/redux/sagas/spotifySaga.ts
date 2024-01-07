@@ -1,7 +1,8 @@
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 
-
+// where access token is requested from Spotify - initialized from SpotifyAccessToken component on Home Screen
+// sending through back-end - spotify.router - which uses client id and secret from .env file
 function* getAccessToken() {
     try {
         console.log('in access token saga')

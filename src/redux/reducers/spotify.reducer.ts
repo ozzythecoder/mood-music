@@ -56,14 +56,7 @@ interface Artist {
 // defining the action type for setting the artist info
 type SetArtistInfoAction = {
     type: string;
-    payload: Artist; // Assuming Artist is the type for detailed artist information
-};
-
-
-// defining the action type for setting albums and songs
-type SetAlbumsAndSongsAction = {
-    type: string;
-    payload: any[]; // Replace any with the actual type for albums and songs
+    payload: Artist; 
 };
 
 // Reducer to manage detailed artist information
@@ -76,19 +69,8 @@ const artistInfo = (state = null as Artist | null, action: SetArtistInfoAction) 
     }
 };
 
-// Reducer to manage albums and songs
-const albumsAndSongs = (state = [] as any[], action: SetAlbumsAndSongsAction) => {
-    switch (action.type) {
-        case 'SET_ALBUMS_AND_SONGS':
-            return action.payload;
-        default:
-            return state;
-    }
-};
-
 export default combineReducers({
     accessToken,
     searchedArtistId,
     artistInfo,
-    albumsAndSongs,
 });

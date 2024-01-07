@@ -1,3 +1,6 @@
+// component to fetch access token from Spotify - need to have an active access token to do all Spotify API calls
+// 'FETCH_SPOTIFY_ACCESS_TOKEN' dispatch goes to spotifySaga to do the token request
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
