@@ -76,41 +76,6 @@ const artistInfo = (state = null as Artist | null, action: SetArtistInfoAction) 
     }
 };
 
-type Song = {
-    name: string;
-};
-
-type Album = {
-    name: string;
-    releaseDate: number;
-    coverArt: string;
-};
-
-type SetArtistTopTracks = {
-    type: 'SET_ARTIST_TOP_TRACKS';
-    payload: {
-        tracks: {
-            name: string;
-            album: Album;
-        }[];
-    };
-};
-
-// Reducer to manage top songs
-const artistTopTracks = (
-    state: { tracks: { name: string; album: Album }[] } = { tracks: [] },
-    action: SetArtistTopTracks
-) => {
-    switch (action.type) {
-        case 'SET_ARTIST_TOP_TRACKS':
-            return {
-                tracks: action.payload.tracks.slice(0, 10),
-            };
-        default:
-            return state;
-    }
-};
-
 // Reducer to manage albums and songs
 const albumsAndSongs = (state = [] as any[], action: SetAlbumsAndSongsAction) => {
     switch (action.type) {
@@ -125,6 +90,5 @@ export default combineReducers({
     accessToken,
     searchedArtistId,
     artistInfo,
-    artistTopTracks,
     albumsAndSongs,
 });

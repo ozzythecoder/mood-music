@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 
 interface Artist {
@@ -10,22 +12,35 @@ interface Artist {
     genres?: string[];
 }
 
-interface Album {
+interface Track {
+    id: string;
     name: string;
-    releaseDate: number;
-    coverArt: string;
-}
-
-interface Song {
-    name: string;
+    artists: { name: string }[];
+    album: {
+        name: string;
+        images: { url: string }[];
+    };
 }
 
 const SearchArtistSongsScreen = () => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const searchedArtistId = useSelector((store: any) => store.spotify.searchedArtistId);
     const accessToken = useSelector((store: any) => store.spotify.accessToken.accessToken);
     const artistInfo = useSelector((store: any) => store.spotify.artistInfo);
-    const topTracks = useSelector((store: any) => store.spotify.artistTopTracks.tracks);
+
+    const [topTrackResults, setTopTracksResults] = useState<Track[]>([]);
+
+    // send Track to clickedSong reducer and go to SongMoodModal
+    const handleTrackClick = (track: Track) => {
+
+        // console.log("track is:", track)
+        dispatch({
+            type: "SET_CLICKED_SONG",
+            payload: track,
+        });
+        navigation.navigate("SongMoodModal");
+    };
 
     useEffect(() => {
         const fetchArtistInfo = async () => {
@@ -60,21 +75,12 @@ const SearchArtistSongsScreen = () => {
                     },
                 });
 
-                const data = await response.json();
-
-                dispatch({
-                    type: 'SET_ARTIST_TOP_TRACKS',
-                    payload: {
-                        tracks: data.tracks.map((track: any) => ({
-                            name: track.name,
-                            album: {
-                                name: track.album.name,
-                                releaseDate: track.album.release_date,
-                                coverArt: track.album.images[0].url,
-                            },
-                        })),
-                    },
-                });
+                const data: { tracks?: Track[] } = await response.json();
+                if (data.tracks) {
+                    setTopTracksResults(data.tracks);
+                } else {
+                    console.log('No track results found');
+                }
             } catch (error) {
                 console.error('Error fetching artist songs:', error);
             }
@@ -102,19 +108,25 @@ const SearchArtistSongsScreen = () => {
                 </View>
             )}
             <Text>Artist Songs</Text>
-            {topTracks && (
+            {topTrackResults.length > 0 ? (
                 <FlatList
-                    data={topTracks}
-                    keyExtractor={(item: { name: string; album: Album }) => item.name}
+                    data={topTrackResults}
+                    keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                        <View>
-                            <Text>{item.name}</Text>
-                            <Text>Album: {item.album.name}</Text>
-                            <Text>Release Date: {item.album.releaseDate}</Text>
-                            <Image source={{ uri: item.album.coverArt }} style={{ width: 50, height: 50 }} />
-                        </View>
+                        <TouchableOpacity onPress={() => handleTrackClick(item)}>
+                            <View>
+                                <Text>{item.name}</Text>
+                                <Text>Album: {item.album.name}</Text>
+                                <Text>Release Date: {item.album.release_date}</Text>
+                                {item.album.images.length > 0 && (
+                                    <Image source={{ uri: item.album.images[0].url }} style={{ width: 50, height: 50 }} />
+                                )}
+                            </View>
+                        </TouchableOpacity>
                     )}
                 />
+            ) : (
+                <Text>No top tracks</Text>
             )}
         </View>
     );

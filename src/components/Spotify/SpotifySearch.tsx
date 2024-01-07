@@ -13,7 +13,8 @@ interface Artist {
   genres?: string[];
 }
 
-// declares type for track/song object that will get used throughout the app
+// declares type for track/song object that will get used throughout the app 
+// ⭐️ will want these to be in a utility TS file at some point to import into components ⭐️
 export interface Track {
   id: string;
   name: string;
@@ -128,6 +129,7 @@ function SpotifySearch({ navigation }: { navigation: any }) {
     navigation.navigate("SearchArtistSongsScreen");
   };
 
+  // formatting to show followers in terms of thousands or millions
   const formatFollowers = (followers: number): string => {
     if (followers >= 1000000) {
       return (followers / 1000000).toFixed(1) + 'M Followers';
@@ -138,7 +140,8 @@ function SpotifySearch({ navigation }: { navigation: any }) {
     }
   };
 
-  const handleClickSong = (track: Track) => {
+  // track search - send Track to clickedSong reducer and go to SongMoodModal
+  const handleTrackClick = (track: Track) => {
     dispatch({
       type: "SET_CLICKED_SONG",
       payload: track,
@@ -221,7 +224,7 @@ function SpotifySearch({ navigation }: { navigation: any }) {
             data={trackSearchResults.slice(0, 10)}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleClickSong(item)}>
+              <TouchableOpacity onPress={() => handleTrackClick(item)}>
                 <View style={styles.trackResultItem}>
                   {item.album.images.length > 0 ? (
                     <Image
@@ -240,7 +243,6 @@ function SpotifySearch({ navigation }: { navigation: any }) {
               </TouchableOpacity>
             )}
           />
-
         ) : (
           <Text style={styles.resultsText}>No track results found</Text>
         )
@@ -312,7 +314,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: '#ddd',
   },
-    artistNameSearch: {
+  artistNameSearch: {
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 8,
