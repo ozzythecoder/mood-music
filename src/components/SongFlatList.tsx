@@ -119,6 +119,8 @@ export default SongList;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    paddingBottom: 50,
+    marginBottom:15,
   },
   list: {
     width: "90%",
