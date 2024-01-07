@@ -112,16 +112,13 @@ function SpotifySearch({ navigation }: { navigation: any }) {
       } catch (error) {
         console.log('Error fetching track search results:', error);
       }
-
       setTrackSearchInput('');
-
     }
   }
 
   // when artist search result is clicked, dispatches clicked artist ID
   const handleArtistClick = (artistId: string) => {
-
-    console.log("artistId is:", artistId)
+    // console.log("artistId is:", artistId)
     dispatch({
       type: "SET_CLICKED_ARTIST_ID",
       payload: artistId,
@@ -213,7 +210,7 @@ function SpotifySearch({ navigation }: { navigation: any }) {
             )}
           />
         ) : (
-          <Text style={styles.resultsText}>No artist results found</Text>
+          <Text style={styles.noResultsText}>No artist results found</Text>
         )
       ) : (
 
@@ -235,8 +232,8 @@ function SpotifySearch({ navigation }: { navigation: any }) {
                     <View style={styles.placeholderImage} />
                   )}
                   <View style={styles.trackInfo}>
-                    <Text style={styles.trackName}>{item.name}</Text>
-                    <Text style={styles.artistName}>{item.artists.map(artist => artist.name).join(', ')}</Text>
+                    <Text style={styles.trackName} numberOfLines={2}>{item.name}</Text>
+                    <Text style={styles.artistName} numberOfLines={2}>{item.artists.map(artist => artist.name).join(', ')}</Text>
                     <Text style={styles.albumName}>{item.album.name}</Text>
                   </View>
                 </View>
@@ -244,7 +241,7 @@ function SpotifySearch({ navigation }: { navigation: any }) {
             )}
           />
         ) : (
-          <Text style={styles.resultsText}>No track results found</Text>
+          <Text style={styles.noResultsText}>No track results found</Text>
         )
       )}
     </View>
@@ -309,7 +306,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   placeholderImage: {
-    width: 100,
+    width: "100%",
     height: 100,
     borderRadius: 20,
     backgroundColor: '#ddd',
@@ -328,7 +325,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#777',
   },
-  resultsText: {
+  noResultsText: {
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 16,

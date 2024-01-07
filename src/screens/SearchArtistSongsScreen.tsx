@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -33,13 +33,23 @@ const SearchArtistSongsScreen = () => {
 
     // send Track to clickedSong reducer and go to SongMoodModal
     const handleTrackClick = (track: Track) => {
-
         // console.log("track is:", track)
         dispatch({
             type: "SET_CLICKED_SONG",
             payload: track,
         });
         navigation.navigate("SongMoodModal");
+    };
+
+    // formatting to show followers in terms of thousands or millions
+    const formatFollowers = (followers: number): string => {
+        if (followers >= 1000000) {
+            return (followers / 1000000).toFixed(1) + 'M Followers';
+        } else if (followers >= 1000) {
+            return (followers / 1000).toFixed(1) + 'K Followers';
+        } else {
+            return followers + ' Followers';
+        }
     };
 
     useEffect(() => {
@@ -93,43 +103,123 @@ const SearchArtistSongsScreen = () => {
     }, [searchedArtistId, accessToken, dispatch]);
 
     return (
-        <View>
+        <View style={styles.container}>
             {artistInfo && (
-                <View>
-                    <Text>{artistInfo.name}</Text>
-                    {artistInfo.genres && <Text>Genres: {artistInfo.genres.join(', ')}</Text>}
-                    {artistInfo.followers && <Text>Followers: {artistInfo.followers.total}</Text>}
-                    {artistInfo.images && (
-                        <Image
-                            source={{ uri: artistInfo.images[0].url }}
-                            style={{ width: 100, height: 100 }}
-                        />
+                <View style={styles.artistHeaderContainer}>
+                    <Text style={styles.artistNameHeader}>{artistInfo.name}</Text>
+                    {artistInfo.images && artistInfo.images.length > 0 && (
+                        <Image source={{ uri: artistInfo.images[0].url }} style={styles.artistImageHeader} />
                     )}
+                    {artistInfo.genres && <Text style={styles.genresHeader}>Genres: {artistInfo.genres.join(', ')}</Text>}
+                    {artistInfo.followers && <Text style={styles.followersHeader}>{formatFollowers(artistInfo.followers.total)}</Text>}
                 </View>
             )}
-            <Text>Artist Songs</Text>
+            <Text style={styles.sectionTitle}>Top Tracks by {artistInfo?.name}</Text>
             {topTrackResults.length > 0 ? (
                 <FlatList
                     data={topTrackResults}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => handleTrackClick(item)}>
-                            <View>
-                                <Text>{item.name}</Text>
-                                <Text>Album: {item.album.name}</Text>
-                                <Text>Release Date: {item.album.release_date}</Text>
-                                {item.album.images.length > 0 && (
-                                    <Image source={{ uri: item.album.images[0].url }} style={{ width: 50, height: 50 }} />
+                            <View style={styles.trackItem}>
+                                {item.album.images.length > 0 ? (
+                                    <Image
+                                        style={styles.albumThumbnail}
+                                        source={{ uri: item.album.images[0].url }}
+                                    />
+                                ) : (
+                                    <View style={styles.placeholderImage} />
                                 )}
+                                <View style={styles.trackInfo}>
+                                    <Text style={styles.trackName} numberOfLines={2}>{item.name}</Text>
+                                    <Text style={styles.albumName} numberOfLines={2}>{item.album.name}</Text>
+                                    <Text style={styles.releaseYear}>{item.album.release_date.substring(0, 4)}</Text>
+                                </View>
                             </View>
                         </TouchableOpacity>
                     )}
                 />
             ) : (
-                <Text>No top tracks</Text>
+                <Text style={styles.noTracksText}>No top tracks</Text>
             )}
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 18,
+    },
+    artistHeaderContainer: {
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    artistNameHeader: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
+    genresHeader: {
+        fontSize: 15,
+        color: '#777',
+        marginBottom: 8,
+    },
+    followersHeader: {
+        fontSize: 15,
+        color: '#777',
+        marginBottom: 8,
+    },
+    artistImageHeader: {
+        width: 120,
+        height: 120,
+        borderRadius: 25,
+        marginBottom: 16,
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 18,
+    },
+    // tracks styling
+    trackItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    albumThumbnail: {
+        width: 70,
+        height: 70,
+        marginRight: 10,
+        borderRadius: 10,
+    },
+    placeholderImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 20,
+        backgroundColor: '#ddd',
+    },
+    trackInfo: {
+        flex: 1,
+    },
+    trackName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#111',
+        marginBottom: 4,
+    },
+    albumName: {
+        fontSize: 16,
+        color: '#555',
+    },
+    releaseYear: {
+        fontSize: 14,
+        color: '#000',
+    },
+    noTracksText: {
+        fontSize: 16,
+        color: '#777',
+    },
+});
+
 
 export default SearchArtistSongsScreen;
