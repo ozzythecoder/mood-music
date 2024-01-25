@@ -1,8 +1,6 @@
+import { DispatchAction } from "../definitions.redux";
 
-type SetPlaylistsAction = {
-    type: 'SET_PLAYLISTS';
-    payload: string[];
-}
+type SetPlaylistsAction = DispatchAction<"SET_PLAYLISTS", string[]>;
 
 const playlists = (state = [], action: SetPlaylistsAction) => {
     switch (action.type) {
