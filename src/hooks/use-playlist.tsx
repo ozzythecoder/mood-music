@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import type { Mood } from "@/definitions";
+import type { Mood } from "@src/definitions";
 
 const usePlaylist = () => {
     const dispatch = useDispatch();

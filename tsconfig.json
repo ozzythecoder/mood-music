@@ -13,9 +13,8 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "types/*"
-      ]
+      "@src/*": ["./src/*"],
+      "@server/*": ["./server/*"]
     }
   },
   "exclude": [
