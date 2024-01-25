@@ -4,37 +4,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { View, Text, FlatList, Switch, StyleSheet, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SongMoodList from "../components/SongMoodFlatList";
-
-
-// import { PlaylistType } from "../components/PlaylistsFlatList";
-import { SongType } from "../components/SongFlatList";
-
-export type PlaylistType = {
-    _id: string;
-    title: string;
-    songs: [string];
-};
+import type { Song, Playlist } from "@src/definitions";
 
 type StoreType = {
-    selectedPlaylist: PlaylistType;
+    selectedPlaylist: Playlist;
 };
-
-
 
 const SelectedPlaylistModal = ({ navigation }: { navigation: any }) => {
     const dispatch = useDispatch();
 
     const selectedPlaylist = useSelector((store: StoreType) => store.selectedPlaylist);
 
-
     useEffect(() => {
-        navigation.setOptions({ title: selectedPlaylist.title })
-
+        navigation.setOptions({ title: selectedPlaylist.title });
     }, []);
 
-
-
-    const Song = ({ song }: { song: SongType }) => {
+    const Song = ({ song }: { song: Song }) => {
         return (
             <View style={styles.entry}>
                 <View style={styles.songInfo}>
@@ -61,14 +46,9 @@ const SelectedPlaylistModal = ({ navigation }: { navigation: any }) => {
         );
     };
 
-    const renderSong = ({ item }: { item: SongType }) => {
-
+    const renderSong = ({ item }: { item: Song }) => {
         return <Song song={item} />;
-
     };
-
-
-
 
     return (
         <View>

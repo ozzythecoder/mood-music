@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction  } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
+//TODO: Consider refactoring this to use React Context rather than prop drilling like this
 type PlaylistTitleType = {
     playlistTitle: string;
   setPlaylistTitle: Dispatch<SetStateAction<string>>;

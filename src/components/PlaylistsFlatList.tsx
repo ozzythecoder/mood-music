@@ -8,27 +8,14 @@ import {
     FlatList,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import type { Playlist, PlaylistsArrayType } from "@src/definitions";
 
-
-
-type PlaylistsArrayType = {
-    playlists: PlaylistType[];
-};
-
-export type PlaylistType = {
-    _id: string;
-    title: string;
-    songs: [string];
-};
-
-
-const PlaylistsList = ({ navigation }: { navigation: any; }) => {
+const PlaylistsList = ({ navigation }: { navigation: any }) => {
     const dispatch = useDispatch();
 
     const dbPlaylists = useSelector((store: PlaylistsArrayType) => store.playlists);
 
-
-    const handleClickPlaylist = (playlist: PlaylistType) => {
+    const handleClickPlaylist = (playlist: Playlist) => {
         dispatch({
             type: "GET_SELECTED_PLAYLIST_SONGS",
             payload: playlist,
@@ -36,7 +23,7 @@ const PlaylistsList = ({ navigation }: { navigation: any; }) => {
         navigation.navigate("SelectedPlaylistModal");
     };
 
-    const Playlist = ({ playlist }: { playlist: PlaylistType }) => {
+    const Playlist = ({ playlist }: { playlist: Playlist }) => {
         return (
             <TouchableOpacity onPress={() => handleClickPlaylist(playlist)}>
                 <View style={styles.playlist}>
@@ -49,10 +36,8 @@ const PlaylistsList = ({ navigation }: { navigation: any; }) => {
         );
     };
 
-    const renderPlaylist = ({ item }: { item: PlaylistType }) => {
-
+    const renderPlaylist = ({ item }: { item: Playlist }) => {
         return <Playlist playlist={item} />;
-
     };
 
     return (
@@ -67,7 +52,6 @@ const PlaylistsList = ({ navigation }: { navigation: any; }) => {
         </View>
     );
 };
-
 
 const styles = StyleSheet.create({
     container: {
@@ -92,7 +76,5 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
 });
-
-
 
 export default PlaylistsList;
