@@ -1,10 +1,10 @@
 import express from "express";
 import client from "./pool";
-import { MongoClient } from "mongodb";
 const router = express.Router();
-import type { Song } from "@src/definitions";
+import { getSongs, upsertSong } from "@server/actions/songs.actions";
+import type { Mood, Song } from "@src/definitions";
 
-router.get("/", async (req, res) => {
+router.get("/", async (_req, res) => {
     console.log("in song get router");
 
     try {
@@ -33,22 +33,30 @@ router.put("/", async (req, res) => {
     // newSong is declared with song data either from spotify or the database.
     // conditionals are to determine where info is coming from.
     // Maybe there is a cleaner way to do this?
-    const newSong: Omit<Song, "_id" | "moodFull"> = {
-        moods: req.body.moods.map(mood => mood.moodName),
-        artists: Array.isArray(req.body.song.artists)
-            ? req.body.song.artists.map(artist => artist.name).join(", ")
-            : req.body.song.artists,
-        title: req.body.song.name ? req.body.song.name : req.body.song.title,
-        album: req.body.song.album.name,
-        image: req.body.song.album.images
-            ? req.body.song.album.images[0].url
-            : req.body.song.image,
+
+    type SongData = {
+        song: Song;
+        moods: Mood[];
+    };
+
+    const { song, moods } = req.body as SongData;
+
+    const newSong = {
+        moods: moods.map(mood => mood.moodName),
+        artists: Array.isArray(song.artists)
+            ? song.artists.map(artist => artist.name).join(", ")
+            : song.artists,
+        title: song.name ? song.name : song.title,
+        album: song.album.name,
+        image: song.album.images
+            ? song.album.images[0].url
+            : song.image,
     };
 
     console.log("newSong:", newSong);
 
     try {
-    // Connect to the MongoDB cluster
+        // Connect to the MongoDB cluster
         await client.connect();
         // Make the appropriate DB calls
         // Create or update a single song
@@ -58,49 +66,5 @@ router.put("/", async (req, res) => {
         res.sendStatus(500);
     }
 });
-
-async function getSongs(client: MongoClient) {
-    // creates a pipeline that aggregates a 'moodFull' property to the returned songs.
-    // moodFull is an array of mood objects with _id, moodName, and color
-    // Maybe there is a way to append the id and color info onto the already existing mood objects?
-    const pipeline = [
-        {
-            $lookup: {
-                from: "moods",
-                localField: "moods",
-                foreignField: "moodName",
-                as: "moodFull",
-            },
-        },
-    ];
-
-    const cursor = client
-        .db("mood-music")
-        .collection("songs")
-        .aggregate(pipeline);
-
-    const results = await cursor.toArray();
-
-    return results;
-}
-
-// upserts one song based on changes to moods added or subtracted.
-async function upsertSong(client: MongoClient, newSong: Song) {
-    await client
-        .db("mood-music")
-        .collection("songs")
-        .updateOne(
-            { title: newSong.title },
-            {
-                $set: {
-                    moods: newSong.moods,
-                    artists: newSong.artists,
-                    album: newSong.album,
-                    image: newSong.image,
-                },
-            },
-            { upsert: true },
-        );
-}
 
 export default router;
