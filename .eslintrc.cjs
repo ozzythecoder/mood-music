@@ -1,5 +1,6 @@
 module.exports = {
     env: {
+        browser: true,
         node: true,
     },
     plugins: [
@@ -40,6 +41,7 @@ module.exports = {
         "@stylistic/indent": ["warn", 4],
         "@stylistic/jsx-indent": ["warn", 4],
         "@stylistic/member-delimiter-style": ["warn", { multiline: { delimiter: "semi" } }],
+        "@stylistic/brace-style": ["warn", "1tbs"],
         // "@typescript-eslint/explicit-function-return-type": 0,
         // "@typescript-eslint/indent": 0,
         // "@typescript-eslint/space-before-function-paren": 0,
