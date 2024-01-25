@@ -51,11 +51,13 @@ module.exports = {
             },
         ],
         "@stylistic/brace-style": ["warn", "1tbs"],
+        "@typescript-eslint/no-explicit-any": "error",
         "react-native/no-unused-styles": 1,
         "react-native/split-platform-components": 2,
         "react-native/no-inline-styles": 0,
         "react-native/no-color-literals": 0,
         "react-native/no-raw-text": 2,
         "react-native/no-single-element-style-arrays": 2,
+        "no-extra-semi": 0,
     },
 };
