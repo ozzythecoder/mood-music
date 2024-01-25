@@ -48,7 +48,8 @@ module.exports = {
                 multiline: {
                     delimiter: "semi",
                 },
-            }],
+            },
+        ],
         "@stylistic/brace-style": ["warn", "1tbs"],
         "react-native/no-unused-styles": 1,
         "react-native/split-platform-components": 2,
