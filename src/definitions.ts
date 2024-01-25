@@ -1,7 +1,7 @@
 export interface Song {
     _id: string;
     title: string;
-    artist: string;
+    artists: string;
     album: string;
     image: string;
     moods: string[];
@@ -45,6 +45,7 @@ export interface Playlist {
     _id: string;
     title: string;
     songs: [string];
+    description: string;
 }
 
 export interface Mood {
@@ -67,6 +68,10 @@ export type SongArrayType = {
 
 export type PlaylistsArrayType = {
     playlists: Playlist[];
+};
+
+export type MoodsArrayType = {
+    moods: Mood[];
 };
 
 export type NewPlaylistType = {
