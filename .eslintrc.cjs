@@ -36,12 +36,14 @@ module.exports = {
         sourceType: "module",
     },
     rules: {
-        "@stylistic/max-len": ["warn", 100],
+        "@stylistic/max-len": ["warn", 140],
         "@stylistic/quotes": ["warn", "double", { avoidEscape: true }],
         "@stylistic/semi": ["warn", "always"],
         "@stylistic/indent": ["warn", 4],
         "@stylistic/jsx-indent": ["warn", 4],
         "@stylistic/jsx-indent-props": ["warn", 4],
+        "@stylistic/arrow-parens": ["off"],
+        "@stylistic/multiline-ternary": ["off"],
         "@stylistic/member-delimiter-style": [
             "warn",
             {
