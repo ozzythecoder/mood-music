@@ -18,7 +18,7 @@ import axios, { AxiosResponse} from 'axios';
 //    fetches songs from the mongodb and then calls set_songs to update the store.
 function* getDBSongs() {
 try {
-    const response: AxiosResponse = yield call(axios.get, 'http://localhost:3000/api/songs');
+    const response: AxiosResponse = yield call(axios.get, 'http://192.168.1.11:3000/api/songs');
     
     yield put ({
         type: 'SET_SONGS',
@@ -36,7 +36,7 @@ function* editSongMoodsSaga(action: EditSongMoodsAction){
     console.log('in editSong saga:', action.payload)
     try {
 
-        yield call(axios.put, 'http://localhost:3000/api/songs', action.payload);
+        yield call(axios.put, 'http://192.168.1.11:3000/api/songs', action.payload);
         yield put({
             type: 'GET_DB_SONGS'
         })
