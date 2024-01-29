@@ -2,67 +2,57 @@ const express = require("express");
 const client = require("./pool");
 const router = express.Router();
 
-
-
 router.get("/", async (req, res) => {
+    try {
+        await client.connect();
 
-  try {
-
-    await client.connect();
-
-    // get all playlists
-    const result = await getPlaylists(client);
-    console.log("result:", result);
-    res.send(result);
-  } catch (error) {
-    console.log(`error:`, error);
-    res.sendStatus(500);
-  }
-
+        // get all playlists
+        const result = await getPlaylists(client);
+        console.log("result:", result);
+        res.send(result);
+    } catch (error) {
+        console.log("error:", error);
+        res.sendStatus(500);
+    }
 });
 
 router.get("/playlist-songs", async (req, res) => {
-  const songTitles = req.body;
-  
-  try {
-
-    await client.connect();
-
-    // get all playlists
     const songTitles = req.body;
-    const result = await getPlaylistSongs(client, songTitles);
-    console.log("result:", result);
-    res.send(result);
-  } catch (error) {
-    console.log(`error:`, error);
-    res.sendStatus(500);
-  }
 
+    try {
+        await client.connect();
+
+        // get all playlists
+        const songTitles = req.body;
+        const result = await getPlaylistSongs(client, songTitles);
+        console.log("result:", result);
+        res.send(result);
+    } catch (error) {
+        console.log("error:", error);
+        res.sendStatus(500);
+    }
 });
 
-
 async function getPlaylists(client) {
-
-  // pipeline aggregates a property to the recieved playlists data
-  const pipeline = [
-    {
-      $lookup:
+    // pipeline aggregates a property to the recieved playlists data
+    const pipeline = [
+        {
+            $lookup:
       {
-        from: "playlists",
-        localField: "playlists.songs",
-        foreignField: "title",
-        as: "playlistsContents",
-      }
-    }
-  ];
+          from: "playlists",
+          localField: "playlists.songs",
+          foreignField: "title",
+          as: "playlistsContents",
+      },
+        },
+    ];
 
-  const cursor = client.db("mood-music").collection("playlists").aggregate(pipeline);
+    const cursor = client.db("mood-music").collection("playlists").aggregate(pipeline);
 
-  const results = await cursor.toArray();
+    const results = await cursor.toArray();
 
-  return results;
+    return results;
 }
-
 
 // async function getPlaylists(client) {
 
@@ -100,10 +90,7 @@ async function getPlaylists(client) {
 //   }
 // }
 
-
-
 // async function getPlaylists(client) {
-
 
 //   const playlistsPipeline = [
 
@@ -161,26 +148,20 @@ async function getPlaylists(client) {
 //   return combinedResults;
 // }
 
-
-
 async function getPlaylistSongs(client, songTitles) {
+    try {
+        await client.connect();
+        const database = client.db("mood-music");
+        const collection = database.collection("songs");
 
-  try {
-    await client.connect();
-    const database = client.db('mood-music');
-    const collection = database.collection('songs');
+        // Find documents based on the provided array of song titles
+        const query = { title: { $in: songTitles } };
+        const result = await collection.find(query).toArray();
 
-    // Find documents based on the provided array of song titles
-    const query = { title: { $in: songTitles } };
-    const result = await collection.find(query).toArray();
-
-    return result;
-  } finally {
-    await client.close();
-  }
+        return result;
+    } finally {
+        await client.close();
+    }
 }
-
-
-
 
 module.exports = router;
