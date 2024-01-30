@@ -1,15 +1,15 @@
+import { DispatchAction } from "../definitions.redux";
 
-   type SetSongsAction = {
-    type: 'SET_SONGS';
-    payload: string[];
-   }
-  
-   const songs = (state = [], action: SetSongsAction) => {
+// Set to type "any" since we don't have a proper shape for API returns yet
+type SetSongsAction = DispatchAction<"SET_SONGS", any>;
+
+const songs = (state = [], action: SetSongsAction) => {
     switch (action.type) {
-      case "SET_SONGS":
-        return action.payload;
-      default:
-        return state;
+        case "SET_SONGS":
+            return action.payload;
+        default:
+            return state;
     }
-  };
-  export default songs;
+};
+
+export default songs;

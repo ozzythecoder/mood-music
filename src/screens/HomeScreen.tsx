@@ -1,74 +1,56 @@
 import React from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import SpotifySearch from "../components/SpotifySearch";
+import { View, StyleSheet, Text } from "react-native";
+import SpotifySearch from "../components/Spotify/SpotifySearch";
+import SpotifyAccessToken from "../components/Spotify/SpotifyAccessToken";
+import MoodButtons from "../components/MoodButtons";
 
-const MOOD_COLORS = [
-    { moodName: 'Happy', hexCode: '#ffd700' },
-    { moodName: 'Sad', hexCode: '#4682b4' },
-    { moodName: 'Energetic', hexCode: '#ff4500' },
-    { moodName: 'Joyful', hexCode: '#ffa07a' },
-    { moodName: 'Angry', hexCode: '#ff0000' },
-    { moodName: 'Melancholy', hexCode: '#696969' },
-    { moodName: 'Cheerful', hexCode: '#32cd32' },
-    { moodName: 'Relaxed', hexCode: '#87ceeb' },
-    { moodName: 'Focused', hexCode: '#000080' },
-];
-
-const numColumns = 3;
-const margin = 2;
-// this will definitely need to be updated to a more universal way of styling the buttons for different screen widths
-
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: { navigation: any }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-      dispatch({ type: "GET_DB_SONGS" });
+        dispatch({ type: "GET_DB_SONGS" });
     }, []);
 
-    useEffect(() => {
+    useFocusEffect(() => {
         dispatch({ type: "GET_MOODS" });
-      }, []);
+    });
 
     return (
-        <>
-            <FlatList
-                data={MOOD_COLORS}
-                keyExtractor={item => item.moodName}
-                numColumns={numColumns}
-                renderItem={({ item }) => {
-
-                    const textColor = parseInt(item.hexCode.replace('#', ''), 16) > 0xffffff / 1.1 ? 'black' : 'white';
-
-                    return (
-                        <TouchableOpacity
-                            style={[styles.button, { width: `${(100 - (margin * (numColumns + 1))) / numColumns}%`, backgroundColor: item.hexCode }]}
-                            onPress={() => {
-                                console.log(`Selected mood: ${item.moodName}`);
-                            }}
-                        >
-                            <Text style={[styles.buttonText, { color: textColor }]}>{item.moodName}</Text>
-                        </TouchableOpacity>
-                    );
-                }}
-            />
-            <SpotifySearch />
-        </>
-    )
+        <View style={styles.safeArea}>
+            <View style={styles.greeting}>
+                <Text style={styles.text}>HELLO!</Text>
+                <Text style={styles.subtext}>How are you feeling?</Text>
+            </View>
+            <MoodButtons navigation={navigation} />
+            <SpotifyAccessToken />
+            <SpotifySearch navigation={navigation} />
+        </View>
+    );
 };
 
-const styles = StyleSheet.create({
-    button: {
-        margin: 5,
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-    }
-})
-
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+        paddingBottom: 50,
+    },
+    greeting: {
+        alignItems: "center",
+        justifyContent: "center",
+        margin: 20,
+        padding: 10,
+    },
+    text: {
+        marginBottom: 10,
+        fontSize: 22,
+        fontWeight: "bold",
+    },
+    subtext: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+});
