@@ -1,4 +1,5 @@
-const cookieSession = require("cookie-session");
+const cookieSession = require('express-session');
+
 // const warnings = require('../constants/warnings');
 
 const serverSessionSecret = () => {
