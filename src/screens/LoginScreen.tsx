@@ -7,7 +7,6 @@ import * as AppAuth from "expo-app-auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = () => {
-
     async function authenticate() {
         const config: any = {
             issuer: "https://accounts.spotify.com",
@@ -19,19 +18,17 @@ const LoginScreen = () => {
                 "user-top-read",
                 "playlist-read-private",
                 "playlist-read-collaborative",
-                "playlist-modify-public"
+                "playlist-modify-public",
             ],
-            redirectUrl: "exp://localhost:19002/--/spotify-auth-callback"
-        }
+            redirectUrl: "exp://localhost:19002/--/spotify-auth-callback",
+        };
         const result = await AppAuth.authAsync(config);
         console.log(result);
-        if(result.accessToken){
+        if (result.accessToken) {
             const expirationDate = new Date(result.accessTokenExpirationDate).getTime();
-            AsyncStorage
+            AsyncStorage;
         }
     }
-
-
 
     return (
         <View>
@@ -50,7 +47,7 @@ const LoginScreen = () => {
                 </TouchableOpacity>
             </View>
         </View>
-    )
+    );
 };
 
 const styles = StyleSheet.create({
@@ -58,25 +55,25 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 10,
         borderRadius: 5,
-        alignItems: 'center',
+        alignItems: "center",
     },
     topText: {
-        color: 'black',
+        color: "black",
         margin: 5,
         padding: 10,
         borderRadius: 5,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     button: {
-        backgroundColor: '#1db954',
+        backgroundColor: "#1db954",
         padding: 10,
         borderRadius: 25,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         margin: 20,
-        display: 'flex',
-        flexDirection: 'row',
-    }
-})
+        display: "flex",
+        flexDirection: "row",
+    },
+});
 
 export default LoginScreen;

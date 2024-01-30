@@ -3,6 +3,7 @@
     "target": "esnext",
     "jsx": "react-native",
     "module": "nodenext",
+    "noImplicitAny": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -13,9 +14,8 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "types/*"
-      ]
+      "@src/*": ["./src/*"],
+      "@server/*": ["./server/*"]
     }
   },
   "exclude": [

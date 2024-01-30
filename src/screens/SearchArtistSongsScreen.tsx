@@ -1,26 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useSelector, useDispatch } from 'react-redux';
-
-interface Artist {
-    id: string;
-    name: string;
-    images?: { height: number; url: string; width: number }[];
-    followers?: { href: null; total: number };
-    genres?: string[];
-}
-
-interface Track {
-    id: string;
-    name: string;
-    artists: { name: string }[];
-    album: {
-        name: string;
-        images: { url: string }[];
-    };
-}
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useSelector, useDispatch } from "react-redux";
+import type { Artist, Track } from "@src/definitions";
 
 const SearchArtistSongsScreen = () => {
     const dispatch = useDispatch();
@@ -44,11 +27,11 @@ const SearchArtistSongsScreen = () => {
     // formatting to show followers in terms of thousands or millions
     const formatFollowers = (followers: number): string => {
         if (followers >= 1000000) {
-            return (followers / 1000000).toFixed(1) + 'M Followers';
+            return (followers / 1000000).toFixed(1) + "M Followers";
         } else if (followers >= 1000) {
-            return (followers / 1000).toFixed(1) + 'K Followers';
+            return (followers / 1000).toFixed(1) + "K Followers";
         } else {
-            return followers + ' Followers';
+            return followers + " Followers";
         }
     };
 
@@ -57,31 +40,31 @@ const SearchArtistSongsScreen = () => {
             // console.log('inside fetchArtistInfo with artist ID:', searchedArtistId)
             try {
                 const response = await fetch(`https://api.spotify.com/v1/artists/${searchedArtistId}`, {
-                    method: 'GET',
+                    method: "GET",
                     headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + accessToken,
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + accessToken,
                     },
                 });
 
                 const data: Artist = await response.json();
 
                 dispatch({
-                    type: 'SET_ARTIST_INFO',
+                    type: "SET_ARTIST_INFO",
                     payload: data,
                 });
             } catch (error) {
-                console.error('Error fetching artist info:', error);
+                console.error("Error fetching artist info:", error);
             }
         };
 
         const fetchArtistTopTracks = async () => {
             try {
                 const response = await fetch(`https://api.spotify.com/v1/artists/${searchedArtistId}/top-tracks?market=US`, {
-                    method: 'GET',
+                    method: "GET",
                     headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + accessToken,
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + accessToken,
                     },
                 });
 
@@ -89,10 +72,10 @@ const SearchArtistSongsScreen = () => {
                 if (data.tracks) {
                     setTopTracksResults(data.tracks);
                 } else {
-                    console.log('No track results found');
+                    console.log("No track results found");
                 }
             } catch (error) {
-                console.error('Error fetching artist songs:', error);
+                console.error("Error fetching artist songs:", error);
             }
         };
 
@@ -110,11 +93,19 @@ const SearchArtistSongsScreen = () => {
                     {artistInfo.images && artistInfo.images.length > 0 && (
                         <Image source={{ uri: artistInfo.images[0].url }} style={styles.artistImageHeader} />
                     )}
-                    {artistInfo.genres && <Text style={styles.genresHeader}>Genres: {artistInfo.genres.join(', ')}</Text>}
+                    {artistInfo.genres && (
+                        <Text style={styles.genresHeader}>
+                            Genres:
+                            {artistInfo.genres.join(", ")}
+                        </Text>
+                    )}
                     {artistInfo.followers && <Text style={styles.followersHeader}>{formatFollowers(artistInfo.followers.total)}</Text>}
                 </View>
             )}
-            <Text style={styles.sectionTitle}>Top Tracks by {artistInfo?.name}</Text>
+            <Text style={styles.sectionTitle}>
+                Top Tracks by
+                {artistInfo?.name}
+            </Text>
             {topTrackResults.length > 0 ? (
                 <FlatList
                     data={topTrackResults}
@@ -151,22 +142,22 @@ const styles = StyleSheet.create({
         padding: 18,
     },
     artistHeaderContainer: {
-        alignItems: 'center',
+        alignItems: "center",
         marginBottom: 10,
     },
     artistNameHeader: {
         fontSize: 28,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginBottom: 8,
     },
     genresHeader: {
         fontSize: 15,
-        color: '#777',
+        color: "#777",
         marginBottom: 8,
     },
     followersHeader: {
         fontSize: 15,
-        color: '#777',
+        color: "#777",
         marginBottom: 8,
     },
     artistImageHeader: {
@@ -177,13 +168,13 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginBottom: 18,
     },
     // tracks styling
     trackItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         marginBottom: 16,
     },
     albumThumbnail: {
@@ -196,30 +187,29 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 20,
-        backgroundColor: '#ddd',
+        backgroundColor: "#ddd",
     },
     trackInfo: {
         flex: 1,
     },
     trackName: {
         fontSize: 18,
-        fontWeight: 'bold',
-        color: '#111',
+        fontWeight: "bold",
+        color: "#111",
         marginBottom: 4,
     },
     albumName: {
         fontSize: 16,
-        color: '#555',
+        color: "#555",
     },
     releaseYear: {
         fontSize: 14,
-        color: '#000',
+        color: "#000",
     },
     noTracksText: {
         fontSize: 16,
-        color: '#777',
+        color: "#777",
     },
 });
-
 
 export default SearchArtistSongsScreen;
