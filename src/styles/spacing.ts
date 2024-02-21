@@ -1,4 +1,6 @@
 export const spacing = {
+    standardGap: 4,
+    extendedGap: 12,
 };
 
 export const row = {
@@ -19,11 +21,11 @@ export const centered = {
 export const spacedFlexRow = {
     ...row,
     ...centered,
-    gap: 4,
+    gap: spacing.standardGap,
 };
 
 export const spacedFlexCol = {
     ...col,
     ...centered,
-    gap: 4,
+    gap: spacing.standardGap,
 };
