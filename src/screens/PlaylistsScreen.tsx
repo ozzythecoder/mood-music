@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import {
@@ -7,11 +6,8 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList,
-    TouchableOpacity,
 } from "react-native";
 import PlaylistsList from "../components/PlaylistsFlatList";
-import { ScrollView } from "react-native-gesture-handler";
 import PlaylistSearch from "../components/PlaylistSearchBar";
 
 export default function Playlists({ navigation }: { navigation: any }) {
@@ -24,7 +20,6 @@ export default function Playlists({ navigation }: { navigation: any }) {
     return (
         <SafeAreaView style={styles.safeArea}>
             <PlaylistSearch />
-
             <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>Your Playlists</Text>
                 <Text style={styles.sectionSubTitle}>Select Playlist to View</Text>
@@ -41,21 +36,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingBottom: 50,
     },
-    container: {
-        flex: 1,
-        // backgroundColor: "#ccc",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    header: {
-        backgroundColor: "pink",
-        height: 40,
-        paddingHorizontal: 5,
-    },
-    text: {
-        color: "black",
-        fontWeight: "bold",
-    },
     sectionContainer: {
         marginBottom: 10,
         marginTop: 10,
@@ -70,16 +50,4 @@ const styles = StyleSheet.create({
         color: "black",
         paddingHorizontal: 10,
     },
-    subtext: {
-        color: "black",
-    },
-    seperator: {
-        height: 1,
-        backgroundColor: "black",
-        marginVertical: 1,
-        width: 300,
-        marginBottom: 15,
-        marginTop: 5,
-    },
-
 });

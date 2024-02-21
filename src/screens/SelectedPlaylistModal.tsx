@@ -1,8 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { View, Text, FlatList, Switch, StyleSheet, Image } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {useEffect } from "react";
+import { useSelector } from "react-redux";
+import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import SongMoodList from "../components/SongMoodFlatList";
 import type { Song, Playlist } from "@src/definitions";
 
@@ -11,7 +10,6 @@ type StoreType = {
 };
 
 const SelectedPlaylistModal = ({ navigation }: { navigation: any }) => {
-    const dispatch = useDispatch();
 
     const selectedPlaylist = useSelector((store: StoreType) => store.selectedPlaylist);
 
@@ -66,38 +64,9 @@ const SelectedPlaylistModal = ({ navigation }: { navigation: any }) => {
 export default SelectedPlaylistModal;
 
 const styles = StyleSheet.create({
-    mood: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 10,
-        borderBottomColor: "grey",
-        borderBottomWidth: 1,
-    },
-    button: {
-        backgroundColor: "green",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 10,
-        borderRadius: 6,
-        margin: 10,
-    },
-    buttonText: {
-        color: "white",
-        fontWeight: "bold",
-    },
-    container: {
-        alignItems: "center",
-    },
+
     list: {
         width: "90%",
-    },
-    text: {
-        color: "black",
-        fontWeight: "bold",
-    },
-    subtext: {
-        color: "black",
     },
     entry: {
         marginBottom: 10,
@@ -118,9 +87,6 @@ const styles = StyleSheet.create({
         height: 50,
         marginRight: 10,
         borderRadius: 10,
-    },
-    trackInfo: {
-        flex: 1,
     },
     trackName: {
         fontSize: 14,
