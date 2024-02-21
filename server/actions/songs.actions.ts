@@ -1,3 +1,4 @@
+import { Song } from "@src/definitions";
 import { MongoClient, type Document } from "mongodb";
 
 interface SongsModel {
@@ -69,7 +70,7 @@ export async function getSongs(client: MongoClient) {
 
     const results = await cursor.toArray();
 
-    return results;
+    return results as Song[];
 }
 
 // upserts one song based on changes to moods added or subtracted.

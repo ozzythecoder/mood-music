@@ -1,18 +1,16 @@
 import express from "express";
-import client from "./pool";
-const router = express.Router();
-import { getSongs, upsertSong } from "@server/actions/songs.actions";
+import { client } from "../db";
+import { getSongs, upsertSong } from "server/actions/songs.actions";
 import type { Mood, Song } from "@src/definitions";
+
+const router = express.Router();
 
 router.get("/", async (_req, res) => {
     console.log("in song get router");
 
     try {
-    // Connect to the MongoDB cluster
         await client.connect();
 
-        // Make the appropriate DB calls
-        // GET full list of songs from DB
         const result = await getSongs(client);
         console.log("result:", result);
         res.send(result);
@@ -20,15 +18,11 @@ router.get("/", async (_req, res) => {
         console.log("Transaction Error - Rolling back new account", error);
         res.sendStatus(500);
     }
-    // finally {
-    //   // Close the connection to the MongoDB cluster
-    //   await client.close();
-    // }
+
 });
 
 router.put("/", async (req, res) => {
     console.log("in song router:", req.body);
-    // const userCurrent = req.user.clicked_song;
 
     // newSong is declared with song data either from spotify or the database.
     // conditionals are to determine where info is coming from.

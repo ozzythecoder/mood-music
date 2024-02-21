@@ -2,17 +2,15 @@ import React, { Dispatch, SetStateAction } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-
 type SongSearchType = {
     librarySearch: string;
     setLibrarySearch: Dispatch<SetStateAction<string>>;
-}
+};
 
 const PlaylistSearch = ({
     librarySearch,
     setLibrarySearch,
 }: SongSearchType) => {
-
     return (
         <View style={styles.container}>
             <View style={styles.input}>
@@ -40,7 +38,7 @@ export default PlaylistSearch;
 const styles = StyleSheet.create({
     container: {
         marginVertical: 10,
-        alignItems: "center"
+        alignItems: "center",
     },
     input: {
         padding: 10,

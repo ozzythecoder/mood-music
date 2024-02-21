@@ -1,8 +1,6 @@
 import { DispatchAction } from "../definitions.redux";
 
-type SetMoodsAction = DispatchAction<string[]> & {
-    type: "SET_MOODS";
-};
+type SetMoodsAction = DispatchAction<"SET_MOODS", string[]>;
 
 const moods = (state = [], action: SetMoodsAction) => {
     switch (action.type) {

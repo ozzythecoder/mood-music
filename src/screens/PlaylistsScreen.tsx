@@ -14,23 +14,16 @@ import PlaylistsList from "../components/PlaylistsFlatList";
 import { ScrollView } from "react-native-gesture-handler";
 import PlaylistSearch from "../components/PlaylistSearchBar";
 
-
-
 export default function Playlists({ navigation }: { navigation: any }) {
-
     const dispatch = useDispatch();
 
     useFocusEffect(() => {
         dispatch({ type: "GET_DB_PLAYLISTS" });
     });
 
-
     return (
         <SafeAreaView style={styles.safeArea}>
-            <PlaylistSearch
-            // librarySearch={librarySearch}
-            // setLibrarySearch={setLibrarySearch}
-            />
+            <PlaylistSearch />
 
             <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>Your Playlists</Text>
@@ -42,8 +35,6 @@ export default function Playlists({ navigation }: { navigation: any }) {
         </SafeAreaView>
     );
 }
-
-
 
 const styles = StyleSheet.create({
     safeArea: {

@@ -1,6 +1,8 @@
-const express = require("express");
+import express from "express";
+import { MongoClient } from "mongodb";
+import { client } from "../db";
+
 const router = express.Router();
-const client = require("./pool");
 // const {rejectUnauthenticated} = require('../modules/authentication-middleware');
 
 router.get("/", async (req, res) => {
@@ -72,7 +74,7 @@ async function getNewPlaylist(client, moodName) {
 }
 
 // upserts playlist based on changes to moods added or subtracted.
-async function upsertPlaylist(client, newPlaylist) {
+async function upsertPlaylist(client: MongoClient, newPlaylist) {
     await client
         .db("mood-music")
         .collection("playlists")

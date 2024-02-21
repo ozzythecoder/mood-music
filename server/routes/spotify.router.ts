@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const axios = require("axios");
-require("dotenv").config();
+import axios from "axios";
+import "dotenv/config";
 
 // client id and secret in .env file - copied from Spotify API project Mood Music (Forrest's project currently, but can update to new project)
 // console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
@@ -34,20 +34,5 @@ router.post("/accesstoken", (req, res) => {
             res.sendStatus(500);
         });
 });
-
-// // start of artist info GET
-// router.get('/artist/:artistId', (req, res) => {
-//     const artistId = req.params.artistId;
-//     console.log('server side with artist ID:', artistId)
-
-//     //  ⭐️ we would need to create a state management on the back-end if we want the access token to be server-side ⭐️
-
-//     const headers = {
-//         'Authorization': 'Bearer ' + accessToken(would go here if we had it stored),
-//     };
-
-//     axios.get(`https://api.spotify.com/v1/artists/${artistId}`)
-
-// })
 
 module.exports = router;
