@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import usePlaylist from "../hooks/use-playlist";
 import { StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
-import type { Mood, MoodsArrayType } from "@src/definitions";
+import type { Mood, MoodsArrayType } from "../definitions";
 
 const numColumns = 3;
 const margin = 2;
