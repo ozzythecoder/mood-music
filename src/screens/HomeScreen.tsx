@@ -7,6 +7,8 @@ import SpotifySearch from "../components/Spotify/SpotifySearch";
 import SpotifyAccessToken from "../components/Spotify/SpotifyAccessToken";
 import MoodButtons from "../components/MoodButtons";
 
+import { Typography, Colors } from "../styles";
+
 const HomeScreen = ({ navigation }: { navigation: any }) => {
     const dispatch = useDispatch();
 
@@ -21,8 +23,8 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     return (
         <View style={styles.safeArea}>
             <View style={styles.greeting}>
-                <Text style={styles.text}>HELLO!</Text>
-                <Text style={styles.subtext}>How are you feeling?</Text>
+                <Text style={styles.heading}>HELLO!</Text>
+                <Text style={styles.subheading}>How are you feeling?</Text>
             </View>
             <MoodButtons navigation={navigation} />
             <SpotifyAccessToken />
@@ -36,6 +38,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
+        backgroundColor: Colors.background,
         paddingBottom: 50,
     },
     greeting: {
@@ -44,13 +47,10 @@ const styles = StyleSheet.create({
         margin: 20,
         padding: 10,
     },
-    text: {
-        marginBottom: 10,
-        fontSize: 22,
-        fontWeight: "bold",
+    heading: {
+        ...Typography.heading1,
     },
-    subtext: {
-        fontSize: 16,
-        fontWeight: "bold",
+    subheading: {
+        ...Typography.heading2,
     },
 });
