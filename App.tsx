@@ -17,7 +17,6 @@ import SelectedPlaylistModal from "./src/screens/SelectedPlaylistModal";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "./src/styles";
-import { View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -94,6 +93,7 @@ function TabNavigator() {
             />
             <Tab.Screen
                 name="Playlists"
+                // eslint-disable-next-line react/no-children-prop
                 children={PlaylistsStackScreen}
                 options={{ tabBarLabel: "Playlists" }}
             />
