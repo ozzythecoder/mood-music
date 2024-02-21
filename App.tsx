@@ -11,14 +11,13 @@ import SongsScreen from "./src/screens/SongsScreen";
 import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
 import ProfileScreen from "./src/components/Profile";
-import LoginAppScreen from "./src/screens/LoginAppScreen";
 import NewPlaylistScreen from "./src/screens/NewPlaylistScreen";
 import SearchArtistSongsScreen from "./src/screens/SearchArtistSongsScreen";
 import SelectedPlaylistModal from "./src/screens/SelectedPlaylistModal";
 
-
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Entypo } from "@expo/vector-icons";
+import { Colors } from "./src/styles";
+import { View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -60,30 +59,26 @@ function PlaylistsStackScreen() {
     );
 }
 
+const navigationIconNames: Record<string, string> = {
+    Home: "home",
+    Songs: "musical-notes",
+    Playlists: "list",
+    Login: "log-in",
+    Profile: "person",
+};
+
 function TabNavigator() {
     return (
         <Tab.Navigator
             // sets navigator icons and links
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-                    if (route.name === "Songs") {
-                        iconName = focused ? "musical-notes" : "musical-notes-outline";
-                    } else if (route.name === "Home") {
-                        iconName = focused ? "home" : "home-outline";
-                    } else if (route.name === "Playlists") {
-                        iconName = focused ? "list" : "list-outline";
-                    } else if (route.name === "Login") {
-                        iconName = focused ? "log-in" : "log-in-outline";
-                    } else if (route.name === "Profile") {
-                        iconName = focused ? "person" : "person-outline";
-                    } else {
-                        iconName = focused ? "musical-notes" : "musical-notes-outline";
-                    }
+                    const suffix = focused ? "" : "-outline";
+                    const iconName = navigationIconNames[route.name] + suffix;
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: "tomato",
-                tabBarInactiveTintColor: "gray",
+                tabBarActiveTintColor: Colors.primary.light,
+                tabBarInactiveTintColor: Colors.neutral,
             })}
         >
             {/* Creates route on TabNavigator and links to SongScreen */}
