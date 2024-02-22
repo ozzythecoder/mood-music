@@ -16,7 +16,6 @@ import NewPlaylistScreen from "./src/screens/NewPlaylistScreen";
 import SearchArtistSongsScreen from "./src/screens/SearchArtistSongsScreen";
 import SelectedPlaylistModal from "./src/screens/SelectedPlaylistModal";
 
-
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Entypo } from "@expo/vector-icons";
 
