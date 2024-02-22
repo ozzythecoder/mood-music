@@ -1,6 +1,6 @@
 import express from "express";
 import { client } from "../db";
-import { getSongs, upsertSong } from "server/actions/songs.actions";
+import { SongsController } from "server/services/songs.service";
 import type { Mood, Song } from "@src/definitions";
 
 const router = express.Router();
@@ -10,28 +10,27 @@ router.get("/", async (_req, res) => {
 
     try {
         await client.connect();
+        const controller = new SongsController();
 
-        const result = await getSongs(client);
-        console.log("result:", result);
+        const result = await controller.getSongs(client);
         res.send(result);
     } catch (error) {
-        console.log("Transaction Error - Rolling back new account", error);
+        console.error("Error fetching songs (GET api/songs)\n", error);
         res.sendStatus(500);
     }
-
 });
 
-router.put("/", async (req, res) => {
+router.post("/", async (req, res) => {
     console.log("in song router:", req.body);
-
-    // newSong is declared with song data either from spotify or the database.
-    // conditionals are to determine where info is coming from.
-    // Maybe there is a cleaner way to do this?
 
     type SongData = {
         song: Song;
         moods: Mood[];
     };
+
+    // newSong is declared with song data either from spotify or the database.
+    // conditionals are to determine where info is coming from.
+    // Maybe there is a cleaner way to do this?
 
     const { song, moods } = req.body as SongData;
 
@@ -50,13 +49,11 @@ router.put("/", async (req, res) => {
     console.log("newSong:", newSong);
 
     try {
-        // Connect to the MongoDB cluster
         await client.connect();
-        // Make the appropriate DB calls
-        // Create or update a single song
-        await upsertSong(client, newSong);
+        const controller = new SongsController();
+        await controller.upsertSong(client, newSong);
     } catch (error) {
-        console.log("Transaction Error - Rolling back new account", error);
+        console.error("Error fetching songs (POST api/songs)\n", error);
         res.sendStatus(500);
     }
 });

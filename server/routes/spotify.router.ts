@@ -1,7 +1,6 @@
 import express from "express";
 const router = express.Router();
 import axios from "axios";
-import "dotenv/config";
 
 // client id and secret in .env file - copied from Spotify API project Mood Music (Forrest's project currently, but can update to new project)
 // console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
@@ -19,6 +18,7 @@ router.post("/accesstoken", (req, res) => {
     // adding key-value pairs to the POST request body
     const data = new URLSearchParams();
     data.append("grant_type", "client_credentials");
+    // ! node.js process should not provide client credentials, these should come from the client
     data.append("client_id", process.env.CLIENT_ID);
     data.append("client_secret", process.env.CLIENT_SECRET);
 
