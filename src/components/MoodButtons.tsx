@@ -4,6 +4,8 @@ import usePlaylist from "../hooks/use-playlist";
 import { StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
 import type { Mood, MoodsArrayType } from "../definitions";
 
+import { Typography } from "../styles";
+
 const numColumns = 3;
 const margin = 2;
 // this will definitely need to be updated to a more universal way of styling the buttons for different screen widths
@@ -14,7 +16,7 @@ const MoodButtons = ({ navigation }: { navigation: any }) => {
     const newPlaylist = usePlaylist();
 
     const handleClickMood = async (mood: Mood) => {
-        await dispatchClickedMood(mood);
+        dispatchClickedMood(mood);
         await newPlaylist(mood);
         // navigates to the new playlist page in the playlist stack
         navigation.navigate("Playlists", { screen: "New Playlist" });
@@ -35,9 +37,9 @@ const MoodButtons = ({ navigation }: { navigation: any }) => {
             numColumns={numColumns}
             renderItem={({ item }) => {
                 const textColor
-          = parseInt(item.color.replace("#", ""), 16) > 0xffffff / 1.5
-              ? "black"
-              : "white";
+                    = parseInt(item.color.replace("#", ""), 16) > 0xffffff / 1.5
+                        ? "black"
+                        : "white";
 
                 return (
                     <TouchableOpacity
@@ -71,6 +73,6 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "white",
-        fontWeight: "bold",
+        ...Typography.label,
     },
 });
