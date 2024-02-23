@@ -7,7 +7,8 @@ import SpotifySearch from "../components/Spotify/SpotifySearch";
 import SpotifyAccessToken from "../components/Spotify/SpotifyAccessToken";
 import MoodButtons from "../components/MoodButtons";
 
-import { Typography, Colors } from "../styles";
+import { Typography, Gradients } from "../styles";
+import { LinearGradient } from "react-native-linear-gradient";
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
     const dispatch = useDispatch();
@@ -22,13 +23,18 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     return (
         <View style={styles.safeArea}>
-            <View style={styles.greeting}>
-                <Text style={styles.heading}>HELLO!</Text>
-                <Text style={styles.subheading}>How are you feeling?</Text>
-            </View>
-            <MoodButtons navigation={navigation} />
-            <SpotifyAccessToken />
-            <SpotifySearch navigation={navigation} />
+            <LinearGradient
+                {...Gradients.cloudCity}
+                style={styles.gradient}
+            >
+                <View style={styles.greeting}>
+                    <Text style={styles.heading}>HELLO!</Text>
+                    <Text style={styles.subheading}>How are you feeling?</Text>
+                </View>
+                <MoodButtons navigation={navigation} />
+                <SpotifyAccessToken />
+                <SpotifySearch navigation={navigation} />
+            </LinearGradient>
         </View>
     );
 };
@@ -38,8 +44,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: Colors.background,
-        paddingBottom: 50,
+    },
+    gradient: {
+        flex: 1,
     },
     greeting: {
         alignItems: "center",
