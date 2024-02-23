@@ -71,20 +71,22 @@ function TabNavigator() {
         <Tab.Navigator
             // sets navigator icons and links
             screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
+                tabBarIcon: ({ focused, color }) => {
                     const suffix = focused ? "" : "-outline";
                     const iconName = navigationIconNames[route.name] + suffix;
-                    return <Ionicons name={iconName} size={size} color={color} />;
+                    // not sure how best to satisfy this typescript error. A problem for another time
+                    return <Ionicons name={iconName} size={focused ? 28 : 24} color={color} />;
                 },
-                tabBarActiveTintColor: Colors.primary.light,
-                tabBarInactiveTintColor: Colors.neutral,
+                tabBarActiveTintColor: Colors.text,
+                tabBarInactiveTintColor: Colors.neutralDark,
+                tabBarStyle: { backgroundColor: Colors.background },
             })}
         >
             {/* Creates route on TabNavigator and links to SongScreen */}
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ tabBarLabel: "Home" }}
+                options={{ tabBarLabel: "Home", headerShown: false }}
             />
             <Tab.Screen
                 name="Songs"
