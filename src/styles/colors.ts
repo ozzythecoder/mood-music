@@ -7,3 +7,4 @@ export const primary = {
 export const secondary = "#79efc1";
 export const accent = "#55cceb";
 export const neutral = "#a6a6a6";
+export const neutralDark = "#767676";
