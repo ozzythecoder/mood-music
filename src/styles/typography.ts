@@ -11,6 +11,7 @@ export const thin = {
 export const heading1 = {
     ...material.headlineObject,
     ...systemWeights.bold,
+    fontSize: 32,
     marginBottom: 10,
     marginTop: 10,
 };
