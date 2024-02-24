@@ -8,10 +8,22 @@ import SpotifyAccessToken from "../components/Spotify/SpotifyAccessToken";
 import MoodButtons from "../components/MoodButtons";
 
 import { Typography, Gradients } from "../styles";
+import {
+    MontserratAlternates_400Regular,
+    MontserratAlternates_600SemiBold,
+    MontserratAlternates_300Light,
+    useFonts,
+} from "@expo-google-fonts/montserrat-alternates";
 import { LinearGradient } from "react-native-linear-gradient";
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
     const dispatch = useDispatch();
+
+    const [fontsLoaded] = useFonts({
+        MontserratAlternates_300Light,
+        MontserratAlternates_400Regular,
+        MontserratAlternates_600SemiBold,
+    });
 
     useEffect(() => {
         dispatch({ type: "GET_DB_SONGS" });
@@ -23,12 +35,9 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     return (
         <View style={styles.safeArea}>
-            <LinearGradient
-                {...Gradients.cloudCity}
-                style={styles.gradient}
-            >
+            <LinearGradient {...Gradients.cloudCity} style={styles.gradient}>
                 <View style={styles.greeting}>
-                    <Text style={styles.heading}>HELLO!</Text>
+                    <Text style={styles.heading}>Hello!</Text>
                     <Text style={styles.subheading}>How are you feeling?</Text>
                 </View>
                 <MoodButtons navigation={navigation} />
@@ -56,8 +65,10 @@ const styles = StyleSheet.create({
     },
     heading: {
         ...Typography.heading1,
+        fontFamily: "MontserratAlternates_600SemiBold",
     },
     subheading: {
         ...Typography.heading2,
+        fontFamily: "MontserratAlternates_600SemiBold",
     },
 });
