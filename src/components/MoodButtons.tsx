@@ -6,7 +6,7 @@ import type { Mood, MoodsArrayType } from "../definitions";
 
 import { Typography } from "../styles";
 
-const numColumns = 3;
+const numColumns = 2;
 const margin = 2;
 // this will definitely need to be updated to a more universal way of styling the buttons for different screen widths
 
@@ -67,8 +67,11 @@ export default MoodButtons;
 const styles = StyleSheet.create({
     button: {
         margin: 5,
-        padding: 10,
-        borderRadius: 5,
+        padding: 8,
+        borderRadius: 999,
+        borderStyle: "solid",
+        borderColor: "black",
+        borderWidth: 1,
         alignItems: "center",
     },
     buttonText: {
