@@ -90,4 +90,4 @@ async function upsertPlaylist(client: MongoClient, newPlaylist) {
         );
 }
 
-module.exports = router;
+export default router;

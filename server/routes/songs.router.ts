@@ -1,7 +1,7 @@
 import express from "express";
 import { client } from "../db";
-import { SongsController } from "server/services/songs.service";
-import type { Mood, Song } from "@src/definitions";
+import { SongsController } from "../services/songs.service";
+import type { Mood, Song } from "../definitions";
 
 const router = express.Router();
 
@@ -31,6 +31,10 @@ router.post("/", async (req, res) => {
     // newSong is declared with song data either from spotify or the database.
     // conditionals are to determine where info is coming from.
     // Maybe there is a cleaner way to do this?
+
+    // This is an indicator that we need to clean up our data structure.
+    // Is spotify using "name" or "title"? We should figure out which, and then match them.
+    // -August
 
     const { song, moods } = req.body as SongData;
 
