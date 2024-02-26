@@ -33,7 +33,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         dispatch({ type: "GET_MOODS" });
     });
 
-    return (
+    return fontsLoaded ? (
         <View style={styles.safeArea}>
             <LinearGradient {...Gradients.cloudCity} style={styles.gradient}>
                 <View style={styles.greeting}>
@@ -44,6 +44,10 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
                 <SpotifyAccessToken />
                 <SpotifySearch navigation={navigation} />
             </LinearGradient>
+        </View>
+    ) : (
+        <View style={styles.greeting}>
+            <Text style={styles.heading}>Loading...</Text>
         </View>
     );
 };
