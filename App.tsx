@@ -11,14 +11,12 @@ import SongsScreen from "./src/screens/SongsScreen";
 import PlaylistsScreen from "./src/screens/PlaylistsScreen";
 import SongMoodModal from "./src/screens/SongMoodModal";
 import ProfileScreen from "./src/components/Profile";
-import LoginAppScreen from "./src/screens/LoginAppScreen";
 import NewPlaylistScreen from "./src/screens/NewPlaylistScreen";
 import SearchArtistSongsScreen from "./src/screens/SearchArtistSongsScreen";
 import SelectedPlaylistModal from "./src/screens/SelectedPlaylistModal";
 
-
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Entypo } from "@expo/vector-icons";
+import { Colors } from "./src/styles";
 
 const Tab = createBottomTabNavigator();
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -60,37 +58,35 @@ function PlaylistsStackScreen() {
     );
 }
 
+const navigationIconNames: Record<string, string> = {
+    Home: "home",
+    Songs: "musical-notes",
+    Playlists: "list",
+    Login: "log-in",
+    Profile: "person",
+};
+
 function TabNavigator() {
     return (
         <Tab.Navigator
             // sets navigator icons and links
             screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-                    if (route.name === "Songs") {
-                        iconName = focused ? "musical-notes" : "musical-notes-outline";
-                    } else if (route.name === "Home") {
-                        iconName = focused ? "home" : "home-outline";
-                    } else if (route.name === "Playlists") {
-                        iconName = focused ? "list" : "list-outline";
-                    } else if (route.name === "Login") {
-                        iconName = focused ? "log-in" : "log-in-outline";
-                    } else if (route.name === "Profile") {
-                        iconName = focused ? "person" : "person-outline";
-                    } else {
-                        iconName = focused ? "musical-notes" : "musical-notes-outline";
-                    }
-                    return <Ionicons name={iconName} size={size} color={color} />;
+                tabBarIcon: ({ focused, color }) => {
+                    const suffix = focused ? "" : "-outline";
+                    const iconName = navigationIconNames[route.name] + suffix;
+                    // not sure how best to satisfy this typescript error. A problem for another time
+                    return <Ionicons name={iconName} size={focused ? 28 : 24} color={color} />;
                 },
-                tabBarActiveTintColor: "tomato",
-                tabBarInactiveTintColor: "gray",
+                tabBarActiveTintColor: Colors.text,
+                tabBarInactiveTintColor: Colors.neutralDark,
+                tabBarStyle: { backgroundColor: Colors.background },
             })}
         >
             {/* Creates route on TabNavigator and links to SongScreen */}
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ tabBarLabel: "Home" }}
+                options={{ tabBarLabel: "Home", headerShown: false }}
             />
             <Tab.Screen
                 name="Songs"
@@ -99,6 +95,7 @@ function TabNavigator() {
             />
             <Tab.Screen
                 name="Playlists"
+                // eslint-disable-next-line react/no-children-prop
                 children={PlaylistsStackScreen}
                 options={{ tabBarLabel: "Playlists" }}
             />

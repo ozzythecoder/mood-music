@@ -1,14 +1,14 @@
 // import { AnyAction } from "@reduxjs/toolkit";
 
 type LoginUser = {
-    username: string,
-    password: string
-}
+    username: string;
+    password: string;
+};
 
 type SetUserAction = {
     type: "SET_USER";
     payload: LoginUser;
-}
+};
 
 // type UnsetUserAction = {
 //     type: 'UNSET_USER';

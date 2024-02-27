@@ -13,10 +13,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "baseUrl": ".",
-    "paths": {
-      "@src/*": ["./src/*"],
-      "@server/*": ["./server/*"]
-    }
+    "paths": {}
   },
   "exclude": [
     "node_modules",

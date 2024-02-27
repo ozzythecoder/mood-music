@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import type { DispatchAction, SpotifyToken } from "../definitions.redux";
-import type { Artist } from "@src/definitions";
+import type { Artist } from "../../definitions";
 
 // defining the action type for setting the Spotify access token
 
