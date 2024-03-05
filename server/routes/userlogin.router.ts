@@ -1,6 +1,5 @@
 import express from "express";
-import { rejectUnauthenticated } from "../modules/authentication-middleware";
-import encryptLib from "../modules/encryption";
+import encyption from "../middleware/encryption";
 import { client } from "../db";
 import userStrategy from "../strategies/user.strategy";
 
@@ -11,12 +10,18 @@ router.get("/", (req, res) => {
     res.send(req.user);
 });
 
-router.post("/register", async (req, res, next) => {
-    const password = encryptLib.encryptPassword(req.query.password);
+router.post("/register", async (req, res) => {
+    if (!req.query.password) {
+        return res.status(400).send("Invalid password.");
+    }
+
+    const password = encyption.encryptPassword(req.query.password as string);
+
     const doc = {
         username: req.query.username,
         password: password,
     };
+
     try {
         await client.connect();
         const result = await client.db("mood-music").collection("users").insertOne(doc);
@@ -27,16 +32,6 @@ router.post("/register", async (req, res, next) => {
         console.log("ERROR: ", error);
         res.sendStatus(500);
     }
-
-    // const queryText = `INSERT INTO "users" (username, password)
-    //     VALUES ($1, $2) RETURNING id`;
-    // pool
-    //     .query(queryText, [username, password])
-    //     .then(() => res.sendStatus(201))
-    //     .catch((err) => {
-    //     console.log('User registration failed: ', err);
-    //     res.sendStatus(500);
-    //     });
 });
 
 router.post("/login", userStrategy.authenticate("local"), (req, res) => {

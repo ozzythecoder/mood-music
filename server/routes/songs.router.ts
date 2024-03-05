@@ -1,6 +1,6 @@
 import express from "express";
 import { client } from "../db";
-import { SongsController } from "../services/songs.service";
+import { SongsService } from "../services/songs.service";
 import type { Mood, Song } from "../definitions";
 
 const router = express.Router();
@@ -10,9 +10,9 @@ router.get("/", async (_req, res) => {
 
     try {
         await client.connect();
-        const controller = new SongsController();
+        const service = new SongsService();
 
-        const result = await controller.getSongs(client);
+        const result = await service.getSongs(client);
         res.send(result);
     } catch (error) {
         console.error("Error fetching songs (GET api/songs)\n", error);
@@ -54,8 +54,8 @@ router.post("/", async (req, res) => {
 
     try {
         await client.connect();
-        const controller = new SongsController();
-        await controller.upsertSong(client, newSong);
+        const service = new SongsService();
+        await service.upsertSong(client, newSong);
     } catch (error) {
         console.error("Error fetching songs (POST api/songs)\n", error);
         res.sendStatus(500);

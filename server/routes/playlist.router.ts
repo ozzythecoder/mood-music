@@ -1,6 +1,7 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import { client } from "../db";
+import { PlaylistsService } from "server/services/playlists.service";
 
 const router = express.Router();
 // const {rejectUnauthenticated} = require('../modules/authentication-middleware');

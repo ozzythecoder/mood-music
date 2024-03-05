@@ -1,15 +1,15 @@
 import express from "express";
 import { client } from "../db";
-import { PlaylistsController } from "../services/playlists.service";
+import { PlaylistsService } from "../services/playlists.service";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
         await client.connect();
-        const controller = new PlaylistsController();
+        const service = new PlaylistsService();
 
         // get all playlists
-        const result = await controller.getPlaylists(client);
+        const result = await service.getPlaylists(client);
         console.log("result:", result);
         res.send(result);
     } catch (error) {
@@ -21,11 +21,11 @@ router.get("/", async (req, res) => {
 router.get("/playlist-songs", async (req, res) => {
     try {
         await client.connect();
-        const controller = new PlaylistsController();
+        const service = new PlaylistsService();
 
         // get all playlists
         const songTitles = req.body;
-        const result = await controller.getPlaylistSongs(client, songTitles);
+        const result = await service.getPlaylistSongs(client, songTitles);
         console.log("result:", result);
         res.send(result);
     } catch (error) {

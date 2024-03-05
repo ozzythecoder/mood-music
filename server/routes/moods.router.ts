@@ -1,16 +1,16 @@
 import express from "express";
 const router = express.Router();
 import { client } from "../db";
-import { MoodsController } from "../services/moods.service";
+import { MoodsService } from "../services/moods.service";
 
 router.get("/", async (_req, res) => {
     console.log("in mood get router");
 
     try {
         await client.connect();
-        const controller = new MoodsController()
+        const service = new MoodsService();
 
-        const result = await controller.getMoods(client);
+        const result = await service.getMoods(client);
         console.log("result:", result);
         res.send(result);
     } catch (error) {
