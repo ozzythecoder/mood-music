@@ -37,3 +37,13 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
 });
+
+declare module "express-serve-static-core" {
+    export interface Request {
+        user?: {
+            _id: string;
+            username: string;
+        };
+        isAuthenticated: () => Boolean; // passport.js method
+    }
+}
