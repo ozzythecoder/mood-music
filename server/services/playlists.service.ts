@@ -1,12 +1,7 @@
 import { MongoClient } from "mongodb";
-import { Playlist, Song } from "../definitions";
+import { PlaylistsModel, Playlist, Song } from "server/interfaces";
 
-interface PlaylistsModel {
-    getPlaylists: (client: MongoClient) => Promise<Playlist[]>;
-    getPlaylistSongs: (client: MongoClient, songTitles: string[]) => Promise<Song[]>;
-}
-
-export class PlaylistsController implements PlaylistsModel {
+export class PlaylistsService implements PlaylistsModel {
     async getPlaylists(client: MongoClient) {
     // pipeline aggregates a property to the recieved playlists data
         const pipeline = [

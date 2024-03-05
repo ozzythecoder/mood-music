@@ -1,14 +1,8 @@
-import { Song } from "@src/definitions";
+import { Song } from "server/interfaces";
 import { MongoClient } from "mongodb";
+import type { SongsModel, InsertSong } from "server/interfaces";
 
-type InsertSong = Omit<Song, "_id" | "moodFull">;
-
-interface SongsModel {
-    getSongs: (client: MongoClient) => Promise<Song[]>;
-    upsertSong: (client: MongoClient, newSong: InsertSong) => Promise<void>;
-}
-
-export class SongsController implements SongsModel {
+export class SongsService implements SongsModel {
     async getSongs(client: MongoClient) {
         const cursor = client
             .db("mood-music")
