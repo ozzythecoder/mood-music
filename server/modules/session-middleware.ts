@@ -6,17 +6,15 @@ const serverSessionSecret = () => {
     if (
         !process.env.SERVER_SESSION_SECRET
         || process.env.SERVER_SESSION_SECRET.length < 8
-        || process.env.SERVER_SESSION_SECRET === warnings.exampleBadSecret
     ) {
-    // Warning if user doesn't have a good secret
-    // console.log(warnings.badSecret);
+        throw new Error("Fatal error: No valid server secret found.");
     }
 
     return process.env.SERVER_SESSION_SECRET;
 };
 
 module.exports = cookieSession({
-    secret: serverSessionSecret() || "secret",
+    secret: serverSessionSecret(),
     key: "user",
     resave: "false",
     saveUninitialized: false,
