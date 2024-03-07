@@ -1,36 +1,36 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import { cookieSession } from "./middleware";
+import {
+    dbPlaylistRoute,
+    moodsRoute,
+    songsRoute,
+    playlistsRoute,
+    spotifyRoute,
+} from "./routes";
+
 // Dotenv package is not required with "node --env-file" flag
 // require("dotenv").config();
 
+// App configuration
 const app = express();
+const appConfig = [
+    cors(),
+    cookieSession,
+    bodyParser.json(),
+    bodyParser.urlencoded({ extended: true }),
+];
+app.use(appConfig);
 
-// Enable CORS for all routes
-app.use(cors());
+// Routes
+app.use("/api/songs", songsRoute);
+app.use("/api/moods", moodsRoute);
+app.use("/api/playlist", playlistsRoute);
+app.use("/api/spotify", spotifyRoute);
+app.use("/api/dbplaylists", dbPlaylistRoute);
 
-// Route includes
-import songsRouter from "./routes/songs.router";
-import moodsRouter from "./routes/moods.router";
-import playlistRouter from "./routes/playlist.router";
-import spotifyRouter from "./routes/spotify.router";
-import dbPlaylistsRouter from "./routes/dbplaylists.router";
-
-// Body parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-/* Routes */
-app.use("/api/songs", songsRouter);
-app.use("/api/moods", moodsRouter);
-app.use("/api/playlist", playlistRouter);
-app.use("/api/spotify", spotifyRouter);
-app.use("/api/dbplaylists", dbPlaylistsRouter);
-
-// Serve static files
-app.use(express.static("build"));
-
-// Listen
+// Initialize server
 app.listen(3000, () => {
     console.log("Express server listening on port 3000\n");
 });
