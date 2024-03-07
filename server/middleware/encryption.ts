@@ -12,7 +12,7 @@ const comparePassword = (candidatePassword: string, storedPassword: string) => {
     return bcrypt.compareSync(candidatePassword, storedPassword);
 };
 
-export default {
+export {
     encryptPassword,
     comparePassword,
 };
