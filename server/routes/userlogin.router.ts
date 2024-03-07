@@ -1,6 +1,6 @@
 import express from "express";
 import encyption from "../middleware/encryption";
-import { client } from "../db";
+import { client } from "../db/db";
 import userStrategy from "../strategies/user.strategy";
 
 const router = express.Router();

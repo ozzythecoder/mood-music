@@ -1,11 +1,10 @@
 import express from "express";
-import { client } from "../db";
+import { client } from "../db/db";
 import { PlaylistsService } from "../services/playlists.service";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        await client.connect();
         const service = new PlaylistsService();
 
         // get all playlists

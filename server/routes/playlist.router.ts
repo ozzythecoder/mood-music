@@ -1,6 +1,6 @@
 import express from "express";
 import { MongoClient } from "mongodb";
-import { client } from "../db";
+import { client } from "../db/db";
 import { PlaylistsService } from "server/services/playlists.service";
 
 const router = express.Router();
@@ -11,9 +11,6 @@ router.get("/", async (req, res) => {
     console.log("moodName in get:", moodName);
 
     try {
-    // Connect to the MongoDB cluster
-        await client.connect();
-
         // Make the appropriate DB calls
         // GET full list of songs from DB
         const result = await getNewPlaylist(client, moodName);
@@ -22,9 +19,6 @@ router.get("/", async (req, res) => {
     } catch (error) {
         console.log("Transaction Error - Rolling back new account", error);
         res.sendStatus(500);
-    } finally {
-    // Close the connection to the MongoDB cluster
-        client.close();
     }
 });
 
@@ -40,8 +34,6 @@ router.post("/", async (req, res) => {
     console.log("newPlaylist:", newPlaylist);
 
     try {
-    // Connect to the MongoDB cluster
-        await client.connect();
         // Make the appropriate DB calls
         // Create or update a single song
         await upsertPlaylist(client, newPlaylist);
