@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { Song, Playlist, Mood } from "server/definitions";
+import { Song, Playlist, Mood } from ".";
 
 export interface PlaylistsModel {
     getPlaylists: (client: MongoClient) => Promise<Playlist[]>;

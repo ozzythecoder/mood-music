@@ -1,3 +1,5 @@
+// Barrel file - allows for cleaner imports
+
 export * from "./api";
 export * from "./artist";
 export * from "./mood";
