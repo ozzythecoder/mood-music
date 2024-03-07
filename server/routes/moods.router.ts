@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import { client } from "../db/db";
-import { MoodsService } from "../services/moods.service";
+import { MoodsService } from "../services";
 
 router.get("/", async (_req, res) => {
     console.log("in mood get router");

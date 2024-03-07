@@ -1,10 +1,9 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import { client } from "../db/db";
-import { PlaylistsService } from "server/services/playlists.service";
+import { PlaylistsService } from "../services";
 
 const router = express.Router();
-// const {rejectUnauthenticated} = require('../modules/authentication-middleware');
 
 router.get("/", async (req, res) => {
     const moodName = req.query.moodName;

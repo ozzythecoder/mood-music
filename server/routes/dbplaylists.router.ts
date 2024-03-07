@@ -1,6 +1,6 @@
 import express from "express";
 import { client } from "../db/db";
-import { PlaylistsService } from "../services/playlists.service";
+import { PlaylistsService } from "../services";
 const router = express.Router();
 
 router.get("/", async (req, res) => {

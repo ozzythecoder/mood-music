@@ -1,5 +1,5 @@
 import express from "express";
-import encyption from "../middleware/encryption";
+import { comparePassword, encryptPassword } from "../middleware/encryption";
 import { client } from "../db/db";
 import userStrategy from "../strategies/user.strategy";
 
@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
         return res.status(400).send("Invalid password.");
     }
 
-    const password = encyption.encryptPassword(req.query.password as string);
+    const password = encryptPassword(req.query.password as string);
 
     const doc = {
         username: req.query.username,
@@ -35,18 +35,15 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", userStrategy.authenticate("local"), (req, res) => {
-    // console.log("LOGGING USER IN........", req);
-
-    res.sendStatus(200);
+    throw new Error("Not implemented");
 });
 
 router.post("/logout", (req, res) => {
-    req.logout();
-    res.sendStatus(200);
+    throw new Error("Not implemented");
 });
 
 async function registerUser(client, doc) {
-
+    throw new Error("Not implemented");
 }
 
-module.exports = router;
+export default router;

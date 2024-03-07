@@ -1,6 +1,6 @@
 import express from "express";
 import { client } from "../db/db";
-import { SongsService } from "../services/songs.service";
+import { SongsService } from "../services";
 import type { Mood, Song } from "../interfaces";
 
 const router = express.Router();
