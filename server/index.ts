@@ -1,9 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-require("dotenv").config();
+// Dotenv package is not required with "node --env-file" flag
+// require("dotenv").config();
 
-console.log("in server");
 const app = express();
 
 // Enable CORS for all routes
@@ -30,14 +30,12 @@ app.use("/api/dbplaylists", dbPlaylistsRouter);
 // Serve static files
 app.use(express.static("build"));
 
-// App Set //
-const PORT = process.env.PORT || 3000;
-
 // Listen
-app.listen(PORT, () => {
-    console.log(`Listening on port: ${PORT}`);
+app.listen(3000, () => {
+    console.log("Express server listening on port 3000\n");
 });
 
+// Interface extension - allows us to add custom properties to Request object
 declare module "express-serve-static-core" {
     export interface Request {
         user?: {
