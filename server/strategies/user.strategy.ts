@@ -1,7 +1,7 @@
 import passport from "passport";
 const LocalStrategy = require("passport-local").Strategy;
 import encryptLib from "../middleware/encryption";
-import { client } from "../db";
+import { client } from "../db/db";
 
 passport.serializeUser((user, done) => {
     done(null, user._id);
