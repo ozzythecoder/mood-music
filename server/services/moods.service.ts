@@ -1,6 +1,5 @@
-import { MoodsModel } from "server/interfaces";
+import { MoodsModel, Mood } from "server/interfaces";
 import { MongoClient } from "mongodb";
-import { Mood } from "../definitions";
 
 export class MoodsService implements MoodsModel {
     async getMoods(client: MongoClient) {
