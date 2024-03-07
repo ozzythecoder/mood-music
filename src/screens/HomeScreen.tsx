@@ -7,8 +7,23 @@ import SpotifySearch from "../components/Spotify/SpotifySearch";
 import SpotifyAccessToken from "../components/Spotify/SpotifyAccessToken";
 import MoodButtons from "../components/MoodButtons";
 
+import { Typography, Gradients } from "../styles";
+import {
+    MontserratAlternates_400Regular,
+    MontserratAlternates_600SemiBold,
+    MontserratAlternates_300Light,
+    useFonts,
+} from "@expo-google-fonts/montserrat-alternates";
+import { LinearGradient } from "react-native-linear-gradient";
+
 const HomeScreen = ({ navigation }: { navigation: any }) => {
     const dispatch = useDispatch();
+
+    const [fontsLoaded] = useFonts({
+        MontserratAlternates_300Light,
+        MontserratAlternates_400Regular,
+        MontserratAlternates_600SemiBold,
+    });
 
     useEffect(() => {
         dispatch({ type: "GET_DB_SONGS" });
@@ -18,15 +33,21 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         dispatch({ type: "GET_MOODS" });
     });
 
-    return (
+    return fontsLoaded ? (
         <View style={styles.safeArea}>
-            <View style={styles.greeting}>
-                <Text style={styles.text}>HELLO!</Text>
-                <Text style={styles.subtext}>How are you feeling?</Text>
-            </View>
-            <MoodButtons navigation={navigation} />
-            <SpotifyAccessToken />
-            <SpotifySearch navigation={navigation} />
+            <LinearGradient {...Gradients.cloudCity} style={styles.gradient}>
+                <View style={styles.greeting}>
+                    <Text style={styles.heading}>Hello!</Text>
+                    <Text style={styles.subheading}>How are you feeling?</Text>
+                </View>
+                <MoodButtons navigation={navigation} />
+                <SpotifyAccessToken />
+                <SpotifySearch navigation={navigation} />
+            </LinearGradient>
+        </View>
+    ) : (
+        <View style={styles.greeting}>
+            <Text style={styles.heading}>Loading...</Text>
         </View>
     );
 };
@@ -36,7 +57,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        paddingBottom: 50,
+    },
+    gradient: {
+        flex: 1,
     },
     greeting: {
         alignItems: "center",
@@ -44,13 +67,12 @@ const styles = StyleSheet.create({
         margin: 20,
         padding: 10,
     },
-    text: {
-        marginBottom: 10,
-        fontSize: 22,
-        fontWeight: "bold",
+    heading: {
+        ...Typography.heading1,
+        fontFamily: "MontserratAlternates_600SemiBold",
     },
-    subtext: {
-        fontSize: 16,
-        fontWeight: "bold",
+    subheading: {
+        ...Typography.heading2,
+        fontFamily: "MontserratAlternates_600SemiBold",
     },
 });

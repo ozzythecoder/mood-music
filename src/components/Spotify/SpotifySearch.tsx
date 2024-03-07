@@ -8,7 +8,8 @@ import { View, TextInput, Text, StyleSheet, Image } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
-import type { Artist, Track } from "@src/definitions";
+import type { Artist, Track } from "../../definitions";
+import { Colors, Buttons, Inputs, Spacing, Typography } from "../../styles";
 
 function SpotifySearch({ navigation }: { navigation: any }) {
     const [artistSearchInput, setArtistSearchInput] = useState<string>("");
@@ -134,21 +135,21 @@ function SpotifySearch({ navigation }: { navigation: any }) {
             {/* Tab Buttons */}
             {/* Search Text and Tab Buttons */}
             <View style={styles.searchTextContainer}>
-                <Text style={styles.searchText}>Search tracks by </Text>
-                <TouchableOpacity
-                    style={[styles.tabButton, tab === "artist" ? styles.activeTab : null]}
-                    onPress={() => handleTabChange("artist")}
-                >
-                    <Text style={styles.tabButtonText}>Artist</Text>
-                </TouchableOpacity>
-                <Text style={styles.searchText}> or </Text>
-                <TouchableOpacity
-                    style={[styles.tabButton, tab === "track" ? styles.activeTab : null]}
-                    onPress={() => handleTabChange("track")}
-                >
-                    <Text style={styles.tabButtonText}>Track</Text>
-                </TouchableOpacity>
-                <Text style={styles.searchText}> Name</Text>
+                <Text style={styles.text}>Searching by</Text>
+                <View style={Spacing.spacedFlexRow}>
+                    <TouchableOpacity
+                        style={[styles.tabButton, tab === "artist" ? styles.activeTab : null]}
+                        onPress={() => handleTabChange("artist")}
+                    >
+                        <Text style={styles.tabButtonText}>Artist</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.tabButton, tab === "track" ? styles.activeTab : null]}
+                        onPress={() => handleTabChange("track")}
+                    >
+                        <Text style={styles.tabButtonText}>Track</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
 
             {/* Search Bar */}
@@ -247,46 +248,34 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     searchTextContainer: {
-        flexDirection: "row",
-        alignItems: "center",
+        ...Spacing.spacedFlexCol,
         marginBottom: 16,
     },
-    searchText: {
+    text: {
         fontSize: 16,
     },
     tabButton: {
-        padding: 8,
-        borderRadius: 8,
-        backgroundColor: "#ddd",
+        ...Buttons.simpleSmallButton,
+        backgroundColor: Colors.neutral,
     },
     activeTab: {
-        backgroundColor: "tomato",
+        backgroundColor: Colors.primary.dark,
     },
     tabButtonText: {
-        color: "white",
+        ...Typography.label,
+        color: Colors.background,
     },
     searchContainer: {
-        flexDirection: "row",
-        alignItems: "center",
+        ...Spacing.spacedFlexRow,
+        gap: 8,
         marginBottom: 16,
     },
     input: {
-        flex: 1,
-        height: 40,
-        borderColor: "#ddd",
-        borderWidth: 1,
-        borderRadius: 8,
-        paddingLeft: 12,
-        color: "#333",
-        backgroundColor: "#fff",
+        ...Inputs.simpleInput,
+        flexGrow: 1,
     },
     searchButton: {
-        backgroundColor: "tomato",
-        padding: 10,
-        borderRadius: 8,
-        marginLeft: 8,
-        justifyContent: "center",
-        alignItems: "center",
+        ...Buttons.simpleSmallButton,
     },
     // artist search results styling
     artistResultItem: {
