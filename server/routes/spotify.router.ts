@@ -2,7 +2,8 @@ import express from "express";
 const router = express.Router();
 import axios from "axios";
 
-// client id and secret in .env file - copied from Spotify API project Mood Music (Forrest's project currently, but can update to new project)
+// client id and secret in .env file - copied from Spotify API project Mood Music
+// (Forrest's project currently, but can update to new project)
 // console.log('my client id:', process.env.CLIENT_ID, 'my client secret:', process.env.CLIENT_SECRET);
 
 // access token POST
