@@ -1,16 +1,15 @@
-const express = require("express");
+import express from "express";
+import { MongoClient } from "mongodb";
+import { client } from "../db/db";
+import { PlaylistsService } from "../services";
+
 const router = express.Router();
-const client = require("./pool");
-// const {rejectUnauthenticated} = require('../modules/authentication-middleware');
 
 router.get("/", async (req, res) => {
     const moodName = req.query.moodName;
     console.log("moodName in get:", moodName);
 
     try {
-    // Connect to the MongoDB cluster
-        await client.connect();
-
         // Make the appropriate DB calls
         // GET full list of songs from DB
         const result = await getNewPlaylist(client, moodName);
@@ -19,9 +18,6 @@ router.get("/", async (req, res) => {
     } catch (error) {
         console.log("Transaction Error - Rolling back new account", error);
         res.sendStatus(500);
-    } finally {
-    // Close the connection to the MongoDB cluster
-        client.close();
     }
 });
 
@@ -37,8 +33,6 @@ router.post("/", async (req, res) => {
     console.log("newPlaylist:", newPlaylist);
 
     try {
-    // Connect to the MongoDB cluster
-        await client.connect();
         // Make the appropriate DB calls
         // Create or update a single song
         await upsertPlaylist(client, newPlaylist);
@@ -72,7 +66,7 @@ async function getNewPlaylist(client, moodName) {
 }
 
 // upserts playlist based on changes to moods added or subtracted.
-async function upsertPlaylist(client, newPlaylist) {
+async function upsertPlaylist(client: MongoClient, newPlaylist) {
     await client
         .db("mood-music")
         .collection("playlists")
@@ -88,4 +82,4 @@ async function upsertPlaylist(client, newPlaylist) {
         );
 }
 
-module.exports = router;
+export default router;

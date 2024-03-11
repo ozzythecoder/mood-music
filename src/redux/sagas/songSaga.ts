@@ -1,19 +1,19 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import axios, { AxiosResponse } from "axios";
 
-   type EditSongMoodsAction = {
-       type: string;
-       payload: {
-           moods: {
-               moodName: string;
-               color: string;
-           }[];
-           song: {
-               artist: string;
-               title: string;
-           };
-       };
-   };
+type EditSongMoodsAction = {
+    type: string;
+    payload: {
+        moods: {
+            moodName: string;
+            color: string;
+        }[];
+        song: {
+            artist: string;
+            title: string;
+        };
+    };
+};
 
 //    fetches songs from the mongodb and then calls set_songs to update the store.
 function* getDBSongs() {
@@ -34,7 +34,7 @@ function* getDBSongs() {
 function* editSongMoodsSaga(action: EditSongMoodsAction) {
     console.log("in editSong saga:", action.payload);
     try {
-        yield call(axios.put, "http://localhost:3000/api/songs", action.payload);
+        yield call(axios.post, "http://localhost:3000/api/songs", action.payload);
         yield put({
             type: "GET_DB_SONGS",
         });
