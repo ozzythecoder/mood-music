@@ -11,7 +11,7 @@ https://rvm.io/rvm/install
 install cocoapods:
 sudo gem install cocoapods
 
-create an .env file in the root directory and add the following:
+create an .env.server file in the root directory and add the following:
 
 ```
 MONGODB_URI=<get connection string from team>
@@ -33,3 +33,7 @@ install typescript node transpiler:
 ```
 npm i -g tsx
 ```
+whitelist your ip address in the mongodb atlas dashboard
+
+## Running the app
+currently, npm run ios is the best way to start the app - this will start the app on an ios simulator.
